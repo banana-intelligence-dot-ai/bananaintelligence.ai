@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Banana Intelligence — The intelligence Apple forgot to ship.</title>
 <meta name="description" content="Banana Intelligence is an indie dev shop building AI-first iOS apps. Makers of MyHappenings and DayStart AI." />
+<meta name="theme-color" content="#fff8e1" />
 <link rel="canonical" href="https://bananaintelligence.ai/" />
 <meta property="og:title" content="Banana Intelligence" />
 <meta property="og:description" content="The intelligence Apple forgot to ship." />
@@ -50,7 +51,7 @@
     --serif: 'Fraunces', ui-serif, "New York", "Iowan Old Style", Georgia, serif;
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
+  html,body{margin:0;padding:0; overflow-x: hidden;}
   body{
     font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
@@ -66,13 +67,13 @@
     position:relative;
   }
 
-  /* 2. Paper grain overlay — gives the cream surface a real-paper feel */
+  /* Paper grain overlay */
   body::before{
     content:'';
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 999;
+    z-index: 1;
     opacity: 0.18;
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.23 0 0 0 0 0 0 0 0 0.45 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
@@ -87,7 +88,7 @@
     display:flex;
     flex-direction:column;
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
   header{
     display:flex;
@@ -95,34 +96,65 @@
     gap:14px;
     margin-bottom: 72px;
   }
+
+  /* The mark is now an interactive button — tap/hover spills bananas */
   .mark{
     width:44px;height:44px;
     display:grid;place-items:center;
     background: var(--banana);
+    border: none;
+    padding: 0;
+    cursor: pointer;
     border-radius: 14px;
     box-shadow: 0 6px 20px rgba(247,184,1,0.45), inset 0 -3px 0 rgba(0,0,0,0.08);
     font-size: 26px;
-    line-height:1;
+    line-height: 1;
+    transition: transform .18s cubic-bezier(.2,.7,.3,1.4), box-shadow .18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mark:hover{
+    transform: scale(1.08);
+    box-shadow: 0 10px 28px rgba(247,184,1,0.55), inset 0 -3px 0 rgba(0,0,0,0.08);
+  }
+  .mark:active{ transform: scale(0.92); }
+  .mark-banana{
+    display:inline-block;
     transform-origin: 50% 70%;
     animation: sway 5.2s ease-in-out infinite;
   }
-  /* 6. Living element — banana mark gently sways */
+  .mark:hover .mark-banana{ animation-duration: 1.1s; }
   @keyframes sway{
     0%, 100% { transform: rotate(-10deg); }
     50%      { transform: rotate(-4deg); }
   }
+
+  /* Spilled banana particles — JS spawns these, CSS animates */
+  .spill{
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform, opacity;
+    animation: spillfall var(--d, 1.5s) cubic-bezier(0.33, 0.4, 0.5, 1) forwards;
+    line-height: 1;
+    user-select: none;
+  }
+  @keyframes spillfall{
+    0%   { transform: translate(-50%, -8px) rotate(0deg);                                opacity: 0; }
+    8%   {                                                                                opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx, 0px)), var(--dy, 400px)) rotate(var(--r, 360deg)); opacity: 0; }
+  }
+
   .brand{
     font-weight: 700;
     letter-spacing: -0.01em;
     font-size: 18px;
   }
 
-  /* 1. Fraunces for the headline, with soft + large optical size */
   .hero h1{
     font-family: var(--serif);
     font-variation-settings: 'opsz' 144, 'SOFT' 100, 'wght' 720;
     font-weight: 720;
-    font-size: clamp(44px, 8vw, 86px);
+    font-size: clamp(40px, 8vw, 86px);
     line-height: 1.0;
     letter-spacing: -0.035em;
     margin: 0 0 22px;
@@ -132,20 +164,19 @@
     padding: 0 4px;
   }
   .hero p{
-    font-size: clamp(18px, 2.2vw, 22px);
+    font-size: clamp(17px, 2.2vw, 22px);
     line-height: 1.45;
     max-width: 58ch;
     color: #3a2e10;
     margin: 0 0 28px;
   }
 
-  /* 5. Voice moment — italic pull-quote between hero and cards */
   .voice{
     font-family: var(--serif);
     font-style: italic;
     font-variation-settings: 'opsz' 24, 'SOFT' 100, 'wght' 500;
     font-weight: 500;
-    font-size: clamp(19px, 2.4vw, 26px);
+    font-size: clamp(18px, 2.4vw, 26px);
     line-height: 1.25;
     color: var(--peel);
     margin: 0 0 56px;
@@ -162,11 +193,6 @@
     gap: 14px;
     margin-bottom: 18px;
   }
-  @media (max-width: 640px){
-    .grid{ grid-template-columns: 1fr; }
-    header{ margin-bottom: 48px; }
-    .wrap{ padding-top: 36px; }
-  }
   .card{
     position:relative;
     display:flex;
@@ -182,13 +208,12 @@
     color: inherit;
     transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
     overflow:hidden;
+    -webkit-tap-highlight-color: rgba(255, 214, 10, 0.25);
   }
 
-  /* 4. Break the card symmetry — each card sits slightly off-axis like hand-placed */
   .grid > .card:nth-child(1){ transform: rotate(-0.55deg); }
   .grid > .card:nth-child(2){ transform: rotate(0.45deg); }
 
-  /* DayStart card: a sunrise band at the top edge — morning briefing cue */
   .grid > .card:nth-child(2)::before{
     content:'';
     position:absolute;
@@ -198,7 +223,6 @@
     pointer-events:none;
   }
 
-  /* MyHappenings card: a small date-stamp mark in the corner — memory/log cue */
   .grid > .card:nth-child(1)::after{
     content: 'BI · 26';
     position: absolute;
@@ -254,6 +278,7 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap: 10px;
     position: relative;
     z-index: 1;
   }
@@ -261,8 +286,11 @@
     font-size: 14px;
     color: var(--peel);
     font-weight: 600;
+    overflow-wrap: anywhere;
+    min-width: 0;
   }
   .arrow{
+    flex: none;
     width: 34px;height:34px;
     border-radius: 999px;
     background: var(--banana);
@@ -274,9 +302,9 @@
   .arrow svg{ width:14px;height:14px; }
 
   .card.wide{ grid-column: 1 / -1; }
-  .grid > .card.wide{ transform: rotate(0deg); } /* keep contact card square to the page */
+  .grid > .card.wide{ transform: rotate(0deg); }
   .grid > .card.wide::before,
-  .grid > .card.wide::after{ content: none; } /* no decorations on the contact card */
+  .grid > .card.wide::after{ content: none; }
   .card.contact{
     background: var(--ink);
     color: #fff8e1;
@@ -288,20 +316,17 @@
   .card.contact .url{ color: var(--banana); }
   .card.contact:hover{ background: #0f0a02; transform: translateY(-3px); }
 
-  /* 7. Focus-visible — keyboard nav gets a real, on-brand outline */
+  /* Focus-visible — keyboard nav gets a real, on-brand outline */
   a:focus-visible,
+  button:focus-visible,
   .card:focus-visible{
     outline: 3px solid var(--banana-deep);
     outline-offset: 5px;
     border-radius: 18px;
   }
-  .card.contact:focus-visible{
-    outline-color: var(--banana);
-  }
-  footer a:focus-visible{
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
+  .mark:focus-visible{ outline-offset: 4px; border-radius: 14px; }
+  .card.contact:focus-visible{ outline-color: var(--banana); }
+  footer a:focus-visible{ outline-offset: 3px; border-radius: 4px; }
 
   footer{
     margin-top: 56px;
@@ -319,18 +344,45 @@
   footer a:hover{ color: var(--peel); border-color: var(--peel); }
   .made{ display:flex; align-items:center; gap:6px; }
 
-  /* Respect users who'd rather not see motion */
+  /* --- Mobile --- */
+  @media (max-width: 640px){
+    .wrap{ padding: 36px 20px 28px; }
+    header{ margin-bottom: 48px; }
+    .hero h1{ letter-spacing: -0.03em; }
+    .voice{ margin-bottom: 40px; transform: rotate(-0.3deg); }
+    .grid{ grid-template-columns: 1fr; gap: 12px; }
+    .card{ min-height: 0; padding: 20px; }
+    .card h2{ font-size: 26px; }
+    .grid > .card:nth-child(1),
+    .grid > .card:nth-child(2){ transform: rotate(0deg); } /* straighten on small screens */
+    .grid > .card:nth-child(1)::after{ top: 12px; right: 12px; font-size: 10px; }
+    .grid > .card:nth-child(2)::before{ height: 52px; }
+    .card.contact .url{ font-size: 13px; }
+    footer{ margin-top: 40px; gap: 8px 16px; font-size: 12px; }
+  }
+
+  /* --- Even tighter (iPhone SE / Galaxy Fold-class) --- */
+  @media (max-width: 360px){
+    .wrap{ padding: 32px 16px 24px; }
+    .hero h1{ font-size: 38px; }
+    .row{ flex-wrap: wrap; }
+    .url{ font-size: 13px; }
+  }
+
+  /* Respect motion preference */
   @media (prefers-reduced-motion: reduce){
-    .mark{ animation: none; }
+    .mark-banana{ animation: none; }
     .voice, .grid > .card:nth-child(1), .grid > .card:nth-child(2){ transform: none; }
-    *{ transition: none !important; }
+    *{ transition: none !important; animation: none !important; }
   }
 </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="mark" aria-hidden="true">🍌</div>
+      <button class="mark" type="button" aria-label="Spill some bananas">
+        <span class="mark-banana" aria-hidden="true">🍌</span>
+      </button>
       <div class="brand">Banana Intelligence</div>
     </header>
 
@@ -390,5 +442,54 @@
       <div class="made">Made with 🍌 in Los Angeles</div>
     </footer>
   </div>
+
+<script>
+(function(){
+  var mark = document.querySelector('.mark');
+  if (!mark) return;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+
+  function spawn(){
+    var rect = mark.getBoundingClientRect();
+    var x0 = rect.left + rect.width / 2;
+    var y0 = rect.bottom - 4;
+    var b = document.createElement('span');
+    b.className = 'spill';
+    b.textContent = '🍌';
+    b.style.left = x0 + 'px';
+    b.style.top  = y0 + 'px';
+    b.style.fontSize = (16 + Math.random() * 12).toFixed(0) + 'px';
+    b.style.setProperty('--dx', (Math.random() * 160 - 80).toFixed(0) + 'px');
+    b.style.setProperty('--dy', (window.innerHeight - y0 + 80).toFixed(0) + 'px');
+    b.style.setProperty('--r',  (Math.random() * 1000 - 500).toFixed(0) + 'deg');
+    b.style.setProperty('--d',  (1.2 + Math.random() * 1.3).toFixed(2) + 's');
+    document.body.appendChild(b);
+    b.addEventListener('animationend', function(){ b.remove(); });
+  }
+
+  function spill(n, gap){
+    gap = gap || 45;
+    for (var i = 0; i < n; i++) setTimeout(spawn, i * gap);
+  }
+
+  // Hover: a casual drip
+  var lastHover = 0;
+  mark.addEventListener('mouseenter', function(){
+    var now = Date.now();
+    if (now - lastHover < 800) return;
+    lastHover = now;
+    spill(3, 90);
+  });
+
+  // Click / tap: full spill
+  mark.addEventListener('click', function(){ spill(14, 35); });
+
+  // Easter egg: 'b' key from anywhere
+  window.addEventListener('keydown', function(e){
+    if ((e.key === 'b' || e.key === 'B') && !/input|textarea/i.test(e.target.tagName)) spill(8, 50);
+  });
+})();
+</script>
 </body>
 </html>
