@@ -10,6 +10,11 @@ Every response to Nate must:
 
 These two lists go at the very end of the response, in that order. Skip them only for trivially short replies (a single sentence answer to a yes/no question).
 
+## Skill usage
+
+- **Design / UI / visual tasks** → invoke the `frontend-design:frontend-design` skill (e.g., `/frontend-design:frontend-design`). This covers: building or revising components, pages, or layouts; typography, color, and motion choices; design critiques and recommendations; anything where the deliverable is a visual interface.
+- Don't reach for the skill on trivial copy edits, single-line CSS tweaks, or content-only changes — judgment applies.
+
 ## Project: bananaintelligence.ai
 
 Static single-page landing site for Banana Intelligence — points visitors at our apps (MyHappenings, DayStart AI) and a contact email. No framework, no build step, no bundler. Deployed on Vercel from `main`.
