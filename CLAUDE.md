@@ -1,5 +1,15 @@
 # CLAUDE.md
 
+## Response style (user preference)
+
+Every response to Nate must:
+
+- **Be succinct.** No throat-clearing, no recap of the request, no "great question." Get to the point and stop.
+- **End with a TL;DR** — a short bulleted list of what just happened or what was decided.
+- **End with an Actions Needed** — a short bulleted list of what Nate needs to do next. If nothing is needed, say "None" — don't omit the section.
+
+These two lists go at the very end of the response, in that order. Skip them only for trivially short replies (a single sentence answer to a yes/no question).
+
 ## Project: bananaintelligence.ai
 
 Static single-page landing site for Banana Intelligence — points visitors at our apps (MyHappenings, DayStart AI) and a contact email. No framework, no build step, no bundler. Deployed on Vercel from `main`.
