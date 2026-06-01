@@ -14,6 +14,7 @@ These two lists go at the very end of the response, in that order. Skip them onl
 
 - **Design / UI / visual tasks** → invoke the `frontend-design:frontend-design` skill (e.g., `/frontend-design:frontend-design`). This covers: building or revising components, pages, or layouts; typography, color, and motion choices; design critiques and recommendations; anything where the deliverable is a visual interface.
 - Don't reach for the skill on trivial copy edits, single-line CSS tweaks, or content-only changes — judgment applies.
+- **Before any deploy** → run the `code-review` skill (e.g., `/code-review`) on the pending diff first. Surface findings to Nate before pushing the deploy. Applies to: `vercel:deploy`, `vercel deploy` from CLI, promoting a preview to production, or any action whose effect is to ship the current code to a live environment. Doesn't apply to a normal `git push` to `main` unless that push is the deploy trigger (which it currently is for this repo — pushing to `main` triggers a Vercel production deploy, so treat a push to `main` as a deploy).
 
 ## Project: bananaintelligence.ai
 
