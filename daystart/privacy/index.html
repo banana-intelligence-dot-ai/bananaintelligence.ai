@@ -35,8 +35,7 @@
 </header>
 <main class="legal-doc">
     <h1>Privacy Policy</h1>
-    <p class="effective-date">Effective Date: August 1, 2025</p>
-
+    <p class="effective-date">Effective Date: October 24, 2026</p>
     <p>Banana Intelligence LLC ("Banana Intelligence", "we", "us", or "our") operates the DayStart AI mobile application (the "App"). This Privacy Policy describes how we collect, use, disclose, and protect information when you use the App. By using the App, you agree to this Policy.</p>
 
     <h3>1. Who we are and how to contact us</h3>
@@ -48,22 +47,33 @@
     </ul>
 
     <h3>2. What we collect</h3>
-    <p>We designed DayStart AI to minimize personal data. The App does not create a traditional account. Instead, it uses your Apple purchase receipt identifier as a pseudonymous user ID. Depending on how you use the App and which features you enable, we may process:</p>
+    <p>We designed DayStart AI to minimize personal data. The App does not require creating a traditional account to use its core briefing feature. Instead, it uses your Apple purchase receipt identifier as a pseudonymous user ID. If you choose to connect a calendar source (see below), we additionally create an internal account ID tied to that connection. Depending on how you use the App and which features you enable, we may process:</p>
     <ul>
       <li><strong>Purchase identifier</strong>: Original StoreKit transaction/receipt ID stored locally in the device Keychain and sent as a header to our backend to authenticate access. We do not receive your payment card details (handled by Apple).</li>
-      <li><strong>App settings and schedule</strong>: Your preferences (e.g., voice selection, included content types, schedule time, repeat days) stored on&#8209;device and sent to our backend when needed to generate your briefing.</li>
+      <li><strong>App settings and schedule</strong>: Your preferences (e.g., voice selection, included content types, schedule time, repeat days) stored on device and sent to our backend when needed to generate your briefing.</li>
       <li><strong>Location data (optional)</strong>: If enabled, we request "When In Use" location permission to obtain your approximate location for local weather. We may derive city, state, country, neighborhood and include approximate coordinates for weather retrieval. Derived location details can be sent to our backend solely to generate your briefing.</li>
-      <li><strong>Calendar data (optional)</strong>: If enabled, we request Calendar access to read event titles and times for your upcoming events. We format this locally into short text lines (e.g., "Meeting at 9:00 AM") and may include those lines in the context we send to our backend to personalize your briefing. We do not access attendees, notes, attachments, or invitee lists.</li>
+      <li><strong>Calendar data from your device (optional)</strong>: If enabled, we request Calendar access to read event titles and times for your upcoming events. We format this locally into short text lines (e.g., "Meeting at 9:00 AM") and may include those lines in the context we send to our backend to personalize your briefing. We do not access attendees, notes, attachments, or invitee lists.</li>
+      <li><strong>Connected calendar accounts (optional, "DayStart Cloud")</strong>: If you choose to connect a Google Calendar or Outlook (Microsoft) Calendar, you sign in through that provider's own sign-in screen. We receive your name and email address from the provider, and use them to create an internal DayStart account so your connection and preferences can work across your devices. We store your OAuth access and refresh tokens encrypted at rest (AES-256-GCM). Using those tokens, we fetch read-only calendar events (title, location, and time only, not attendees, descriptions, or attachments) for the day of your briefing, so they can be included the same way your on-device calendar events are. You can disconnect a connected calendar at any time in the App's Connected Accounts settings; disconnecting revokes/invalidates the stored tokens and they are permanently deleted within 30 days (sooner if you request full account deletion, see Section 6).</li>
+      <li><strong>Cross-device settings sync (only if you connect a calendar account)</strong>: Once you connect a calendar source, your App preferences can sync to your account so a second device shows the same settings. This uses the account ID described above; it does not happen for anonymous, unconnected use of the App.</li>
+      <li><strong>Commute and traffic estimate (optional)</strong>: If enabled, the App calculates a driving time estimate on your device (using Apple Maps) from your approximate location to your first located morning calendar event. Only a short summary (an estimated duration and a suggested "leave by" time) is sent to our backend with your briefing request, not your raw location coordinates or the destination address.</li>
       <li><strong>Notifications</strong>: The App uses local notifications to remind you about upcoming briefings. We do not collect Apple Push Notification tokens.</li>
-      <li><strong>Device and usage diagnostics</strong>: In&#8209;app diagnostic logging (via Apple OSLog) is used for debugging and performance. We do not collect a device advertising identifier. Server&#8209;side request logs may record timestamps, request IDs, IP addresses (by our hosting provider), headers necessary for authentication, and error codes.</li>
+      <li><strong>Device and usage diagnostics</strong>: In-app diagnostic logging (via Apple OSLog) is used for debugging and performance. We do not collect a device advertising identifier. Server-side request logs may record timestamps, request IDs, IP addresses (by our hosting provider), headers necessary for authentication, and error codes. We use Firebase Crashlytics (a Google service) to receive crash reports so we can fix bugs; these reports are not used for advertising or behavioral profiling.</li>
+      <li><strong>Anonymous, aggregate usage counts</strong>: We collect anonymous counts of app milestones (for example, how many people saw a given onboarding screen, or how many briefings were played, on a given day and app version). These counts have no device or user identifier attached and cannot be traced back to you individually.</li>
+      <li><strong>Install attribution for Apple Search Ads (aggregate only)</strong>: When you first install the App, it asks Apple's AdServices framework for an attribution token, a one-time value Apple provides to tell an app whether it was installed from an Apple Search Ads ad. The App sends only that token to our backend, which asks Apple whether the install came from one of our ads and, if so, which campaign, ad group and keyword. We add one to a daily count for that campaign and keyword, and the campaign details are returned to and kept on your device so that later anonymous milestone counts (trial started, subscription purchased, first briefing played) can be counted per keyword or as "organic". We do not use your device's advertising identifier (IDFA), we do not ask for tracking permission, we do not track you across other companies' apps or websites, and we do not store the token, your purchase identifier, a device identifier or your IP address with any of these counts.</li>
       <li><strong>Generated audio and job metadata</strong>: The generated audio file for your briefing and related job metadata (e.g., job ID, selected content flags, timestamps) are stored on our backend for delivery and troubleshooting.</li>
+      <li><strong>In-app feedback (optional)</strong>: If you submit feedback through the App, we collect the category and message you provide, your app version, build, device model, and OS version, and, if you choose to include it, your email address so we can respond. Feedback is linked to your pseudonymous receipt ID.</li>
+      <li><strong>Subscription status</strong>: We receive subscription lifecycle information from Apple (via App Store Server Notifications), including the product purchased, subscription status, relevant dates, price and currency, and Apple's original transaction identifier. We use this to operate subscriptions (e.g., recognize active subscribers) and to measure business metrics like revenue. We do not receive your payment card details from Apple.</li>
     </ul>
 
     <h3>3. How we use information</h3>
     <p>We use the information described above to:</p>
     <ul>
       <li>generate your DayStart briefing (script and audio);</li>
-      <li>provide features you request (weather, stocks, sports, calendar);</li>
+      <li>provide features you request (weather, stocks, sports, calendar, connected calendar accounts, commute estimates);</li>
+      <li>sync your settings across your devices if you have connected a calendar account;</li>
+      <li>operate subscriptions and understand business performance (e.g., revenue);</li>
+      <li>diagnose crashes and technical problems, and understand aggregate, non-identifying usage trends to improve the App;</li>
+      <li>respond to feedback and support requests you send us;</li>
       <li>operate, secure, and improve the App and backend;</li>
       <li>comply with legal obligations and enforce terms.</li>
     </ul>
@@ -71,10 +81,12 @@
     <h3>4. Data sharing and third parties</h3>
     <p>We share data only as needed to operate the App:</p>
     <ul>
-      <li><strong>Backend hosting and storage (Supabase)</strong>: We host APIs, databases, and storage with Supabase. Generated audio files are stored in Supabase Storage; job records and request logs are stored in Supabase Postgres.</li>
-      <li><strong>AI and text&#8209;to&#8209;speech providers</strong>: We use third&#8209;party models and TTS providers to generate and render briefings (e.g., OpenAI for script generation; ElevenLabs or similar for TTS). We send only the minimal context needed (e.g., preferences, compact news/sports/stocks summaries, optional location city/state and calendar lines if you enable those features).</li>
-      <li><strong>Content/data sources</strong>: We retrieve content from public/partner sources (e.g., news via NewsAPI/GNews, sports via ESPN/TheSportDB, market data via Yahoo Finance on RapidAPI, Apple WeatherKit for weather). We generally do not send your personal data to these sources; we fetch public data and then process it for your briefing.</li>
-      <li><strong>Apple services</strong>: StoreKit (purchases), WeatherKit (weather), and EventKit (calendar) operate subject to Apple's terms and your permissions.</li>
+      <li><strong>Backend hosting and storage (Supabase)</strong>: We host APIs, databases, and storage with Supabase. Generated audio files are stored in Supabase Storage; job records, account records, and request logs are stored in Supabase Postgres.</li>
+      <li><strong>AI and text-to-speech providers</strong>: We use third-party models and TTS providers to generate and render briefings (e.g., OpenAI for script generation; ElevenLabs or similar for TTS). We send only the minimal context needed (e.g., preferences, compact news/sports/stocks summaries, optional location city/state and calendar lines if you enable those features).</li>
+      <li><strong>Content/data sources</strong>: We retrieve content from public/partner sources, for example multiple public news APIs, sports data providers, market-data providers, and Apple WeatherKit for weather. We generally do not send your personal data to these sources; we fetch public data and then process it for your briefing.</li>
+      <li><strong>Apple services</strong>: StoreKit (purchases), WeatherKit (weather), EventKit (on-device calendar) and AdServices (install attribution for Apple Search Ads, described in Section 2) operate subject to Apple's terms and your permissions. We also receive subscription status updates from Apple as described in Section 2.</li>
+      <li><strong>Google (if you connect a Google Calendar, or via crash reporting)</strong>: If you connect a Google Calendar, we exchange an authorization code with Google to obtain your calendar access tokens and basic profile (name, email) through Google's sign-in. We also use Google's Firebase Crashlytics service for crash reporting. DayStart's use and transfer of information received from Google APIs to any other app will adhere to the Google API Services User Data Policy, including the Limited Use requirements.</li>
+      <li><strong>Microsoft (if you connect an Outlook Calendar)</strong>: If you connect an Outlook (Microsoft 365) Calendar, we exchange an authorization code with Microsoft to obtain your calendar access tokens and basic profile (name, email) through Microsoft's sign-in, subject to Microsoft's terms.</li>
       <li><strong>Service providers and legal</strong>: We may disclose information to service providers under contract who process data on our behalf, and as required by law or to protect rights and safety.</li>
     </ul>
     <p>We do not sell your personal information.</p>
@@ -83,21 +95,28 @@
     <ul>
       <li><strong>Audio files</strong>: Automatically cleaned from storage after approximately 10 days.</li>
       <li><strong>Job and request records</strong>: Operational job records and related metadata are typically removed or compacted after approximately 30 days.</li>
-      <li><strong>Device&#8209;local data</strong>: Preferences and the purchase receipt ID are stored on your device (Keychain/UserDefaults) until you change them or uninstall the App.<br>Actual retention periods may vary due to operational needs, legal requirements, or system constraints.</li>
+      <li><strong>Connected calendar tokens</strong>: Retained encrypted while your connection is active. If you disconnect a calendar, the tokens are deleted within 30 days (or immediately if you request full account deletion). We proactively refresh tokens roughly hourly to keep your connection working; we do not fetch tokens after disconnection.</li>
+      <li><strong>Connected account record (name, email, account ID)</strong>: Retained while you have at least one connected calendar, so your settings and connection continue to work. If you disconnect your last connected source or request deletion, we delete this record and any receipts linked to it revert to anonymous, pseudonymous-only use.</li>
+      <li><strong>Feedback</strong>: Retained as long as reasonably needed to review and respond to it, unless you request earlier deletion.</li>
+      <li><strong>Subscription records</strong>: Retained to operate your subscription and for standard business/financial recordkeeping.</li>
+      <li><strong>Anonymous, aggregate usage counts</strong>: Retained as aggregate counts only; since they contain no identifier, they are not linked to your individual deletion requests.</li>
+      <li><strong>Device-local data</strong>: Preferences and the purchase receipt ID are stored on your device (Keychain/UserDefaults) until you change them or uninstall the App.</li>
     </ul>
+    <p>Actual retention periods may vary due to operational needs, legal requirements, or system constraints.</p>
 
     <h3>6. Your choices</h3>
     <ul>
-      <li><strong>Location and Calendar</strong>: These are optional. You can disable them at any time in iOS Settings &gt; Privacy or inside the App settings screens; the App will function with reduced personalization.</li>
+      <li><strong>Location, Calendar, and Commute</strong>: These are optional. You can disable them at any time in iOS Settings &gt; Privacy or inside the App settings screens; the App will function with reduced personalization.</li>
+      <li><strong>Connected calendar accounts</strong>: Connecting a Google or Outlook calendar is entirely optional and never required to use DayStart. You can disconnect a connected calendar at any time from the App's Connected Accounts settings, which stops us from fetching further events and queues your stored tokens for deletion. You can also revoke DayStart's access directly from your Google or Microsoft account security settings.</li>
       <li><strong>Notifications</strong>: You can manage local notification permissions in iOS Settings.</li>
-      <li><strong>Access, correction, deletion</strong>: Because we do not maintain traditional user accounts, requests may require device verification. You may request deletion of backend job/audio data associated with your pseudonymous receipt ID by contacting us at <a href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. Uninstalling the App removes device&#8209;local data under our control (excluding Apple/OS logs and standard platform backups outside our control).</li>
+      <li><strong>Access, correction, deletion</strong>: For anonymous, receipt-only use, requests may require device verification; contact us at <a href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a> to request deletion of backend job/audio data associated with your pseudonymous receipt ID. If you have connected a calendar account, you can request full deletion of your connected account data (OAuth tokens, account profile, synced settings) the same way; your receipts revert to anonymous use and your prior briefing telemetry is not affected. Uninstalling the App removes device-local data under our control (excluding Apple/OS logs and standard platform backups outside our control).</li>
     </ul>
 
     <h3>7. Legal bases (EEA/UK)</h3>
     <p>Where GDPR/UK GDPR applies, we process:</p>
     <ul>
-      <li>to perform the contract (provide the Service) when generating your briefing and delivering content;</li>
-      <li>based on your consent for optional Location and Calendar access;</li>
+      <li>to perform the contract (provide the Service) when generating your briefing and delivering content, including a connected calendar's events once you choose to connect one;</li>
+      <li>based on your consent for optional Location, Calendar, Connected Calendar Accounts, and Commute access;</li>
       <li>for our legitimate interests in operating, securing, and improving the Service (balanced against your rights).</li>
     </ul>
 
@@ -105,21 +124,21 @@
     <p>We may process data in the United States and other countries where our providers operate. Where required, we use appropriate safeguards (e.g., standard contractual clauses) for international transfers.</p>
 
     <h3>9. Security</h3>
-    <p>We use reasonable administrative, technical, and physical safeguards to protect data, including TLS in transit and device Keychain storage for the receipt identifier. No system is 100% secure.</p>
+    <p>We use reasonable administrative, technical, and physical safeguards to protect data, including TLS in transit, device Keychain storage for the receipt identifier, and encryption at rest (AES-256-GCM) for connected calendar account tokens. No system is 100% secure.</p>
 
     <h3>10. Children's privacy</h3>
     <p>The App is not directed to children under 13, and we do not knowingly collect personal information from children under 13. If you believe a child provided personal information, contact us at <a href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a> to request deletion.</p>
 
     <h3>11. Changes to this Policy</h3>
-    <p>We may update this Policy from time to time. Material changes will be communicated in&#8209;app or via update notes. The Effective Date will be updated, and continued use constitutes acceptance.</p>
+    <p>We may update this Policy from time to time. Material changes will be communicated in-app or via update notes. The Effective Date will be updated, and continued use constitutes acceptance.</p>
 
     <h3>12. Contact</h3>
     <p>If you have questions or requests regarding privacy, contact us at: <a href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>.</p>
 
     <h3>13. Additional information</h3>
     <ul>
-      <li>Account model: The App identifies users using a pseudonymous Apple purchase receipt ID and does not require creating a username/password.</li>
-      <li>Permissions summary: Location (When In Use) for weather, Calendar for event summaries, Local notifications for reminders.</li>
+      <li>Account model: The App identifies users using a pseudonymous Apple purchase receipt ID and does not require creating a username/password. If you choose to connect a Google or Outlook calendar, that connection creates an internal DayStart account ID linked to your receipt so your connection and settings work across your devices; this remains optional.</li>
+      <li>Permissions summary: Location (When In Use) for weather and commute estimates, Calendar (on-device) for event summaries, connected Google/Outlook Calendar (optional) for cloud calendar events, Local notifications for reminders.</li>
     </ul>
 
     <p class="legal-crosslink">See also our <a href="https://daystart.bananaintelligence.ai/terms">Terms of Service</a>.</p>
