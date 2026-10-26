@@ -248,6 +248,18 @@
     color: #2A1F06;
     filter: drop-shadow(0 1px 0 rgba(255,246,205,0.8)) drop-shadow(0 -1px 0 rgba(90,60,0,0.35));
   }
+  .card-line{
+    position: absolute;
+    left: 32px;
+    right: 32px;
+    bottom: 52px;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.2;
+    color: #2A1F06;
+    text-wrap: balance;
+  }
   .card-holder{
     position: absolute;
     left: 32px;
@@ -442,6 +454,7 @@
     .card{ max-width: 256px; border-radius: 12px; }
     .card-mark{ top: 20px; left: 20px; width: 40px; }
     .card-holder{ left: 20px; right: 20px; bottom: 16px; }
+    .card-line{ left: 20px; right: 20px; bottom: 38px; font-size: 16px; }
     .section-head{ padding-top: 32px; }
     .products{ padding-bottom: 64px; }
     .product{ padding: 48px 0; gap: 24px; }
@@ -492,6 +505,7 @@
         <div class="stage" aria-hidden="true">
           <div class="card">
             <svg class="card-mark" viewBox="0 0 1838 1400"><use href="#bi"/></svg>
+            <p class="card-line">Built for the few. Shared with everyone.</p>
             <p class="card-holder">Everyone</p>
           </div>
         </div>
