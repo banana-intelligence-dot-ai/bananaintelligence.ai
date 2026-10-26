@@ -34,7 +34,7 @@ Static single-page site for Banana Intelligence, Nate Peace's studio for persona
 
 Follows the `taste` skill's house standard (Banana Intelligence row). Refreshed 2026-10-26.
 
-- **Voice:** Nate's voice (`nate-speak`): calm, specific, no hype, no em dashes, no exclamation marks. The line is "What billionaires always had, now for everyone."
+- **Voice:** Nate's voice (`nate-speak`): calm, specific, no hype, no em dashes, no exclamation marks. The line is "What was once exclusive to the elites, now for everyone." (Nate, 2026-10-26)
 - **Type:** Fraunces upright for headings (optical size pinned to 144), Hanken Grotesk for everything else. Two families only.
 - **Palette:** banana `#FFD23F` as the one accent (shared with DayStart). Warm off-white paper `#FBF8F0` and ink `#1A1407` in light; `#12100B` and `#F4EFE3` in dark.
 - **Signature:** the brushed banana card made out to "EVERYONE" in the hero. It is the only reactive light surface on the page: a pointer-tracked highlight and up to 3 degrees of tilt on fine pointers, off under Reduce Motion and on touch.
