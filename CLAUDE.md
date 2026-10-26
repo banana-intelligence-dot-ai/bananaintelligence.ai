@@ -18,29 +18,34 @@ These two lists go at the very end of the response, in that order. Skip them onl
 
 ## Project: bananaintelligence.ai
 
-Static single-page landing site for Banana Intelligence — points visitors at our apps (MyHappenings, DayStart AI) and a contact email. No framework, no build step, no bundler. Deployed on Vercel from `main`.
+Static single-page site for Banana Intelligence, Nate Peace's studio for personal media and tools. Shows the public lineup (DayStart and Plain Ballot live, My Happenings coming soon), the studio note, and a contact email. No framework, no build step, no bundler. Deployed on Vercel from `main`.
 
 ### Files that matter
 
 - `index.html` — the entire site, including inline CSS and JS
-- `og.png` — social preview image, referenced from the meta tags
+- `og.png` — 1200x630 social preview image, referenced from the meta tags
+- `404.html` — branded not-found page (Vercel serves it automatically)
+- `icon.svg`, `favicon.ico`, `apple-touch-icon.png`, `icon-512.png` — favicon set from the BI monogram
+- `media/` — real product screens (light and dark) used in the product rows
 - `robots.txt`, `sitemap.xml` — at the repo root
 - No `package.json`, no `node_modules`, no build configuration
 
 ### Brand
 
-- **Voice:** playful, indie, sparse. *"The intelligence Apple forgot to ship."* / *"We don't ship features. We grow bananas."* Banana metaphors land; corporate copy doesn't.
-- **Type:** Fraunces variable serif for display (uses `opsz` and `SOFT` axes), system sans for body.
-- **Palette:** banana `#ffd60a`, deeper banana `#f7b801`, sunrise `#ffb86b`, cream paper `#fff8e1`, peel `#5a3a00`, ink `#1a1407`.
-- **Texture:** subtle SVG noise overlay (paper grain, ~18% opacity, `mix-blend-mode: multiply`).
-- **Motion:** the banana mark sways and spills on interaction. Respect `prefers-reduced-motion` — all animations should have a disabled state under it.
+Follows the `taste` skill's house standard (Banana Intelligence row). Refreshed 2026-10-26.
+
+- **Voice:** Nate's voice (`nate-speak`): calm, specific, no hype, no em dashes, no exclamation marks. The line is "What billionaires always had, now for everyone."
+- **Type:** Fraunces upright for headings (optical size pinned to 144), Hanken Grotesk for everything else. Two families only.
+- **Palette:** banana `#FFD23F` as the one accent (shared with DayStart). Warm off-white paper `#FBF8F0` and ink `#1A1407` in light; `#12100B` and `#F4EFE3` in dark.
+- **Signature:** the brushed banana card made out to "EVERYONE" in the hero. It is the only reactive light surface on the page: a pointer-tracked highlight and up to 3 degrees of tilt on fine pointers, off under Reduce Motion and on touch.
+- **Lineup:** only DayStart, Plain Ballot, and My Happenings are public. Don't name unannounced projects anywhere (copy, metadata, alt text, comments, sitemap). SupportGrid is a separate company and stays off.
 
 ### Don't change without intent
 
-- The brand palette and font choices
+- The palette, the two font families, and the one-accent rule
 - The single-file structure (`index.html` holds CSS + JS inline on purpose)
-- The "intelligence Apple forgot to ship" tagline
-- The three card structure (MyHappenings, DayStart AI, Contact)
+- The public lineup above
+- The `daystart/` folder and its `vercel.json` routing (serves daystart.bananaintelligence.ai)
 
 ### Deployment
 
