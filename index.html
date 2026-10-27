@@ -101,6 +101,21 @@
     outline-offset: 3px;
     border-radius: 8px;
   }
+  /* Inline links in prose: a 44px-tall hit area without moving the line */
+  .letter a, .contact a, footer a{ padding-block: 14px; }
+  .sr{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .ext{ width: 12px; height: 12px; flex: none; transition: transform 150ms var(--ease); }
+  a:hover .ext{ transform: translate(1px, -1px); }
   h1, h2, h3, .what{
     font-family: var(--serif);
     font-variation-settings: "opsz" 144;
@@ -158,7 +173,7 @@
     line-height: 1.05;
     font-weight: 600;
     letter-spacing: -0.01em;
-    max-width: 12ch;
+    max-width: 14ch;
   }
   .lede{
     margin-top: 32px;
@@ -168,15 +183,33 @@
     max-width: 34em;
   }
 
-  .next-link{
+  /* Hero asks: one primary action, one quiet second */
+  .asks{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 32px;
+    margin-top: 32px;
+  }
+  .btn{
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    min-height: 44px;
-    margin-top: 24px;
+    min-height: 48px;
+    padding: 0 24px;
+    border-radius: 999px;
+    background: var(--banana);
+    color: #1A1407;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: inset 0 1px 0 rgba(255,250,225,0.7), inset 0 0 0 1px rgba(120,80,0,0.16);
+    transition: background-color 150ms var(--ease), transform 150ms var(--ease);
   }
-  .next-link svg{ width: 14px; height: 14px; transition: transform 150ms var(--ease); }
-  .next-link:hover svg{ transform: translateY(2px); }
+  .btn:hover{ background: #F7C82A; }
+  .btn:active{ transform: scale(0.97); }
+  a.btn:focus-visible{ border-radius: 999px; }
+  .asks .u{ display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 
   /* The card: the one reactive light surface on the page */
   .stage{ position: relative; perspective: 1200px; }
@@ -196,6 +229,7 @@
     background:
       radial-gradient(120% 140% at 0% 0%, #FFE07A 0%, rgba(255,224,122,0) 55%),
       linear-gradient(150deg, var(--banana) 35%, #F0BC1C 100%);
+    background-color: var(--banana);
     color: #1A1407;
     overflow: hidden;
     transform: rotateX(var(--rx)) rotateY(var(--ry));
@@ -248,23 +282,11 @@
     color: #2A1F06;
     filter: drop-shadow(0 1px 0 rgba(255,246,205,0.8)) drop-shadow(0 -1px 0 rgba(90,60,0,0.35));
   }
-  .card-line{
-    position: absolute;
-    left: 32px;
-    right: 32px;
-    bottom: 52px;
-    margin: 0;
-    font-family: var(--serif);
-    font-size: 20px;
-    line-height: 1.2;
-    color: #2A1F06;
-    text-wrap: balance;
-  }
   .card-holder{
     position: absolute;
     left: 32px;
     right: 32px;
-    bottom: 24px;
+    bottom: 28px;
     margin: 0;
     font-size: 12px;
     font-weight: 600;
@@ -282,7 +304,7 @@
     font-size: 32px;
     line-height: 1.15;
     font-weight: 600;
-    letter-spacing: -0.005em;
+    letter-spacing: -0.01em;
   }
 
   .products{ padding-bottom: 96px; }
@@ -306,7 +328,7 @@
     font-size: 24px;
     line-height: 1.3;
     font-weight: 500;
-    letter-spacing: 0.012em;
+    letter-spacing: 0;
   }
   .product .desc{
     margin-top: 16px;
@@ -319,8 +341,8 @@
     margin-top: 24px;
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 16px;
-    align-items: baseline;
+    gap: 8px 16px;
+    align-items: center;
     font-size: 14px;
     color: var(--ink-3);
   }
@@ -328,12 +350,14 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    min-height: 44px;
   }
+  .store{ position: relative; z-index: 1; display: inline-flex; border-radius: 8px; }
+  .store img{ display: block; width: 133px; height: 44px; }
   /* The whole row is the click target; the link itself stays short for screen readers */
   .go::after{ content: ""; position: absolute; inset: 0; }
-  .go svg{ width: 14px; height: 14px; transition: transform 150ms var(--ease); }
   .product:hover .go{ text-decoration-color: currentColor; }
-  .product:hover .go svg{ transform: translateX(2px); }
+  .product:hover .go .ext{ transform: translate(1px, -1px); }
 
   .shot{
     position: relative;
@@ -392,21 +416,21 @@
     font-size: 32px;
     line-height: 1.15;
     font-weight: 600;
-    letter-spacing: -0.005em;
+    letter-spacing: -0.01em;
   }
   .next .note{ margin-top: 12px; font-size: 20px; color: var(--ink-2); max-width: 48ch; }
-  .more{ margin-top: 16px; color: var(--ink-3); }
+  .next .ask{ display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; }
 
   /* Studio note */
-  .studio{
-    padding: 64px 0 96px;
+  .studio, .contact{
+    padding: 96px 0;
     border-top: 1px solid var(--line);
   }
-  .studio h2{
+  .studio h2, .contact h2{
     font-size: 32px;
     line-height: 1.15;
     font-weight: 600;
-    letter-spacing: -0.005em;
+    letter-spacing: -0.01em;
   }
   .letter{ max-width: 62ch; margin-top: 32px; }
   .letter p{ font-size: 20px; line-height: 1.55; }
@@ -416,6 +440,7 @@
     font-size: 16px;
     color: var(--ink-3);
   }
+  .contact p{ margin-top: 24px; max-width: 62ch; font-size: 20px; line-height: 1.55; }
   .mail{ overflow-wrap: anywhere; }
 
   footer{
@@ -451,10 +476,9 @@
     .hero{ padding: 32px 0 64px; gap: 32px; }
     .hero h1{ font-size: 48px; max-width: none; }
     .lede{ margin-top: 24px; }
-    .card{ max-width: 256px; border-radius: 12px; }
-    .card-mark{ top: 20px; left: 20px; width: 40px; }
-    .card-holder{ left: 20px; right: 20px; bottom: 16px; }
-    .card-line{ left: 20px; right: 20px; bottom: 38px; font-size: 16px; }
+    .asks{ margin-top: 24px; gap: 8px 24px; }
+    /* The card is decoration and static on touch; on a phone the asks end the hero */
+    .stage{ display: none; }
     .section-head{ padding-top: 32px; }
     .products{ padding-bottom: 64px; }
     .product{ padding: 48px 0; gap: 24px; }
@@ -466,18 +490,21 @@
     .shot-ballot img{ position: static; height: auto; padding: 0 0 16px; }
     .next{ padding-top: 32px; }
     .next .note{ font-size: 16px; }
-    .studio{ padding: 32px 0 64px; }
+    .studio, .contact{ padding: 32px 0 48px; }
+    .contact{ padding-bottom: 64px; }
     .letter{ margin-top: 24px; }
-    .letter p{ font-size: 16px; line-height: 1.6; }
+    .letter p, .contact p{ font-size: 16px; line-height: 1.6; }
     .letter p + p{ margin-top: 16px; }
     .letter .sign{ margin-top: 24px; font-size: 14px; }
+    .contact p{ margin-top: 16px; }
     footer{ padding: 32px 0 48px; flex-direction: column; }
   }
 
   @media (prefers-reduced-motion: reduce){
     .card{ transform: none; }
     .card::after{ display: none; }
-    .u, .go svg, .next-link svg{ transition: none; }
+    .u, .btn, .ext{ transition: none; }
+    .btn:active{ transform: none; }
   }
 </style>
 </head>
@@ -499,13 +526,15 @@
       <section class="hero">
         <div>
           <h1>What was once exclusive to the elites, now for everyone.</h1>
-          <p class="lede">Banana Intelligence makes personal media and tools. The morning briefing, the ballot guide, and the magazine that used to come with a staff. Built to that standard, shared with everyone.</p>
-          <a class="next-link u" href="#make">See what we make<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 2v10M3 8l4 4 4-4"/></svg></a>
+          <p class="lede">Banana Intelligence makes personal media and tools. The morning briefing and the ballot guide, built to that standard.</p>
+          <div class="asks">
+            <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+            <a class="u" href="https://plainballot.com" target="_blank" rel="noopener">Open Plain Ballot<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+          </div>
         </div>
         <div class="stage" aria-hidden="true">
           <div class="card">
             <svg class="card-mark" viewBox="0 0 1838 1400"><use href="#bi"/></svg>
-            <p class="card-line">Built for the few. Shared with everyone.</p>
             <p class="card-holder">Everyone</p>
           </div>
         </div>
@@ -519,7 +548,10 @@
             <h3>DayStart</h3>
             <p class="what">My personal briefing.</p>
             <p class="desc">A five-minute morning show built around your day: the top story, your calendar, and your weather.</p>
-            <p class="meta"><span>iPhone app</span><a class="go u" href="https://daystartai.app" target="_blank" rel="noopener">daystartai.app<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></p>
+            <p class="meta">
+              <a class="store" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener"><picture><source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" /><img src="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" width="133" height="44" alt="Download DayStart on the App Store (opens in a new tab)" loading="lazy" decoding="async" /></picture></a>
+              <a class="go u" href="https://daystartai.app" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+            </p>
           </div>
           <div class="shot shot-daystart">
             <picture>
@@ -534,7 +566,7 @@
             <h3>Plain Ballot</h3>
             <p class="what">My personal ballot.</p>
             <p class="desc">Who’s on your ballot and where they stand, in the candidates’ own words. Free and nonpartisan.</p>
-            <p class="meta"><span>Free on the web</span><a class="go u" href="https://plainballot.com" target="_blank" rel="noopener">plainballot.com<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg></a></p>
+            <p class="meta"><span>Free on the web</span><a class="go u" href="https://plainballot.com" target="_blank" rel="noopener">plainballot.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></p>
           </div>
           <div>
             <div class="shot shot-ballot">
@@ -552,7 +584,7 @@
         <div class="next">
           <h3>My Happenings <span class="soon">Coming soon</span></h3>
           <p class="note">My personal magazine. A free daily news podcast and a monthly magazine.</p>
-          <p class="more">More in the works.</p>
+          <a class="ask u" href="mailto:nate@bananaintelligence.ai?subject=My%20Happenings">Get a note when it’s ready</a>
         </div>
       </section>
 
@@ -561,16 +593,20 @@
         <div class="letter">
           <p>I started Banana Intelligence to build the tools I wanted for my own family. The people at the top have always had someone to brief them, explain the ballot, and pick what’s worth reading.</p>
           <p>Software can do that for everyone now, if it’s made with care. Each product does one job, calmly, and treats your time like it matters.</p>
-          <p id="contact">Questions, ideas, or something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
-          <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com</a></p>
+          <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
         </div>
+      </section>
+
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <h2 id="contact-title">Contact</h2>
+        <p>Questions, ideas, or something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
       </section>
 
     </main>
 
     <footer>
       <span>© 2026 Banana Intelligence, LLC. SF East Bay.</span>
-      <span>Made by <a href="https://natepeace.com" target="_blank" rel="noopener">Nate Peace</a></span>
+      <span>Made by <a href="https://natepeace.com" target="_blank" rel="noopener">Nate Peace<span class="sr"> (opens in a new tab)</span></a></span>
     </footer>
   </div>
 
