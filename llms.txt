@@ -1,0 +1,12 @@
+# Banana Intelligence
+
+> Banana Intelligence is Nate Peace's studio for personal media and tools. Motto: "Excellence. For everyone."
+
+## Products
+
+- [DayStart](https://daystartai.app): a personalized morning briefing podcast for iPhone. Your top story, calendar, and weather in about five minutes. Free to try.
+- [Plain Ballot](https://plainballot.com): a free, open source ballot guide. Every position is quoted exactly with its source; party labels stay hidden until asked; it never says how to vote. Agents can use its MCP server.
+
+## About
+
+- [Nate Peace](https://natepeace.com): founder. Writes The Peace Process.
