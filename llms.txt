@@ -5,7 +5,7 @@
 ## Products
 
 - [DayStart](https://daystartai.app): a personalized morning briefing podcast for iPhone. Your top story, calendar, and weather in about five minutes. Free to try.
-- [Plain Ballot](https://plainballot.com): a free, open source ballot guide. Every position is quoted exactly with its source; party labels stay hidden until asked; it never says how to vote. Agents can use its MCP server.
+- [Plain Ballot](https://plainballot.com): a free, open source ballot guide. Every position is quoted exactly with its source; party labels stay hidden until asked; it never says how to vote. Agents can use its read-only MCP server at https://plainballot.com/mcp.
 
 ## About
 
