@@ -6,11 +6,12 @@
 
 - [DayStart](https://daystartai.app): a personalized morning briefing podcast for iPhone. Your top story, calendar, and weather in about five minutes. Free to try.
 - [Plain Ballot](https://plainballot.com): a free, open source ballot guide. Every position is quoted exactly with its source; party labels stay hidden until asked; it never says how to vote. Agents can use its read-only MCP server at https://plainballot.com/mcp.
+- [Artifact News](https://artifactnews.ai): one interactive piece a day, made from the news. A new piece goes up every morning at 9 a.m. Eastern, made from that morning's news, and every number in it comes with its source. Free on the web.
 
 ## Studio
 
 - [How we build](https://bananaintelligence.ai/how-we-build): one person and AI agents in parallel, a capped daily work block with a check that can fail, independent review, and a person's yes on anything public, any spend, and any account change.
-- [Releases](https://bananaintelligence.ai/releases): every public launch and major release of DayStart and Plain Ballot, newest first, with the date, what shipped, and why.
+- [Releases](https://bananaintelligence.ai/releases): every public launch and major release of DayStart, Plain Ballot, and Artifact News, newest first, with the date, what shipped, and why.
 
 ## About
 

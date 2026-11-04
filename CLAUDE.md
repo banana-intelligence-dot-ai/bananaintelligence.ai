@@ -18,7 +18,7 @@ These two lists go at the very end of the response, in that order. Skip them onl
 
 ## Project: bananaintelligence.ai
 
-Static single-page site for Banana Intelligence, Nate Peace's studio for personal media and tools. Shows the public lineup (DayStart and Plain Ballot live, My Happenings coming soon), the studio note, and a contact email. No framework, no build step, no bundler. Deployed on Vercel from `main`.
+Static single-page site for Banana Intelligence, Nate Peace's studio for personal media and tools. Shows the public lineup (DayStart, Plain Ballot, and Artifact News live, My Happenings coming soon), the studio note, and a contact email. No framework, no build step, no bundler. Deployed on Vercel from `main`.
 
 ### Files that matter
 
@@ -38,7 +38,7 @@ Follows the `taste` skill's house standard (Banana Intelligence row). Refreshed 
 - **Type:** Fraunces upright for headings (optical size pinned to 144), Hanken Grotesk for everything else. Two families only.
 - **Palette:** banana `#FFD23F` as the one accent (shared with DayStart). Warm off-white paper `#FBF8F0` and ink `#1A1407` in light; `#12100B` and `#F4EFE3` in dark.
 - **Signature:** the brushed banana card made out to "EVERYONE" in the hero. It is the only reactive light surface on the page: a pointer-tracked highlight and up to 3 degrees of tilt on fine pointers, off under Reduce Motion and on touch.
-- **Lineup:** only DayStart, Plain Ballot, and My Happenings are public. Don't name unannounced projects anywhere (copy, metadata, alt text, comments, sitemap). SupportGrid is a separate company and stays off.
+- **Lineup:** only DayStart, Plain Ballot, Artifact News, and My Happenings are public. Don't name unannounced projects anywhere (copy, metadata, alt text, comments, sitemap). SupportGrid is a separate company and stays off.
 
 ### Don't change without intent
 

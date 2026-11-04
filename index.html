@@ -400,9 +400,12 @@
   }
   .shot-ballot{ background: #FFFDF1; }
   .shot-ballot img{ object-fit: contain; padding: 16px; mix-blend-mode: multiply; }
+  .shot-artifact{ background: #F5F2EA; }
+  .shot-artifact img{ object-fit: cover; object-position: top; }
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
     .shot-ballot{ background: #131313; }
+    .shot-artifact{ background: #121211; }
     .shot-ballot img{ mix-blend-mode: normal; }
     .shot::after{ box-shadow: inset 0 0 0 1px var(--line); }
   }
@@ -587,6 +590,24 @@
               </picture>
             </div>
             <p class="caption">From the sample ballot. The candidates are fictional.</p>
+          </div>
+        </div>
+
+        <div class="product">
+          <div>
+            <h3>Artifact News</h3>
+            <p class="what">The day’s news, in one piece.</p>
+            <p class="desc">One interactive piece a day, made from that morning’s news. New every morning at 9 Eastern.</p>
+            <p class="meta"><span>Free on the web</span><a class="go u" href="https://artifactnews.ai" target="_blank" rel="noopener">artifactnews.ai<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></p>
+          </div>
+          <div>
+            <div class="shot shot-artifact">
+              <picture>
+                <source srcset="/media/artifact-news-dark.webp" media="(prefers-color-scheme: dark)" width="1000" height="800" />
+                <img src="/media/artifact-news-light.webp" width="1000" height="800" alt="Artifact News No. 3: the headline says Democrats need a net gain of four Senate seats and Republicans need 50, above the start of a Senate seat count." loading="lazy" decoding="async" />
+              </picture>
+            </div>
+            <p class="caption">No. 3, from Nov. 3, 2026.</p>
           </div>
         </div>
 
