@@ -541,7 +541,7 @@
           <p class="lede">Banana Intelligence makes personal media and tools. The morning briefing and the ballot guide, built to that standard.</p>
           <div class="asks">
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
-            <a class="u" href="https://plainballot.com" target="_blank" rel="noopener">Open Plain Ballot<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+            <a class="u" href="https://plainballot.com?ref=bananaintelligence" target="_blank" rel="noopener">Open Plain Ballot<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
           </div>
         </div>
         <div class="stage" aria-hidden="true">
@@ -562,7 +562,7 @@
             <p class="desc">A five-minute morning show built around your day: the top story, your calendar, and your weather.</p>
             <p class="meta">
               <a class="store" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener"><picture><source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" /><img src="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" width="133" height="44" alt="Download DayStart on the App Store (opens in a new tab)" loading="lazy" decoding="async" /></picture></a>
-              <a class="go u" href="https://daystartai.app" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+              <a class="go u" href="https://daystartai.app?ref=bananaintelligence" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
             </p>
           </div>
           <div class="shot shot-daystart">
@@ -578,7 +578,7 @@
             <h3>Plain Ballot</h3>
             <p class="what">My personal ballot.</p>
             <p class="desc">Who’s on your ballot and where they stand, in the candidates’ own words. Free and nonpartisan.</p>
-            <p class="meta"><span>Free on the web</span><a class="go u" href="https://plainballot.com" target="_blank" rel="noopener">plainballot.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></p>
+            <p class="meta"><span>Free on the web</span><a class="go u" href="https://plainballot.com?ref=bananaintelligence" target="_blank" rel="noopener">plainballot.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></p>
           </div>
           <div>
             <div class="shot shot-ballot">
@@ -598,7 +598,7 @@
             <h3>Artifact News</h3>
             <p class="what">The day’s news, in one piece.</p>
             <p class="desc">One interactive piece a day, made from that morning’s news. New every morning at 9 Eastern.</p>
-            <p class="meta"><span>Free on the web</span><a class="go u" href="https://artifactnews.ai" target="_blank" rel="noopener">artifactnews.ai<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></p>
+            <p class="meta"><span>Free on the web</span><a class="go u" href="https://artifactnews.ai?ref=bananaintelligence" target="_blank" rel="noopener">artifactnews.ai<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></p>
           </div>
           <div>
             <div class="shot shot-artifact">
@@ -688,6 +688,17 @@
 })();
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script>
+document.addEventListener('click', function (e) {
+  try {
+    var a = e.target.closest && e.target.closest('a[href*="ref=bananaintelligence"]');
+    if (!a) return;
+    var names = { 'daystartai.app': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News' };
+    var product = names[new URL(a.href).hostname.replace(/^www\./, '')];
+    if (product) window.va && window.va('event', { name: 'outbound_click', data: { product: product } });
+  } catch (_) {}
+});
+</script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
