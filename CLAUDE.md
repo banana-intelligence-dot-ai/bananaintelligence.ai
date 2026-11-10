@@ -81,21 +81,23 @@ Before implementing:
 
 Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
 
-## 3. Surgical Changes
+## 3. Own the Codebase
 
-**Touch only what you must. Clean up only your own mess.**
+**This codebase is yours: what it's for and how it's built are your call, and you'll keep building on it.**
 
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it — don't delete it.
+(Nate, 2026-11-10. This replaces the old "Surgical Changes" rule.)
 
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
+When a task takes you into an area:
+- Merge duplicate code you find there instead of bolting a new copy on.
+- Fix related bugs you find there instead of only mentioning them.
+- Remove dead code in that area: imports, variables and functions nothing uses.
+- Match the existing style, unless you are deliberately changing it across the whole area.
 
-The test: Every changed line should trace directly to the user's request.
+Keep it easy to check:
+- Put each cleanup in its own commit, separate from the task's change, with tests passing before and after.
+- Stay in the area the task touches. A problem somewhere else gets a line in the roadmap, not a detour.
+
+The test: the area you worked in is simpler and more correct than you found it, and every commit says why.
 
 ## 4. Goal-Driven Execution
 
