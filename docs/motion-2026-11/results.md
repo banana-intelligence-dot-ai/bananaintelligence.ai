@@ -48,3 +48,26 @@ What did not: the hero is still "two UI cards, not art". Every reference owns on
 After round 5 the type moved to sans serif (Nate, Nov 11), matching main's bi-sans.
 
 Evidence: `rounds/r4-*.jpg`, `rounds/r5-*.jpg`. The sunrise version is tag `bi-motion-v1`.
+
+## Third try: one made image (round 6), and what each step was worth
+
+Hero = copy plus one large linocut of a stack of front pages with invented mastheads, made with ChatGPT image generation through Codex (five techniques tried: engraving, risograph, linocut, pen and ink, cut paper; options in `rounds/r6-image-options.jpg`). Its stroke is drawn on load. The live demo became a band right below. Sans type throughout.
+
+| Round | Ours (3 sets) | Rank | Named agent-made | Wispr | Greptile | Spade |
+|---|---|---|---|---|---|---|
+| 6 | 6, 6, 6 | last x3 | 3 of 3 (85%) | 9 | 8.5 | 7.5 to 8 |
+
+Still last, so the test stopped here, per the stop rule.
+
+What each step was worth (average of ours across the 3 sets; references stayed at 7.5 to 9 throughout):
+
+| Step | Avg | Worth |
+|---|---|---|
+| Rounds 1 to 3: GSAP motion on a texture (sunrise) | 6.0 | About +0.4 over no motion. Critics: "texture, not the product working". |
+| Round 4: hero as a live demo on today's real headlines | 6.3 | The only step that changed minds: every critic since calls the idea right. |
+| Round 5: polish (no font jump, faster, no empty rows) | 6.2 | Zero on score; it removed the execution complaints, which left "two UI cards, not art". |
+| Round 6: one made image, sans type, demo moved below | 6.0 | Negative. The image read as AI-made (invented mastheads, smudged hatching, a faint box behind it), and moving the demo out of the hero cost the "product working" credit: critics called the motion decoration again. They also flagged the headline as small (about 64 px against 100 px and up) and the highlighter used in too many places. |
+
+Conclusion: an agent can now make the right idea and clean execution, but not, so far, an asset these critics accept as made by hand. The live demo is the strongest thing we have; if we ship anything from this branch, keep the demo in the hero (round 5) with the sans type, and commission the one image from a person.
+
+Evidence: `rounds/r6-*.jpg` (desktop and 390 px stills, frames). Earlier versions: tag `bi-motion-v1` (sunrise), commit c14c011 (round 5 hero in sans).
