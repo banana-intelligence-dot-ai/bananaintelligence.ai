@@ -220,11 +220,18 @@
   /* The tape is the handle. A 44 px grip around the strip, and the far end lifts off the wall
      when a mouse is over it or the sheet is held. */
   .tape.grip{ pointer-events: auto; touch-action: none; -webkit-touch-callout: none; cursor: grab; }
-  .tape.grip::after{ content: ""; position: absolute; inset: -11px -8px; }
-  .held .tape.grip{ background: linear-gradient(100deg, var(--tape) 0 70%, rgba(255,238,176,0.96) 80%, rgba(201,152,18,0.95) 100%); }
+  .tape.grip::after{ content: ""; position: absolute; inset: -13px -8px; }
+  .held .tape.grip, .peek .tape.grip{ background: linear-gradient(100deg, var(--tape) 0 70%, rgba(255,238,176,0.96) 80%, rgba(201,152,18,0.95) 100%); }
   .held .tape.grip{ transform: rotate(var(--tilt, -2deg)) translateY(-2px) scale(1.06, 1.12); }
   /* Re-stuck sheets get more tape every time, never quite trusting the last strip */
   .tape.more{ pointer-events: none; animation: slap 220ms var(--ease) both; }
+  .tape.more.off{ animation: peel 260ms var(--ease) both; }
+  @keyframes peel{ to{ transform: rotate(var(--tilt)) translateY(-12px) scale(0.9); opacity: 0; } }
+  /* Hanging everything back after a rearrange */
+  .pc.home .sheet{ transition: transform 480ms var(--ease), box-shadow 200ms var(--ease); }
+  .tidy{ display: flex; justify-content: flex-end; margin-top: 40px; }
+  .tidy button{ min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-size: 16px; cursor: pointer; }
+  .tidy button[hidden]{ display: none; }
   @keyframes slap{
     from{ transform: rotate(var(--tilt)) scale(1.35); opacity: 0; }
     50%{ opacity: 1; }
@@ -315,7 +322,8 @@
   @media (prefers-reduced-motion: reduce){
     .pc, .pc .sheet, .u, .btn, .ext{ transition: none; }
     .pc:hover{ --hy: 0px; }
-    .tape.more{ animation: none; }
+    .tape.more, .tape.more.off{ animation: none; }
+    .pc.held .sheet, .pc.live .sheet, .pc.home .sheet{ transition: none; }
     .btn:active{ transform: none; }
   }
 </style>
@@ -351,6 +359,7 @@
           <a class="pc" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-mh.webp" width="560" height="467" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>My Happenings</b><span class="sr"> (opens in a new tab)</span><span class="line">The news as a short show to hear or read. In beta.</span></span></span></a>
           <a class="pc" style="--tl:70%" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="682" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Politicians by Jev</b><span class="sr"> (opens in a new tab)</span><span class="line">Ask about 100 famous politicians.</span></span></span></a>
         </div>
+        <p class="tidy"><button class="u" type="button" hidden>Put everything back</button></p>
       </div>
     </div>
 
@@ -453,6 +462,39 @@
   }
   function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
 
+  // Put everything back: every sheet goes home square, and the extra tape comes off
+  var back = board.querySelector('.tidy button');
+  function hangBack(){
+    if (held){ held.pc.classList.remove('held'); held = null; }
+    pcs.forEach(function(pc){
+      pc.x = pc.y = pc.r = pc.v = 0; pc.swing = false; pc.tapes = 0;
+      pc.classList.remove('live'); pc.classList.add('home'); place(pc);
+      [].forEach.call(pc.querySelectorAll('.tape.more'), function(t){
+        t.classList.add('off');
+        setTimeout(function(){ t.remove(); }, still.matches ? 0 : 280);
+      });
+    });
+    back.hidden = true;
+    setTimeout(function(){
+      pcs.forEach(function(pc){ pc.classList.remove('home'); });
+      measure();
+    }, 500);
+  }
+  back.addEventListener('click', function(){ hangBack(); pcs[0].focus({ preventScroll: true }); });
+
+  // A draft: the first time the wall comes into view, one sheet stirs on its tape, once
+  if ('IntersectionObserver' in window && !still.matches){
+    var stir = pcs[1], io = new IntersectionObserver(function(es){
+      if (!es[0].isIntersecting) return;
+      io.disconnect();
+      if (held || stir.x || stir.y) return;
+      stir.v = 1.6; stir.rest = 0; stir.swing = true;
+      stir.classList.add('live', 'peek'); kick();
+      setTimeout(function(){ stir.classList.remove('peek'); }, 1200);
+    }, { threshold: 0.9 });
+    io.observe(stir.querySelector('.sheet'));
+  }
+
   wall.addEventListener('dragstart', function(e){ e.preventDefault(); });
   wall.addEventListener('pointerdown', function(e){
     if (held || e.button !== 0) return;
@@ -461,12 +503,12 @@
     var byTape = e.target.classList.contains('grip');
     // On touch the tape is the only handle, so the rest of the sheet still scrolls the page
     if (e.pointerType !== 'mouse' && !byTape) return;
-    var b = board.getBoundingClientRect(), r = pc.querySelector('.sheet').getBoundingClientRect();
-    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    var b = board.getBoundingClientRect(), r = pc.querySelector('.sheet').getBoundingClientRect(), m = 8;
     held = { pc: pc, id: e.pointerId, sx: e.clientX, sy: e.clientY, x0: pc.x, y0: pc.y, lx: e.clientX,
       vx: 0, moved: false, slop: e.pointerType === 'mouse' ? 6 : 3,
-      // Keep the middle of the sheet on the wall
-      lo: { x: b.left + 24 - cx, y: b.top + 24 - cy }, hi: { x: b.right - 24 - cx, y: b.bottom - 24 - cy } };
+      // The whole sheet stays on the wall
+      lo: { x: Math.min(0, b.left + m - r.left), y: Math.min(0, b.top + m - r.top) },
+      hi: { x: Math.max(0, b.right - m - r.right), y: Math.max(0, b.bottom - m - r.bottom) } };
   });
   document.addEventListener('pointermove', function(e){
     if (!held || e.pointerId !== held.id) return;
@@ -476,6 +518,9 @@
       held.moved = true;
       pc.swing = false;
       pc.classList.add('held');
+      pc.classList.remove('home');
+      try { pc.setPointerCapture(held.id); } catch (_) {}
+      back.hidden = false;
       pc.querySelector('.sheet').style.zIndex = ++z;
     }
     e.preventDefault();
@@ -486,7 +531,7 @@
     place(pc); kick();
   }, { passive: false });
   function drop(e){
-    if (!held || e.pointerId !== held.id) return;
+    if (!held || (e.pointerId !== undefined && e.pointerId !== held.id)) return;
     var pc = held.pc, moved = held.moved;
     held = null;
     if (!moved) return;
@@ -506,17 +551,19 @@
   }
   document.addEventListener('pointerup', drop);
   document.addEventListener('pointercancel', drop);
+  addEventListener('blur', drop);
   // A drag is not a click: don't open the app after moving its sheet
   wall.addEventListener('click', function(e){
     var pc = e.target.closest('.pc');
-    if (pc && pc.dropped && performance.now() - pc.dropped < 500){ e.preventDefault(); e.stopPropagation(); }
+    // Only the click that ends the drag; the keyboard (detail 0) always gets through
+    if (pc && pc.dropped && e.detail && performance.now() - pc.dropped < 500){ pc.dropped = 0; e.preventDefault(); e.stopPropagation(); }
   }, true);
-  // A new width is a new layout: hang everything back where it was
+  // A new width is a new layout: hang everything back
   var w = innerWidth;
   addEventListener('resize', function(){
     if (innerWidth !== w){
       w = innerWidth;
-      pcs.forEach(function(pc){ pc.x = pc.y = pc.r = pc.v = 0; pc.swing = false; place(pc); });
+      hangBack();
     }
     measure();
   });
