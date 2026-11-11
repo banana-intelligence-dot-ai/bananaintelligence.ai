@@ -691,9 +691,10 @@
 <script>
 document.addEventListener('click', function (e) {
   try {
-    var a = e.target.closest && e.target.closest('a[href*="ref=bananaintelligence"]');
+    // Match by host, not by tag: DayStart links carry ?ct= (its own tag system), not ?ref=.
+    var a = e.target.closest && e.target.closest('a[href^="http"]');
     if (!a) return;
-    var names = { 'daystartai.app': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News' };
+    var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News' };
     var product = names[new URL(a.href).hostname.replace(/^www\./, '')];
     if (product) window.va && window.va('event', { name: 'outbound_click', data: { product: product } });
   } catch (_) {}
