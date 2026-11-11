@@ -208,10 +208,10 @@
     height: 100%;
     display: block;
   }
-  .engraving path, .engraving ellipse{ fill: none; stroke: currentColor; vector-effect: non-scaling-stroke; }
-  .engraving .sky path{ stroke-width: 0.75px; opacity: 0.34; }
-  .engraving .band path{ stroke-width: 0.75px; opacity: 0.5; }
-  .engraving .band ellipse{ stroke-width: 1px; opacity: 0.7; }
+  .sky path, .band path, .band ellipse{ fill: none; stroke: currentColor; vector-effect: non-scaling-stroke; }
+  .sky path{ stroke-width: 0.75px; opacity: 0.34; }
+  .band path{ stroke-width: 0.75px; opacity: 0.5; }
+  .band ellipse{ stroke-width: 1px; opacity: 0.7; }
   /* The canvas takes over from the still once it has drawn */
   .engraving canvas{ opacity: 0; }
   .engraving.live canvas{ opacity: 1; }
@@ -422,8 +422,24 @@
   }
   .step strong{ font-weight: 600; color: var(--ink); }
 
-  /* Studio note and contact: one column */
-  .studio{ padding: 128px 0; }
+  /* Studio note and contact: the letter on the left, closed with a seal cut from the same lace as the hero */
+  .studio{
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: 64px;
+    padding: 128px 0;
+  }
+  .studio h2, .letter{ grid-column: 1; }
+  .seal{
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-self: end;
+    align-self: center;
+    width: 200px;
+    height: 200px;
+    color: var(--ink);
+  }
+  .seal use{ color: var(--ink); }
   .letter{ max-width: 60ch; margin-top: 32px; }
   .letter p{ font-size: 20px; line-height: 1.6; }
   .letter p + p{ margin-top: 24px; }
@@ -462,6 +478,8 @@
     .hero h1{ font-size: 64px; }
     .grid{ grid-template-columns: 1fr; }
     .steps{ grid-template-columns: 1fr; }
+    .studio{ grid-template-columns: 1fr; }
+    .seal{ grid-column: 1; grid-row: auto; justify-self: start; width: 128px; height: 128px; margin-top: 48px; }
     .step, .step:first-child, .step:last-child{ padding: 24px 0; }
     .step + .step{ border-left: 0; border-top: 1px solid var(--line); }
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
@@ -547,7 +565,7 @@
             <g class="sky" clip-path="url(#oval)" mask="url(#vignette)"></g>
             <g class="band"><ellipse cx="240" cy="300" rx="190" ry="250"/><ellipse cx="240" cy="300" rx="224" ry="284"/></g>
           </svg>
-          <img src="/media/banana-engraving.webp" width="992" height="1240" alt="" decoding="async" />
+          <img src="/media/banana-engraving.webp" width="880" height="1100" alt="" decoding="async" />
           <canvas></canvas>
         </div>
       </section>
@@ -628,6 +646,10 @@
           <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
           <p class="write">Something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
         </div>
+        <svg class="seal" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+          <g class="band"><ellipse cx="100" cy="100" rx="59" ry="59"/><ellipse cx="100" cy="100" rx="95" ry="95"/></g>
+          <use href="#bi" x="72" y="79" width="56" height="42.7"/>
+        </svg>
       </section>
     </main>
 
@@ -655,18 +677,23 @@
     for (x = 44; x <= 436; x += 8) d += (x === 44 ? 'M' : 'L') + x + ' ' + (y + 1.6 * Math.sin(x / 21 + y / 34)).toFixed(1);
     path(d, sky);
   }
-  // Band: phase-shifted waves between the two ovals, the way a guilloche lathe lays them down
-  var band = note.querySelector('.band');
-  [[44, 6, 13], [22, 4, 13]].forEach(function(w){
-    for (var j = 0; j < w[1]; j++){
-      d = '';
-      for (var i = 0; i <= 1440; i++){
-        var a = i / 1440 * TAU, m = w[2] * Math.sin(w[0] * a + j * TAU / w[1]);
-        d += (i ? 'L' : 'M') + (240 + (207 + m) * Math.cos(a)).toFixed(1) + ' ' + (300 + (267 + m) * Math.sin(a)).toFixed(1);
+  // Lace: phase-shifted waves around an oval, the way a guilloche lathe lays them down
+  function lace(parent, cx, cy, rx, ry, waves){
+    waves.forEach(function(w){
+      for (var j = 0; j < w[1]; j++){
+        d = '';
+        for (var i = 0; i <= 1440; i++){
+          var a = i / 1440 * TAU, m = w[2] * Math.sin(w[0] * a + j * TAU / w[1]);
+          d += (i ? 'L' : 'M') + (cx + (rx + m) * Math.cos(a)).toFixed(1) + ' ' + (cy + (ry + m) * Math.sin(a)).toFixed(1);
+        }
+        path(d + 'Z', parent);
       }
-      path(d + 'Z', band);
-    }
-  });
+    });
+  }
+  lace(note.querySelector('.band'), 240, 300, 207, 267, [[44, 6, 13], [22, 4, 13]]);
+  // The same lace closes the studio note as a seal
+  var seal = document.querySelector('.seal .band');
+  if (seal) lace(seal, 100, 100, 77, 77, [[26, 6, 15], [13, 4, 15]]);
 
   var cv = note.querySelector('canvas');
   var gl = cv.getContext('webgl', { premultipliedAlpha: true, antialias: false });
