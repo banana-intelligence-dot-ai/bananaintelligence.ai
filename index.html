@@ -169,15 +169,16 @@
     color: var(--ink-2);
     text-decoration: none;
   }
+  .top nav{ display: flex; gap: 32px; }
   .top nav a:hover{ color: var(--ink); }
 
-  /* Hero: one line, one subline, one action, then the card */
+  /* Hero: the line and one action on the left, the card on the right */
   .hero{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 64px;
     align-items: center;
-    text-align: center;
-    padding: 96px 0 0;
+    padding: 96px 0 32px;
   }
   .hero h1{
     font-size: 88px;
@@ -191,7 +192,7 @@
     font-size: 18px;
     line-height: 1.6;
     color: var(--ink-2);
-    max-width: 544px;
+    max-width: 40ch;
   }
   .asks{ margin-top: 32px; }
   .btn{
@@ -201,20 +202,21 @@
     min-height: 48px;
     padding: 0 24px;
     border-radius: 999px;
-    background: var(--banana);
-    color: #1A1407;
+    /* Ink, so the card stays the only banana mass in the hero */
+    background: var(--ink);
+    color: var(--paper);
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
-    box-shadow: inset 0 1px 0 rgba(255,250,225,0.7), inset 0 0 0 1px rgba(120,80,0,0.16);
-    transition: background-color 150ms var(--ease), transform 150ms var(--ease);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 1px 2px rgba(26,20,7,0.16);
+    transition: opacity 150ms var(--ease), transform 150ms var(--ease);
   }
-  .btn:hover{ background: #F7C82A; }
+  .btn:hover{ opacity: 0.88; }
   .btn:active{ transform: scale(0.97); }
   a.btn:focus-visible{ border-radius: 999px; }
 
   /* The card: the one reactive light surface on the page */
-  .stage{ position: relative; perspective: 1200px; width: 100%; max-width: 440px; margin-top: 96px; }
+  .stage{ position: relative; perspective: 1200px; width: 100%; max-width: 440px; justify-self: end; }
   .card{
     --mx: 30%;
     --my: 20%;
@@ -307,7 +309,7 @@
   /* The lineup: a hairline grid, one real screen per product */
   .grid{
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 64px;
     border: 1px solid var(--line);
     border-radius: 16px;
@@ -320,6 +322,19 @@
     transition: background-color 150ms var(--ease);
   }
   .cell + .cell{ border-left: 1px solid var(--line); }
+  /* DayStart leads: one full-width row, screen left, words right */
+  .cell.lead{
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    border-bottom: 1px solid var(--line);
+  }
+  .cell.lead .shot{ border-bottom: 0; border-right: 1px solid var(--line); }
+  .cell.lead .body{ padding: 48px; justify-content: center; }
+  .cell.lead h3{ font-size: 32px; }
+  .cell.lead p{ font-size: 18px; max-width: 32ch; }
+  .cell.lead .foot{ margin-top: 32px; justify-content: flex-start; gap: 0 24px; }
+  .cell.lead + .cell{ border-left: 0; }
   @media (hover: hover){
     .cell:hover{ background: var(--raise); }
     .cell:hover .go{ text-decoration-color: currentColor; }
@@ -378,8 +393,10 @@
     object-fit: cover;
     object-position: top;
   }
+  /* The two smaller screens: a wider crop, one focal moment each */
+  .cell:not(.lead) .shot{ aspect-ratio: 16 / 10; }
   .shot-daystart{ background: #FFFDF1; }
-  .shot-daystart img{ object-fit: contain; padding: 24px 24px 0; }
+  .shot-daystart img{ object-fit: contain; padding: 32px 32px 0; }
   .shot-ballot{ --fade: #FFFDF1; background: var(--fade); }
   .shot-ballot img{ object-fit: cover; object-position: left top; mix-blend-mode: multiply; }
   /* The crop fades out under the note instead of cutting a row in half */
@@ -387,8 +404,8 @@
     content: "";
     position: absolute;
     inset: auto 0 0;
-    height: 96px;
-    background: linear-gradient(to bottom, transparent, var(--fade) 72%);
+    height: 128px;
+    background: linear-gradient(to bottom, transparent, var(--fade) 55%);
     pointer-events: none;
   }
   .shot .note{
@@ -403,9 +420,9 @@
   .shot-artifact{ background: #F5F2EA; }
   .shot-artifact img{
     inset: auto;
-    left: -12.5%;
-    top: -33.3%;
-    width: 125%;
+    left: -14.7%;
+    top: -68.2%;
+    width: 147%;
     height: auto;
   }
   @media (prefers-color-scheme: dark){
@@ -432,13 +449,8 @@
   .soon .u{ display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
 
   /* Studio note and contact: heading left, letter right */
-  .studio{
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: 64px;
-    padding: 128px 0;
-  }
-  .letter{ max-width: 60ch; }
+  .studio{ padding: 128px 0; }
+  .letter{ max-width: 60ch; margin-top: 32px; }
   .letter p{ font-size: 20px; line-height: 1.6; }
   .letter p + p{ margin-top: 24px; }
   .letter .sign{ font-size: 16px; color: var(--ink-3); }
@@ -473,8 +485,10 @@
     .wrap{ padding: 0 32px; }
     .hero{ padding-top: 64px; }
     .hero h1{ font-size: 64px; }
-    .studio{ grid-template-columns: 1fr; gap: 32px; }
+    .hero{ grid-template-columns: 1fr; gap: 48px; }
+    .stage{ justify-self: start; max-width: 360px; }
     .grid{ grid-template-columns: 1fr; }
+    .cell.lead + .cell{ border-top: 0; }
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
     .cell{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
     .shot{ border-bottom: 0; border-right: 1px solid var(--line); }
@@ -489,7 +503,14 @@
     .lede{ font-size: 16px; }
     .asks{ margin-top: 24px; }
     /* Static on touch: the script only runs on fine pointers */
-    .stage{ margin-top: 64px; max-width: 320px; }
+    .hero{ gap: 48px; padding-bottom: 0; }
+    .stage{ max-width: 240px; }
+    .cell.lead{ display: flex; }
+    .cell.lead .shot{ border-right: 0; border-bottom: 1px solid var(--line); }
+    .cell.lead .body{ padding: 24px; }
+    .cell.lead h3{ font-size: 24px; }
+    .cell.lead p{ font-size: 16px; }
+    .cell.lead .foot{ margin-top: auto; justify-content: space-between; }
     .lineup{ padding-top: 96px; }
     h2{ font-size: 32px; }
     .grid{ margin-top: 32px; }
@@ -497,7 +518,8 @@
     .shot{ border-right: 0; border-bottom: 1px solid var(--line); }
     .cell .body{ padding: 24px; }
     .soon{ padding: 16px 24px; }
-    .studio{ padding: 96px 0; gap: 24px; }
+    .studio{ padding: 96px 0; }
+    .letter{ margin-top: 24px; }
     .letter p{ font-size: 16px; }
     .letter p + p{ margin-top: 16px; }
     .letter .sign{ font-size: 14px; }
@@ -524,15 +546,17 @@
         <img class="tile" src="/icon.svg" width="32" height="32" alt="" />
         <span>Banana Intelligence</span>
       </a>
-      <nav aria-label="Primary"><a href="#contact">Contact</a></nav>
+      <nav aria-label="Primary"><a href="#make">Products</a><a href="#contact">Contact</a></nav>
     </header>
 
     <main>
       <section class="hero">
-        <h1><span>Excellence.</span> <span>For everyone.</span></h1>
-        <p class="lede">Personal media and tools from Nate Peace’s studio, each one built to that standard.</p>
-        <div class="asks">
-          <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+        <div>
+          <h1><span>Excellence.</span> <span>For everyone.</span></h1>
+          <p class="lede">Personal media and tools from Nate Peace’s studio, each one built to that standard.</p>
+          <div class="asks">
+            <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+          </div>
         </div>
         <div class="stage" aria-hidden="true">
           <div class="card">
@@ -545,7 +569,7 @@
       <section class="lineup" id="make" aria-labelledby="make-title">
         <h2 id="make-title">What we make</h2>
         <div class="grid">
-          <article class="cell">
+          <article class="cell lead">
             <div class="shot shot-daystart">
               <picture>
                 <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
