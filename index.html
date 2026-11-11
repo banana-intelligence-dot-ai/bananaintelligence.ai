@@ -163,12 +163,15 @@
     width: 76px;
     height: 22px;
     margin-left: -38px;
-    background: var(--tape);
     transform: rotate(var(--tilt, -2deg));
-    /* Torn ends */
-    clip-path: polygon(0 8%, 4% 0, 96% 6%, 100% 0, 98% 50%, 100% 94%, 95% 100%, 3% 92%, 0 100%, 2% 50%);
     pointer-events: none;
     z-index: 1;
+  }
+  /* The strip is painted on a layer of its own, so the torn-end clip never trims the grip */
+  .tape::before{
+    content: ""; position: absolute; inset: 0;
+    background: var(--paint, var(--tape));
+    clip-path: polygon(0 8%, 4% 0, 96% 6%, 100% 0, 98% 50%, 100% 94%, 95% 100%, 3% 92%, 0 100%, 2% 50%);
   }
   /* The wall. The headline is pinned up first. Under it hangs the work: one lead sheet (today's
      Artifact News, two columns wide), then every other app once, half its size, in loose
@@ -221,7 +224,7 @@
      when a mouse is over it or the sheet is held. */
   .tape.grip{ pointer-events: auto; touch-action: none; -webkit-touch-callout: none; cursor: grab; }
   .tape.grip::after{ content: ""; position: absolute; inset: -13px -8px; }
-  .held .tape.grip, .peek .tape.grip{ background: linear-gradient(100deg, var(--tape) 0 70%, rgba(255,238,176,0.96) 80%, rgba(201,152,18,0.95) 100%); }
+  .held .tape.grip, .peek .tape.grip{ --paint: linear-gradient(100deg, var(--tape) 0 70%, rgba(255,238,176,0.96) 80%, rgba(201,152,18,0.95) 100%); }
   .held .tape.grip{ transform: rotate(var(--tilt, -2deg)) translateY(-2px) scale(1.06, 1.12); }
   /* Re-stuck sheets get more tape every time, never quite trusting the last strip */
   .tape.more{ pointer-events: none; animation: slap 220ms var(--ease) both; }
@@ -252,7 +255,7 @@
   @media (hover: hover){
     .pc:hover{ --hy: -2px; }
     .wall .pc{ cursor: grab; }
-    .pc:hover .tape.grip{ background: linear-gradient(100deg, var(--tape) 0 70%, rgba(255,238,176,0.96) 80%, rgba(201,152,18,0.95) 100%); }
+    .pc:hover .tape.grip{ --paint: linear-gradient(100deg, var(--tape) 0 70%, rgba(255,238,176,0.96) 80%, rgba(201,152,18,0.95) 100%); }
     .pc:hover .sheet{ box-shadow: var(--edge), var(--dx, 0px) calc(var(--dy, 16px) + 6px) 32px -12px var(--shade-lift); }
   }
   .pc:focus-visible{ outline: none; }
@@ -446,7 +449,7 @@
     var busy = false;
     pcs.forEach(function(pc){
       if (pc === (held && held.pc)){
-        var want = still.matches ? 0 : clamp(held.vx * 0.9, -10, 10);
+        var want = still.matches ? 0 : clamp(held.vx * 0.9, -held.cap, held.cap);
         held.vx *= 0.8;
         pc.r += (want - pc.r) * 0.25;
         busy = true;
@@ -474,13 +477,14 @@
         setTimeout(function(){ t.remove(); }, still.matches ? 0 : 280);
       });
     });
+    if (document.activeElement === back) pcs[0].focus({ preventScroll: true });
     back.hidden = true;
     setTimeout(function(){
       pcs.forEach(function(pc){ pc.classList.remove('home'); });
       measure();
     }, 500);
   }
-  back.addEventListener('click', function(){ hangBack(); pcs[0].focus({ preventScroll: true }); });
+  back.addEventListener('click', hangBack);
 
   // A draft: the first time the wall comes into view, one sheet stirs on its tape, once
   if ('IntersectionObserver' in window && !still.matches){
@@ -505,6 +509,8 @@
     if (e.pointerType !== 'mouse' && !byTape) return;
     var b = board.getBoundingClientRect(), r = pc.querySelector('.sheet').getBoundingClientRect(), m = 8;
     held = { pc: pc, id: e.pointerId, sx: e.clientX, sy: e.clientY, x0: pc.x, y0: pc.y, lx: e.clientX,
+      // Wide sheets swing less, so even the lead stays on a phone-width wall while carried
+      cap: r.width > b.width * 0.6 ? 2.5 : 10,
       vx: 0, moved: false, slop: e.pointerType === 'mouse' ? 6 : 3,
       // The whole sheet stays on the wall
       lo: { x: Math.min(0, b.left + m - r.left), y: Math.min(0, b.top + m - r.top) },
@@ -536,7 +542,7 @@
     held = null;
     if (!moved) return;
     pc.classList.remove('held');
-    pc.dropped = performance.now();
+    if (e.type === 'pointerup') pc.dropped = performance.now();
     // Stick it back: a new resting lean, and one more strip of tape
     pc.rest = still.matches ? 0 : (Math.random() * 2.4 - 1.2);
     if (still.matches){ pc.r = 0; place(pc); measure(); }
