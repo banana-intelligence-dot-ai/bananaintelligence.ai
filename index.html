@@ -172,12 +172,13 @@
   .top nav{ display: flex; gap: 32px; }
   .top nav a:hover{ color: var(--ink); }
 
-  /* Hero: the line and one action on the left, the card on the right */
+  /* Hero: the line on the left, the subline and one action set on its baseline at right.
+     No ornament: the first thing below it is the real product. */
   .hero{
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: 64px;
-    align-items: center;
+    align-items: end;
     padding: 64px 0 0;
   }
   .hero h1{
@@ -187,8 +188,8 @@
     letter-spacing: -0.03em;
   }
   .hero h1 span{ display: block; }
+  .intro{ padding-bottom: 12px; }
   .lede{
-    margin-top: 24px;
     font-size: 18px;
     line-height: 1.6;
     color: var(--ink-2);
@@ -202,7 +203,7 @@
     min-height: 48px;
     padding: 0 24px;
     border-radius: 999px;
-    /* Ink, so the card stays the only banana mass in the hero */
+    /* Ink, so DayStart’s play button stays the only banana mass up top */
     background: var(--ink);
     color: var(--paper);
     font-size: 16px;
@@ -214,88 +215,6 @@
   .btn:hover{ opacity: 0.88; }
   .btn:active{ transform: scale(0.97); }
   a.btn:focus-visible{ border-radius: 999px; }
-
-  /* The card: the one reactive light surface on the page */
-  .stage{ position: relative; perspective: 1200px; width: 100%; max-width: 440px; justify-self: end; }
-  .card{
-    --mx: 30%;
-    --my: 20%;
-    --light: 0;
-    --rx: 0deg;
-    --ry: 0deg;
-    position: relative;
-    aspect-ratio: 1.586;
-    width: 100%;
-    border-radius: 16px;
-    /* Anodized banana: brighter where the light lands, deeper toward the lower right */
-    background:
-      radial-gradient(120% 140% at 0% 0%, #FFE07A 0%, rgba(255,224,122,0) 55%),
-      linear-gradient(150deg, var(--banana) 35%, #F0BC1C 100%);
-    background-color: var(--banana);
-    color: #1A1407;
-    overflow: hidden;
-    transform: rotateX(var(--rx)) rotateY(var(--ry));
-    box-shadow:
-      inset 0 1px 0 rgba(255,250,225,0.9),
-      inset 0 -1px 0 rgba(120,80,0,0.28),
-      inset 0 0 0 1px rgba(120,80,0,0.12),
-      0 1px 1px rgba(64,44,0,0.16),
-      0 2px 4px rgba(64,44,0,0.08),
-      0 16px 32px -16px rgba(120,80,0,0.28);
-  }
-  @media (prefers-color-scheme: dark){
-    .card{
-      box-shadow:
-        inset 0 1px 0 rgba(255,250,225,0.9),
-        inset 0 -1px 0 rgba(120,80,0,0.28),
-        0 1px 1px rgba(0,0,0,0.5),
-        0 16px 32px -16px rgba(0,0,0,0.8);
-    }
-  }
-  /* Static sheen: the light source sits top left */
-  .card::before{
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='252' preserveAspectRatio='none'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.012 0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.3 0 0 0 0 0 0 0 0 0.12 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    background-size: 100% 100%;
-    pointer-events: none;
-  }
-  /* Pointer light: follows the cursor on fine pointers only */
-  .card::after{
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(240px circle at var(--mx) var(--my), rgba(255,236,170,0.18), rgba(255,236,170,0) 70%);
-    mix-blend-mode: plus-lighter;
-    opacity: var(--light);
-    transition: opacity 200ms var(--ease);
-    pointer-events: none;
-  }
-  /* Debossed monogram: a light lip below, a shade above */
-  .card-mark{
-    position: absolute;
-    top: 32px;
-    left: 32px;
-    width: 64px;
-    height: auto;
-    display: block;
-    color: rgba(42,31,6,0.82);
-    filter: drop-shadow(0 1px 0 rgba(255,246,205,0.8)) drop-shadow(0 -1px 0 rgba(90,60,0,0.35));
-  }
-  .card-holder{
-    position: absolute;
-    left: 32px;
-    right: 32px;
-    bottom: 28px;
-    margin: 0;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(26,20,7,0.82);
-  }
 
   /* Sections: 128 px apart on desktop, a hairline between */
   .lineup{ padding-top: 128px; }
@@ -409,7 +328,18 @@
   }
   /* The two smaller screens: a wide crop, one focal moment each */
   .cell:not(.lead) .shot{ aspect-ratio: 2 / 1; }
-  .shot-daystart{ background: #FFFDF1; }
+  .shot-daystart{ background: #FFFDF1; --mx: 50%; --my: 40%; --light: 0; }
+  /* The one reactive light on the page: a banana glow that follows the pointer across DayStart's ready screen */
+  .glint{
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.24), rgba(255,210,63,0) 70%);
+    mix-blend-mode: multiply;
+    opacity: var(--light);
+    transition: opacity 200ms var(--ease);
+    pointer-events: none;
+  }
   .shot-daystart img{ object-fit: contain; padding: 32px 32px 0; }
   .shot-ballot{ --fade: #FFFDF1; background: var(--fade); }
   .shot-ballot img{ object-fit: cover; object-position: left top; mix-blend-mode: multiply; }
@@ -441,6 +371,7 @@
   }
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
+    .glint{ mix-blend-mode: screen; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.12), rgba(255,210,63,0) 70%); }
     .shot-ballot{ --fade: #131313; }
     .shot-artifact{ background: #121211; }
     .shot-ballot img{ mix-blend-mode: normal; }
@@ -497,9 +428,9 @@
   /* Tablet */
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
-    .hero{ grid-template-columns: 1fr; gap: 48px; }
+    .hero{ grid-template-columns: 1fr; gap: 24px; align-items: start; }
     .hero h1{ font-size: 64px; }
-    .stage{ justify-self: start; max-width: 360px; }
+    .intro{ padding-bottom: 0; }
     .grid{ grid-template-columns: 1fr; }
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
     .cell.lead + .cell{ border-top: 0; }
@@ -516,8 +447,6 @@
     .hero h1{ font-size: 48px; }
     .lede{ font-size: 16px; }
     .asks{ margin-top: 24px; }
-    /* Static on touch: the script only runs on fine pointers */
-    .stage{ max-width: 240px; }
     .grid{ --inset: 24px; }
     .cell, .cell.lead{ display: flex; align-items: stretch; }
     .cell .shot, .cell.lead .shot{ margin-bottom: 0; }
@@ -539,8 +468,7 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .card{ transform: none; }
-    .card::after{ display: none; }
+    .glint{ display: none; }
     .u, .btn, .ext{ transition: none; }
     .btn:active{ transform: none; }
   }
@@ -562,17 +490,11 @@
 
     <main>
       <section class="hero">
-        <div>
-          <h1><span>Excellence.</span> <span>For everyone.</span></h1>
+        <h1><span>Excellence.</span> <span>For everyone.</span></h1>
+        <div class="intro">
           <p class="lede">A morning briefing, a personal ballot, and the day’s news in one piece, from Nate Peace’s studio.</p>
           <div class="asks">
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
-          </div>
-        </div>
-        <div class="stage" aria-hidden="true">
-          <div class="card">
-            <svg class="card-mark" viewBox="0 0 1838 1400"><use href="#bi"/></svg>
-            <p class="card-holder">Everyone</p>
           </div>
         </div>
       </section>
@@ -581,7 +503,7 @@
         <h2 id="make-title">What we make</h2>
         <div class="grid">
           <article class="cell lead">
-            <div class="shot shot-daystart">
+            <div class="shot shot-daystart"><span class="glint" aria-hidden="true"></span>
               <picture>
                 <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
                 <img src="/media/daystart-ready-light.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
@@ -646,49 +568,32 @@
   </div>
 
 <script>
-// Pointer light on the card: lerped so it glides, fine pointers only, off under Reduce Motion.
+// Pointer light on DayStart's screen: lerped so it glides, fine pointers only, off under Reduce Motion.
 (function(){
-  var card = document.querySelector('.card');
-  var stage = document.querySelector('.stage');
-  var hero = document.querySelector('.hero');
-  if (!card || !stage || !hero) return;
+  var cell = document.querySelector('.cell.lead');
+  var shot = cell && cell.querySelector('.shot-daystart');
+  if (!shot) return;
   if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // Untransformed size and position, so the tilt never skews the math.
-  var w = 0, h = 0, pos = null, target = { x: 0, y: 0 }, raf = 0;
-
-  function measure(){ w = card.offsetWidth; h = card.offsetHeight; }
-  measure();
-  addEventListener('resize', measure);
-
+  var pos = null, target = { x: 0, y: 0 }, raf = 0;
   function tick(){
     pos.x += (target.x - pos.x) * 0.15;
     pos.y += (target.y - pos.y) * 0.15;
-    var nx = Math.max(-1, Math.min(1, (pos.x / w) * 2 - 1));
-    var ny = Math.max(-1, Math.min(1, (pos.y / h) * 2 - 1));
-    card.style.setProperty('--mx', pos.x.toFixed(1) + 'px');
-    card.style.setProperty('--my', pos.y.toFixed(1) + 'px');
-    card.style.setProperty('--ry', (nx * 3).toFixed(2) + 'deg');
-    card.style.setProperty('--rx', (-ny * 3).toFixed(2) + 'deg');
+    shot.style.setProperty('--mx', pos.x.toFixed(1) + 'px');
+    shot.style.setProperty('--my', pos.y.toFixed(1) + 'px');
     if (Math.abs(target.x - pos.x) > 0.5 || Math.abs(target.y - pos.y) > 0.5) raf = requestAnimationFrame(tick);
     else raf = 0;
   }
-
-  hero.addEventListener('pointermove', function(e){
-    var r = stage.getBoundingClientRect();
-    target.x = e.clientX - r.left - card.offsetLeft;
-    target.y = e.clientY - r.top - card.offsetTop;
+  cell.addEventListener('pointermove', function(e){
+    var r = shot.getBoundingClientRect();
+    target.x = e.clientX - r.left;
+    target.y = e.clientY - r.top;
     if (!pos) pos = { x: target.x, y: target.y };
-    card.style.setProperty('--light', '1');
+    shot.style.setProperty('--light', '1');
     if (!raf) raf = requestAnimationFrame(tick);
   });
-  hero.addEventListener('pointerleave', function(){
-    card.style.setProperty('--light', '0');
-    target.x = w / 2;
-    target.y = h / 2;
-    if (pos && !raf) raf = requestAnimationFrame(tick);
-  });
+  cell.addEventListener('pointerleave', function(){ shot.style.setProperty('--light', '0'); });
 })();
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
