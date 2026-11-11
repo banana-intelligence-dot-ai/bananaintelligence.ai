@@ -38,7 +38,7 @@ Follows the `taste` skill's house standard (Banana Intelligence row). Refreshed 
 - **Type:** Hanken Grotesk only, headings included (sans since 2026-11-11). No serif.
 - **Palette:** banana `#FFD23F` as the one accent (shared with DayStart). Warm off-white paper `#FBF8F0` and ink `#1A1407` in light; `#12100B` and `#F4EFE3` in dark.
 - **Signature:** the wall. Three rows of real product screens under the hero, drifting slowly in opposite directions (like Nate's X banner), pausing on hover and focus, a static grid under Reduce Motion. (Nate, 2026-11-11: "let's overwhelm them with what we're building." It replaced the DayStart ready-screen card and its pointer light.)
-- **Lineup (2026-11-11, app studio):** DayStart, Plain Ballot, Artifact News, Spooky Particles (Live), My Happenings (Beta), Politicians by Jev (Paused). natepeace.com may appear on the wall as Nate's site. The hero's "N apps live" counts every app not paused; keep it true when a status changes. Don't name unannounced or private projects anywhere (copy, metadata, alt text, comments, sitemap), and nothing about trading. SupportGrid is a separate company and stays off.
+- **Lineup (2026-11-11, app studio):** DayStart, Plain Ballot, Artifact News, Spooky Particles, Politicians by Jev (Live), My Happenings (Beta). Jev is live but not in active development (Nate, Nov 11); show it as Live. natepeace.com may appear on the wall as Nate's site. The hero's "N apps live" counts every app not paused; keep it true when a status changes. Don't name unannounced or private projects anywhere (copy, metadata, alt text, comments, sitemap), and nothing about trading. SupportGrid is a separate company and stays off.
 
 ### Don't change without intent
 
