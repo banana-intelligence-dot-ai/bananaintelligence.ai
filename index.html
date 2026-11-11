@@ -27,7 +27,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Hanken+Grotesk:wght@400..600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400..700&display=swap" rel="stylesheet" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -55,19 +55,14 @@
 }
 </script>
 <style>
-  /* Georgia, resized to Fraunces' widths: big display sizes run narrow, text sizes run wide */
-  @font-face{ font-family: "Fraunces Display"; src: local("Georgia Bold"), local("Georgia-Bold"); font-weight: 600; size-adjust: 81%; }
-  @font-face{ font-family: "Fraunces Display"; src: local("Georgia Italic"), local("Georgia-Italic"); font-style: italic; font-weight: 400; size-adjust: 85%; }
-  @font-face{ font-family: "Fraunces Text"; src: local("Georgia"); size-adjust: 105%; }
   :root{
     --paper: #FBF8F0;
     --ink: #1A1407;
-    --ink-2: rgba(26,20,7,0.72);
-    --ink-3: rgba(26,20,7,0.64);
+    --ink-2: rgba(26,20,7,0.82);
+    --ink-3: rgba(26,20,7,0.72);
     --line: rgba(26,20,7,0.10);
     --banana: #FFD23F;
     --ring: #8F6A00;
-    --serif: "Fraunces", "Fraunces Text", Georgia, serif;
     --sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
     --ease: cubic-bezier(0.23, 1, 0.32, 1);
     color-scheme: light dark;
@@ -76,8 +71,8 @@
     :root{
       --paper: #12100B;
       --ink: #F4EFE3;
-      --ink-2: rgba(244,239,227,0.74);
-      --ink-3: rgba(244,239,227,0.62);
+      --ink-2: rgba(244,239,227,0.84);
+      --ink-3: rgba(244,239,227,0.72);
       --line: rgba(244,239,227,0.10);
       --ring: #FFD23F;
     }
@@ -91,7 +86,7 @@
     background: var(--paper);
     color: var(--ink);
     font-family: var(--sans);
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -131,8 +126,8 @@
   .ext{ width: 12px; height: 12px; flex: none; transition: transform 150ms var(--ease); }
   a:hover .ext{ transform: translate(1px, -1px); }
   h1, h2, h3{
-    font-family: var(--serif);
-    font-variation-settings: "opsz" 144;
+    font-family: var(--sans);
+    letter-spacing: -0.035em;
     margin: 0;
     text-wrap: balance;
   }
@@ -191,14 +186,14 @@
   .hero-copy{ position: relative; z-index: 1; }
   .m .hero-copy > *{ opacity: 0; }
   .hero h1{
-    font-family: "Fraunces", "Fraunces Display", Georgia, serif;
     font-size: clamp(48px, 5.4vw, 80px);
     line-height: 0.98;
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.045em;
   }
   .hero h1 .ln{ display: block; }
-  .hero h1 em{ font-style: italic; font-weight: 400; letter-spacing: -0.015em; }
+  .hero h1 em{ font-style: normal; color: #1A1407; padding: 0 6px; margin: 0 -6px; background: url(/media/marker-3.webp) 0 62% / 100% 92% no-repeat; }
+  .m .hero h1 em{ background-size: 0% 92%; }
   .hero .lede{ margin-top: 28px; max-width: 34ch; }
   .proof{
     display: flex;
@@ -244,7 +239,7 @@
     padding-bottom: 10px;
     border-bottom: 3px double rgba(26,20,7,0.72);
   }
-  .mast b{ font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .mast b{ font-family: var(--sans); font-size: 20px; font-weight: 700; letter-spacing: -0.03em; }
   .mast span, .lines .o{
     font-size: 11px;
     font-weight: 600;
@@ -256,16 +251,16 @@
   .lines{ position: relative; z-index: 1; list-style: none; margin: 0; padding: 0; }
   .lines li{
     display: grid;
-    grid-template-columns: 108px minmax(0, 1fr);
+    grid-template-columns: 136px minmax(0, 1fr);
     gap: 16px;
     align-items: baseline;
     padding: 7px 0;
     border-bottom: 1px solid rgba(26,20,7,0.09);
   }
   .lines li:last-child{ border-bottom: 0; }
-  .lines .o{ overflow: hidden; text-overflow: ellipsis; }
+  .lines .o{ white-space: normal; line-height: 1.35; }
   .lines .t{
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-size: 17px;
     line-height: 1.32;
     color: rgba(26,20,7,0.8);
@@ -289,7 +284,7 @@
     margin-left: -4px;
     background: #FFD23F;
     color: #1A1407;
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-size: 17px;
     line-height: 1.32;
     transform-origin: 0 0;
@@ -316,7 +311,7 @@
   .play .pz{ display: none; }
   .play.on .tri{ display: none; }
   .play.on .pz{ display: inline; }
-  .bh b{ display: block; font-family: var(--serif); font-size: 20px; font-weight: 600; line-height: 1.15; }
+  .bh b{ display: block; font-family: var(--sans); font-size: 19px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; }
   .bh span{ font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(244,239,227,0.6); }
   .wave{ display: flex; gap: 3px; align-items: center; height: 22px; margin-left: auto; }
   .wave i{ display: block; width: 3px; height: 100%; border-radius: 2px; background: #FFD23F; transform: scaleY(0.3); }
@@ -344,8 +339,8 @@
     transition: transform 400ms var(--ease);
   }
   .items li.now::before{ transform: none; }
-  .items .n{ font-family: var(--serif); font-size: 16px; line-height: 1.3; font-weight: 600; color: #FFD23F; font-variant-numeric: tabular-nums; }
-  .items .it{ font-family: var(--serif); font-size: 16px; line-height: 1.3; font-weight: 500; }
+  .items .n{ font-family: var(--sans); font-size: 16px; line-height: 1.3; font-weight: 600; color: #FFD23F; font-variant-numeric: tabular-nums; }
+  .items .it{ font-family: var(--sans); font-size: 16px; line-height: 1.3; font-weight: 500; }
   .items .im{ grid-column: 2; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(244,239,227,0.56); }
 
   /* Below the fold, each product repeats the act: a real line is marked, then made into the product */
@@ -361,18 +356,18 @@
     color: var(--ink-3);
   }
   .src .hl, .tally .hl{
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-size: 19px;
     line-height: 1.4;
     color: #1A1407;
-    padding: 0 4px;
+    padding: 0.12em 5px;
     margin: 0 -4px;
-    background: url(/media/marker-2.webp) 0 55% / 100% 100% no-repeat;
+    background: url(/media/marker-2.webp) 0 50% / 100% 128% no-repeat, linear-gradient(#FFD23F, #FFD23F) 0 50% / 100% 78% no-repeat;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
-  .m .src .hl, .m .tally .hl{ color: var(--ink); background-size: 0% 100%; }
-  .tally .hl{ font-size: inherit; line-height: inherit; background-position: 0 60%; }
+  .m .src .hl, .m .tally .hl{ color: var(--ink); background-size: 0% 128%, 0% 78%; }
+  .tally .hl{ font-size: inherit; line-height: inherit; }
   .tally .hl b{ color: inherit; }
   .cov{ display: flex; gap: 3px; height: 6px; margin-top: 14px; }
   .cov i{ display: block; border-radius: 3px; background: #FFD23F; transform-origin: 0 50%; }
@@ -619,7 +614,7 @@
     padding-top: 32px;
     border-top: 1px solid var(--line);
     max-width: 28ch;
-    font-family: var(--serif);
+    font-family: var(--sans);
     font-size: clamp(28px, 3.2vw, 40px);
     line-height: 1.3;
     letter-spacing: -0.01em;
@@ -857,17 +852,12 @@
       pool.sort(function(a, b){ return a.t.length - b.t.length; });
       t.line = pool[0] || { o: t.outlet_count + ' outlets', t: clean(t.topic) };
     });
-    // The rest of the page: other front-page headlines, taken in turn from each story
-    var seen = {}, groups = [];
-    picks.forEach(function(t){ seen[t.line.t] = 1; });
-    topics.forEach(function(t){
-      groups.push((t.outlets || []).map(function(o){ return { o: o.outlet, t: clean(o.headline) }; }));
+    // The rest of the page: the day's other stories, one headline each (no near-duplicates)
+    var rest = also.filter(function(t){ return picks.indexOf(t) < 0; }).map(function(t){
+      var o = (t.outlets || [])[0];
+      return o && o.headline ? { o: o.outlet, t: clean(o.headline) } : { o: t.outlet_count + ' outlets', t: clean(t.topic) };
     });
-    groups.push(also.filter(function(t){ return picks.indexOf(t) < 0; }).map(function(t){ return { o: t.outlet_count + ' outlets', t: clean(t.topic) }; }));
-    var rest = [];
-    for (var i = 0; rest.length < 16 && i < 20; i++){
-      groups.forEach(function(g){ var h = g[i]; if (h && h.t && !seen[h.t]){ seen[h.t] = 1; rest.push(h); } });
-    }
+    topics.forEach(function(t){ if (picks.indexOf(t) < 0 && t.outlets && t.outlets[0]) rest.push({ o: t.outlets[0].outlet, t: clean(t.outlets[0].headline) }); });
     var lines = rest.slice(0, 4);
     [0, 2, 4].forEach(function(at, k){ if (picks[k]) lines.splice(at, 0, Object.assign({ pick: k }, picks[k].line)); });
     var vote = also.filter(function(t){ return picks.indexOf(t) < 0 && /\b(senate|governor|ballot|election|race|measure|runoff|mayor|primary)\b/i.test(t.topic); })[0];
@@ -1003,6 +993,7 @@ document.addEventListener('DOMContentLoaded', function(){
     root.classList.remove('m');
 
     gsap.to(kids, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 0.06, delay: 0.05 });
+    gsap.fromTo('.hero h1 em', { backgroundSize: '0% 92%' }, { backgroundSize: '100% 92%', duration: 0.5, ease: 'power2.inOut', delay: 0.3 });
     // The demo runs when the page is in view: at once on a laptop, on the first scroll on a phone
     var tl = gsap.timeline({ paused: true, onComplete: function(){ desk.style.minHeight = ''; } }), done = {};
     ScrollTrigger.create({ trigger: desk, start: 'top 75%', once: true, onEnter: function(){ tl.play(); } });
@@ -1015,7 +1006,7 @@ document.addEventListener('DOMContentLoaded', function(){
       t += swipe;
       done[m.k] = t;
     });
-    tl.to($$('.lines li:not(.pick)'), { opacity: 0.36, duration: 0.6, ease: 'power1.out' }, done[0] + 0.2)
+    tl.to($$('.lines li:not(.pick)'), { opacity: 0.55, duration: 0.6, ease: 'power1.out' }, done[0] + 0.2)
       .to(brief, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'expo.out' }, done[0] - 0.1);
 
     // Each marked line lifts off the page and lands, word for word, as a story in the briefing
@@ -1076,8 +1067,8 @@ document.addEventListener('DOMContentLoaded', function(){
     // Each product: its real line is marked, then the product rises from it
     $$('.src').forEach(function(s){
       var cell = s.closest('.cell'), hl = $('.hl', s), shot = $('.shot', cell), cov = $$('.cov i', cell);
-      var t = gsap.timeline({ scrollTrigger: once(cell, 'top 78%') });
-      t.fromTo(hl, { backgroundSize: '0% 100%' }, { backgroundSize: '100% 100%', color: '#1A1407', duration: 0.75, ease: 'power1.inOut' })
+      var t = gsap.timeline({ scrollTrigger: once(cell, 'top 96%') });
+      t.fromTo(hl, { backgroundSize: '0% 128%, 0% 78%' }, { backgroundSize: '100% 128%, 100% 78%', color: '#1A1407', duration: 0.75, ease: 'power1.inOut' })
         .from(shot, { autoAlpha: 0, y: 32, scale: 0.97, duration: 0.9, ease: 'expo.out' }, 0.2)
         .from($$('.body > *:not(.src)', cell), { y: 10, autoAlpha: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 }, 0.45);
       if (cov.length) t.from(cov, { scaleX: 0, duration: 0.6, ease: 'expo.out', stagger: 0.12 }, '-=0.5');
@@ -1086,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // The tally: its last line is marked, the same act as the hero
     var th = $('.tally .hl');
-    if (th) gsap.fromTo(th, { backgroundSize: '0% 100%' }, { backgroundSize: '100% 100%', color: '#1A1407', duration: 0.8, ease: 'power1.inOut', scrollTrigger: once('.tally', 'top 75%') });
+    if (th) gsap.fromTo(th, { backgroundSize: '0% 128%, 0% 78%' }, { backgroundSize: '100% 128%, 100% 78%', color: '#1A1407', duration: 0.8, ease: 'power1.inOut', scrollTrigger: once('.tally', 'top 75%') });
     $$('.letter p').forEach(function(p){
       SplitText.create(p, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: function(sp){
         return gsap.from(sp.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.07, scrollTrigger: once(p, 'top 94%') });
