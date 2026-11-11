@@ -380,6 +380,7 @@
   addEventListener('resize', measure);
   board.addEventListener('pointerleave', function(){ on = false; });
   board.addEventListener('pointermove', function(e){
+    if (e.pointerType !== 'mouse') return;
     var r = board.getBoundingClientRect();
     tx = e.clientX - r.left; ty = e.clientY - r.top;
     if (!on){ x = tx; y = ty; on = true; }
