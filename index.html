@@ -193,7 +193,7 @@
   }
   .index a{
     display: grid;
-    grid-template-columns: 144px 1fr;
+    grid-template-columns: 72px 1fr;
     align-items: center;
     gap: 20px;
     padding: 20px 24px;
@@ -202,15 +202,7 @@
   .index a:first-child{ padding-left: 0; }
   .index a:last-child{ padding-right: 0; }
   .index a + a{ border-left: 1px solid var(--line); }
-  .index picture{
-    display: block;
-    height: 88px;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #FFFDF1;
-    box-shadow: inset 0 0 0 1px var(--line);
-  }
-  .index img{ display: block; width: 100%; height: 100%; object-fit: cover; }
+  .index svg{ display: block; width: 72px; height: 72px; }
   .index b{
     display: block;
     font-family: var(--serif);
@@ -425,7 +417,7 @@
   .shot-artifact{ background: #F5F2EA; }
   .shot-artifact img{ object-fit: contain; object-position: left center; padding: 32px; }
   @media (prefers-color-scheme: dark){
-    .shot-daystart, .index picture{ background: #15110D; }
+    .shot-daystart{ background: #15110D; }
     .shot-ballot{ background: #131313; }
     .shot-artifact{ background: #111111; }
     .shot-ballot img{ mix-blend-mode: normal; }
@@ -559,8 +551,8 @@
     .engraving{ margin: 32px 0; }
     .hero .lede{ margin-top: 24px; }
     .index{ grid-template-columns: 1fr; }
-    .index a, .index a:first-child, .index a:last-child{ padding: 16px 0; grid-template-columns: 112px 1fr; }
-    .index picture{ height: 72px; }
+    .index a, .index a:first-child, .index a:last-child{ padding: 16px 0; grid-template-columns: 56px 1fr; }
+    .index svg{ width: 56px; height: 56px; }
     .index a + a{ border-left: 0; border-top: 1px solid var(--line); }
     .hero h1{ font-size: 52px; }
     .lede{ font-size: 16px; }
@@ -630,9 +622,9 @@
           <canvas></canvas>
         </div>
         <nav class="index" aria-label="Products">
-          <a href="#daystart"><picture><source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" /><img src="/media/daystart-ready-light.webp" alt="" style="object-position:50% 60%" loading="lazy" decoding="async" /></picture><span><b>DayStart</b><span>My personal briefing</span></span></a>
-          <a href="#plain-ballot"><picture><source srcset="/media/plain-ballot-row-dark.webp" media="(prefers-color-scheme: dark)" /><img src="/media/plain-ballot-row-light.webp" alt="" style="object-position:0 40%" loading="lazy" decoding="async" /></picture><span><b>Plain Ballot</b><span>My personal ballot</span></span></a>
-          <a href="#artifact-news"><picture><source srcset="/media/artifact-news-headline-dark.webp" media="(prefers-color-scheme: dark)" /><img src="/media/artifact-news-headline-light.webp" alt="" style="object-position:0 50%" loading="lazy" decoding="async" /></picture><span><b>Artifact News</b><span>The day’s news, in one piece</span></span></a>
+          <a href="#daystart"><svg viewBox="0 0 72 72" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1"><circle cx="36" cy="36" r="34" opacity=".35"/><circle cx="36" cy="36" r="29" opacity=".55"/><circle cx="36" cy="36" r="24"/></g><circle cx="36" cy="36" r="19" fill="var(--banana)" stroke="currentColor" stroke-width="1.5"/><path d="M31 27.5 45 36 31 44.5z" fill="#1A1407"/></svg><span><b>DayStart</b><span>My personal briefing</span></span></a>
+          <a href="#plain-ballot"><svg viewBox="0 0 72 72" aria-hidden="true"><rect x="9" y="5" width="54" height="62" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><g fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="21" cy="22" rx="6" ry="4"/><ellipse cx="21" cy="50" rx="6" ry="4"/></g><ellipse cx="21" cy="36" rx="6" ry="4" fill="var(--banana)" stroke="currentColor" stroke-width="1.5"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M33 22h22M33 36h22M33 50h22"/></g></svg><span><b>Plain Ballot</b><span>My personal ballot</span></span></a>
+          <a href="#artifact-news"><svg viewBox="0 0 72 72" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 66h60" stroke-linecap="round"/><rect x="11" y="40" width="11" height="26"/><rect x="30.500" y="26" width="11" height="40"/></g><rect x="50" y="8" width="11" height="58" fill="var(--banana)" stroke="currentColor" stroke-width="1.5"/><g stroke="currentColor" stroke-width="1" opacity=".6"><path d="M11 46h11M11 52h11M11 58h11M30.500 32h11M30.500 38h11M30.500 44h11M30.500 50h11M30.500 56h11"/></g></svg><span><b>Artifact News</b><span>The day’s news, in one piece</span></span></a>
         </nav>
       </section>
 
