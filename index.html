@@ -204,8 +204,33 @@
     .wall > :nth-child(5){ grid-column: 5 / 7; margin-top: 32px; }
     .wall > :nth-child(6){ grid-column: 7 / 9; margin-top: -24px; }
   }
-  .pc{ display: block; text-decoration: none; transition: transform 200ms var(--ease); }
-  .pc .sheet{ display: block; transition: box-shadow 200ms var(--ease); }
+  /* Every sheet can be taken down and moved: by its tape on touch, from anywhere with a mouse.
+     Only the paper moves; its wall label stays where it was hung. The sheet hangs from its tape,
+     so it turns around that point while it travels. */
+  .pc{ position: relative; display: block; text-decoration: none; -webkit-user-select: none; user-select: none; }
+  .pc .sheet{
+    transform: translate(var(--x, 0px), calc(var(--y, 0px) + var(--hy, 0px))) rotate(var(--r, 0deg)) scale(var(--s, 1));
+    transform-origin: var(--tl, 50%) 0;
+    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+  }
+  .pc img{ -webkit-user-drag: none; }
+  .pc.held .sheet, .pc.live .sheet{ transition: box-shadow 200ms var(--ease); }
+  .pc.held{ --s: 1.025; cursor: grabbing; }
+  .pc.held .sheet{ box-shadow: var(--edge), calc(var(--dx, 0px) * 1.5) 32px 44px -14px var(--shade-lift); }
+  /* The tape is the handle. A 44 px grip around the strip, and the far end lifts off the wall
+     when a mouse is over it or the sheet is held. */
+  .tape.grip{ pointer-events: auto; touch-action: none; -webkit-touch-callout: none; cursor: grab; }
+  .tape.grip::after{ content: ""; position: absolute; inset: -11px -8px; }
+  .held .tape.grip{ background: linear-gradient(100deg, var(--tape) 0 70%, rgba(255,238,176,0.96) 80%, rgba(201,152,18,0.95) 100%); }
+  .held .tape.grip{ transform: rotate(var(--tilt, -2deg)) translateY(-2px) scale(1.06, 1.12); }
+  /* Re-stuck sheets get more tape every time, never quite trusting the last strip */
+  .tape.more{ pointer-events: none; animation: slap 220ms var(--ease) both; }
+  @keyframes slap{
+    from{ transform: rotate(var(--tilt)) scale(1.35); opacity: 0; }
+    50%{ opacity: 1; }
+    to{ transform: rotate(var(--tilt)) scale(1); }
+  }
+  .pc .sheet{ display: block; }
   .pc img{ display: block; width: 100%; height: auto; }
   /* The wall label: number, name, one line */
   .pc .tag{ display: flex; align-items: flex-start; gap: 12px; margin-top: 16px; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-2); max-width: 30em; }
@@ -218,7 +243,9 @@
     font-variant-numeric: tabular-nums; line-height: 1;
   }
   @media (hover: hover){
-    .pc:hover{ transform: translateY(-2px); }
+    .pc:hover{ --hy: -2px; }
+    .wall .pc{ cursor: grab; }
+    .pc:hover .tape.grip{ background: linear-gradient(100deg, var(--tape) 0 70%, rgba(255,238,176,0.96) 80%, rgba(201,152,18,0.95) 100%); }
     .pc:hover .sheet{ box-shadow: var(--edge), var(--dx, 0px) calc(var(--dy, 16px) + 6px) 32px -12px var(--shade-lift); }
   }
   .pc:focus-visible{ outline: none; }
@@ -287,7 +314,8 @@
 
   @media (prefers-reduced-motion: reduce){
     .pc, .pc .sheet, .u, .btn, .ext{ transition: none; }
-    .pc:hover{ transform: none; }
+    .pc:hover{ --hy: 0px; }
+    .tape.more{ animation: none; }
     .btn:active{ transform: none; }
   }
 </style>
@@ -316,12 +344,12 @@
         <!-- The pinned work, numbered in reading order. Every image is a real screen from the live
              app: one lead, one mid-size screen, and the rest at half the lead. -->
         <div class="wall">
-          <a class="pc lead" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:-1deg" aria-hidden="true"></span><img src="/media/wall/w-an-lead.webp" width="1200" height="813" alt="" decoding="async" /></span><span class="tag"><span class="no">1</span><span><b>Artifact News</b><span class="sr"> (opens in a new tab)</span><span class="line">The day’s news as one interactive piece. Every number has a source.</span></span></span></a>
-          <a class="pc" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:2deg" aria-hidden="true"></span><img src="/media/wall/w-ds-m.webp" width="560" height="582" alt="" decoding="async" /></span><span class="tag"><span class="no">2</span><span><b>DayStart</b><span class="sr"> (opens in a new tab)</span><span class="line">A five-minute morning show, ready by 7. On the App Store.</span></span></span></a>
-          <a class="pc" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:-2.5deg" aria-hidden="true"></span><img src="/media/wall/w-pb-m.webp" width="560" height="718" alt="" decoding="async" /></span><span class="tag"><span class="no">3</span><span><b>Plain Ballot</b><span class="sr"> (opens in a new tab)</span><span class="line">Every candidate quoted exactly, with a link to the source.</span></span></span></a>
-          <a class="pc mid" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:1.5deg" aria-hidden="true"></span><img src="/media/wall/w-sp.webp" width="880" height="528" alt="" decoding="async" /></span><span class="tag"><span class="no">4</span><span><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span><span class="line">Tells you when an app you run on Vercel breaks.</span></span></span></a>
-          <a class="pc" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-mh.webp" width="560" height="467" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>My Happenings</b><span class="sr"> (opens in a new tab)</span><span class="line">The news as a short show to hear or read. In beta.</span></span></span></a>
-          <a class="pc" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tl:70%;--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="682" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Politicians by Jev</b><span class="sr"> (opens in a new tab)</span><span class="line">Ask about 100 famous politicians.</span></span></span></a>
+          <a class="pc lead" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1deg" aria-hidden="true"></span><img src="/media/wall/w-an-lead.webp" width="1200" height="813" alt="" decoding="async" /></span><span class="tag"><span class="no">1</span><span><b>Artifact News</b><span class="sr"> (opens in a new tab)</span><span class="line">The day’s news as one interactive piece. Every number has a source.</span></span></span></a>
+          <a class="pc" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:2deg" aria-hidden="true"></span><img src="/media/wall/w-ds-m.webp" width="560" height="582" alt="" decoding="async" /></span><span class="tag"><span class="no">2</span><span><b>DayStart</b><span class="sr"> (opens in a new tab)</span><span class="line">A five-minute morning show, ready by 7. On the App Store.</span></span></span></a>
+          <a class="pc" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-2.5deg" aria-hidden="true"></span><img src="/media/wall/w-pb-m.webp" width="560" height="718" alt="" decoding="async" /></span><span class="tag"><span class="no">3</span><span><b>Plain Ballot</b><span class="sr"> (opens in a new tab)</span><span class="line">Every candidate quoted exactly, with a link to the source.</span></span></span></a>
+          <a class="pc mid" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:1.5deg" aria-hidden="true"></span><img src="/media/wall/w-sp.webp" width="880" height="528" alt="" decoding="async" /></span><span class="tag"><span class="no">4</span><span><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span><span class="line">Tells you when an app you run on Vercel breaks.</span></span></span></a>
+          <a class="pc" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-mh.webp" width="560" height="467" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>My Happenings</b><span class="sr"> (opens in a new tab)</span><span class="line">The news as a short show to hear or read. In beta.</span></span></span></a>
+          <a class="pc" style="--tl:70%" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="682" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Politicians by Jev</b><span class="sr"> (opens in a new tab)</span><span class="line">Ask about 100 famous politicians.</span></span></span></a>
         </div>
       </div>
     </div>
@@ -348,41 +376,149 @@
   </div>
 
 <script>
-// The pointer is the work lamp. Each pinned sheet's shadow swings away from it, lerped so the
-// light has a little mass. Fine pointers only, never under Reduce Motion; otherwise the
-// shadows fall straight down.
+// The wall. Two things live here: the work lamp (the pointer lights the wall and each sheet's
+// shadow swings away from it) and moving the work around (pick a sheet up, carry it, stick it
+// back with one more strip of tape). Positions are not saved; a reload hangs everything back.
 (function(){
   var board = document.getElementById('board');
-  if (!board) return;
-  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var sheets = [].slice.call(board.querySelectorAll('.sheet')), spots = [];
-  var tx = 0, ty = 0, x = 0, y = 0, raf = 0, on = false;
-  function measure(){
-    var b = board.getBoundingClientRect();
-    spots = sheets.map(function(el){
-      var r = el.getBoundingClientRect();
-      return { el: el, cx: r.left - b.left + r.width / 2, cy: r.top - b.top + r.height / 2 };
-    });
-  }
+  var wall = board && board.querySelector('.wall');
+  if (!wall) return;
+  var still = matchMedia('(prefers-reduced-motion: reduce)');
+  var pcs = [].slice.call(wall.querySelectorAll('.pc'));
   function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
-  function tick(){
-    x += (tx - x) * 0.12; y += (ty - y) * 0.12;
-    spots.forEach(function(s){
-      s.el.style.setProperty('--dx', clamp((s.cx - x) / 12, -32, 32).toFixed(1) + 'px');
-      s.el.style.setProperty('--dy', clamp(16 + (s.cy - y) / 14, 0, 40).toFixed(1) + 'px');
+
+  // The lamp: fine pointers only, never under Reduce Motion
+  var measure = function(){};
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !still.matches){
+    var spots = [], tx = 0, ty = 0, lx = 0, ly = 0, lraf = 0, on = false;
+    measure = function(){
+      var b = board.getBoundingClientRect();
+      spots = pcs.map(function(pc){
+        var el = pc.querySelector('.sheet'), r = el.getBoundingClientRect();
+        return { el: el, cx: r.left - b.left + r.width / 2, cy: r.top - b.top + r.height / 2 };
+      });
+    };
+    var light = function(){
+      lx += (tx - lx) * 0.12; ly += (ty - ly) * 0.12;
+      spots.forEach(function(s){
+        s.el.style.setProperty('--dx', clamp((s.cx - lx) / 12, -32, 32).toFixed(1) + 'px');
+        s.el.style.setProperty('--dy', clamp(16 + (s.cy - ly) / 14, 0, 40).toFixed(1) + 'px');
+      });
+      lraf = (Math.abs(tx - lx) > 0.5 || Math.abs(ty - ly) > 0.5) ? requestAnimationFrame(light) : 0;
+    };
+    measure();
+    board.addEventListener('pointerleave', function(){ on = false; });
+    board.addEventListener('pointermove', function(e){
+      if (e.pointerType !== 'mouse') return;
+      var r = board.getBoundingClientRect();
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      if (!on){ lx = tx; ly = ty; on = true; }
+      if (!lraf) lraf = requestAnimationFrame(light);
     });
-    raf = (Math.abs(tx - x) > 0.5 || Math.abs(ty - y) > 0.5) ? requestAnimationFrame(tick) : 0;
   }
-  measure();
-  addEventListener('resize', measure);
-  board.addEventListener('pointerleave', function(){ on = false; });
-  board.addEventListener('pointermove', function(e){
-    if (e.pointerType !== 'mouse') return;
-    var r = board.getBoundingClientRect();
-    tx = e.clientX - r.left; ty = e.clientY - r.top;
-    if (!on){ x = tx; y = ty; on = true; }
-    if (!raf) raf = requestAnimationFrame(tick);
+
+  // Where extra tape goes, in the order a nervous person would add it
+  var SPOTS = [
+    'left:100%;top:-2px;--tilt:38deg', 'left:0;top:-2px;--tilt:-38deg',
+    'left:0;top:auto;bottom:-6px;--tilt:36deg', 'left:100%;top:auto;bottom:-6px;--tilt:-36deg',
+    'left:24%;--tilt:-7deg', 'left:76%;--tilt:6deg'
+  ];
+  var z = 10, held = null, raf = 0;
+  function place(pc){
+    pc.style.setProperty('--x', pc.x.toFixed(1) + 'px');
+    pc.style.setProperty('--y', pc.y.toFixed(1) + 'px');
+    pc.style.setProperty('--r', pc.r.toFixed(2) + 'deg');
+  }
+  pcs.forEach(function(pc){ pc.x = 0; pc.y = 0; pc.r = 0; pc.v = 0; pc.tapes = 0; });
+
+  // Carrying: the sheet trails the pointer, turning on its tape. Letting go: it swings and settles.
+  function frame(){
+    raf = 0;
+    var busy = false;
+    pcs.forEach(function(pc){
+      if (pc === (held && held.pc)){
+        var want = still.matches ? 0 : clamp(held.vx * 0.9, -10, 10);
+        held.vx *= 0.8;
+        pc.r += (want - pc.r) * 0.25;
+        busy = true;
+      } else if (pc.swing){
+        pc.v += (pc.rest - pc.r) * 0.1; pc.v *= 0.84; pc.r += pc.v;
+        if (Math.abs(pc.v) < 0.01 && Math.abs(pc.rest - pc.r) < 0.02){
+          pc.r = pc.rest; pc.swing = false; pc.classList.remove('live'); measure();
+        } else busy = true;
+      } else return;
+      place(pc);
+    });
+    if (busy) raf = requestAnimationFrame(frame);
+  }
+  function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
+
+  wall.addEventListener('dragstart', function(e){ e.preventDefault(); });
+  wall.addEventListener('pointerdown', function(e){
+    if (held || e.button !== 0) return;
+    var pc = e.target.closest('.pc');
+    if (!pc) return;
+    var byTape = e.target.classList.contains('grip');
+    // On touch the tape is the only handle, so the rest of the sheet still scrolls the page
+    if (e.pointerType !== 'mouse' && !byTape) return;
+    var b = board.getBoundingClientRect(), r = pc.querySelector('.sheet').getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    held = { pc: pc, id: e.pointerId, sx: e.clientX, sy: e.clientY, x0: pc.x, y0: pc.y, lx: e.clientX,
+      vx: 0, moved: false, slop: e.pointerType === 'mouse' ? 6 : 3,
+      // Keep the middle of the sheet on the wall
+      lo: { x: b.left + 24 - cx, y: b.top + 24 - cy }, hi: { x: b.right - 24 - cx, y: b.bottom - 24 - cy } };
+  });
+  document.addEventListener('pointermove', function(e){
+    if (!held || e.pointerId !== held.id) return;
+    var dx = e.clientX - held.sx, dy = e.clientY - held.sy, pc = held.pc;
+    if (!held.moved){
+      if (Math.abs(dx) < held.slop && Math.abs(dy) < held.slop) return;
+      held.moved = true;
+      pc.swing = false;
+      pc.classList.add('held');
+      pc.querySelector('.sheet').style.zIndex = ++z;
+    }
+    e.preventDefault();
+    pc.x = held.x0 + clamp(dx, held.lo.x, held.hi.x);
+    pc.y = held.y0 + clamp(dy, held.lo.y, held.hi.y);
+    held.vx = held.vx * 0.5 + (e.clientX - held.lx) * 0.5;
+    held.lx = e.clientX;
+    place(pc); kick();
+  }, { passive: false });
+  function drop(e){
+    if (!held || e.pointerId !== held.id) return;
+    var pc = held.pc, moved = held.moved;
+    held = null;
+    if (!moved) return;
+    pc.classList.remove('held');
+    pc.dropped = performance.now();
+    // Stick it back: a new resting lean, and one more strip of tape
+    pc.rest = still.matches ? 0 : (Math.random() * 2.4 - 1.2);
+    if (still.matches){ pc.r = 0; place(pc); measure(); }
+    else { pc.swing = true; pc.classList.add('live'); kick(); }
+    if (pc.tapes < SPOTS.length){
+      var t = document.createElement('span');
+      t.className = 'tape more';
+      t.setAttribute('aria-hidden', 'true');
+      t.setAttribute('style', SPOTS[pc.tapes++]);
+      pc.querySelector('.sheet').appendChild(t);
+    }
+  }
+  document.addEventListener('pointerup', drop);
+  document.addEventListener('pointercancel', drop);
+  // A drag is not a click: don't open the app after moving its sheet
+  wall.addEventListener('click', function(e){
+    var pc = e.target.closest('.pc');
+    if (pc && pc.dropped && performance.now() - pc.dropped < 500){ e.preventDefault(); e.stopPropagation(); }
+  }, true);
+  // A new width is a new layout: hang everything back where it was
+  var w = innerWidth;
+  addEventListener('resize', function(){
+    if (innerWidth !== w){
+      w = innerWidth;
+      pcs.forEach(function(pc){ pc.x = pc.y = pc.r = pc.v = 0; pc.swing = false; place(pc); });
+    }
+    measure();
   });
 })();
 </script>
