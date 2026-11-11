@@ -18,7 +18,7 @@ These two lists go at the very end of the response, in that order. Skip them onl
 
 ## Project: bananaintelligence.ai
 
-Static single-page site for Banana Intelligence, Nate Peace's studio for personal media and tools. Shows the public lineup (DayStart, Plain Ballot, and Artifact News live, My Happenings coming soon), the studio note, and a contact email. No framework, no build step, no bundler. Deployed on Vercel from `main`.
+Static single-page site for Banana Intelligence, Nate Peace's studio for personal media and tools. An app studio page: the hero, a wall of real screens from every public app, one card per app (icon, one line, one real proof point, an honest status), the studio note, and a contact email. No framework, no build step, no bundler. Deployed on Vercel from `main`.
 
 ### Files that matter
 
@@ -26,7 +26,7 @@ Static single-page site for Banana Intelligence, Nate Peace's studio for persona
 - `og.png` — 1200x630 social preview image, referenced from the meta tags
 - `404.html` — branded not-found page (Vercel serves it automatically)
 - `icon.svg`, `favicon.ico`, `apple-touch-icon.png`, `icon-512.png` — favicon set from the BI monogram
-- `media/` — real product screens (light and dark) used in the product rows
+- `media/wall/` — real screens (light and dark) for the scrolling wall under the hero; `media/apps/` — each app's icon for its card. Fresh captures of the live sites plus DayStart iPhone screens; never mockups
 - `robots.txt`, `sitemap.xml` — at the repo root
 - No `package.json`, no `node_modules`, no build configuration
 
@@ -35,16 +35,16 @@ Static single-page site for Banana Intelligence, Nate Peace's studio for persona
 Follows the `taste` skill's house standard (Banana Intelligence row). Refreshed 2026-10-26.
 
 - **Voice:** Nate's voice (`nate-speak`): calm, specific, no hype, no em dashes, no exclamation marks. The motto is "Excellence. For everyone." (Nate, 2026-11-02; replaces the Oct 26 "What was once exclusive to the elites" line)
-- **Type:** Fraunces upright for headings (optical size pinned to 144), Hanken Grotesk for everything else. Two families only.
+- **Type:** Hanken Grotesk only, headings included (sans since 2026-11-11). No serif.
 - **Palette:** banana `#FFD23F` as the one accent (shared with DayStart). Warm off-white paper `#FBF8F0` and ink `#1A1407` in light; `#12100B` and `#F4EFE3` in dark.
-- **Signature:** no ornament in the hero. The motto stands alone and the first thing below it is the real DayStart ready screen. That screen carries the only reactive light on the page: a banana glow that follows the pointer on fine pointers, off under Reduce Motion and on touch. (Nate, 2026-11-11: "Redesign or replace the card." The yellow "EVERYONE" card was replaced, because a static card read as a placeholder and put a second banana mass next to the product.)
-- **Lineup:** only DayStart, Plain Ballot, Artifact News, and My Happenings are public. Don't name unannounced projects anywhere (copy, metadata, alt text, comments, sitemap). SupportGrid is a separate company and stays off.
+- **Signature:** the wall. Three rows of real product screens under the hero, drifting slowly in opposite directions (like Nate's X banner), pausing on hover and focus, a static grid under Reduce Motion. (Nate, 2026-11-11: "let's overwhelm them with what we're building." It replaced the DayStart ready-screen card and its pointer light.)
+- **Lineup (2026-11-11, app studio):** DayStart, Plain Ballot, Artifact News, Spooky Particles (Live), My Happenings (Beta), Politicians by Jev (Paused). natepeace.com may appear on the wall as Nate's site. The hero's "N apps live" counts every app not paused; keep it true when a status changes. Don't name unannounced or private projects anywhere (copy, metadata, alt text, comments, sitemap), and nothing about trading. SupportGrid is a separate company and stays off.
 
 ### Don't change without intent
 
-- The palette, the two font families, and the one-accent rule
+- The palette, the one font family, and the one-accent rule
 - The single-file structure (`index.html` holds CSS + JS inline on purpose)
-- The public lineup above
+- The public lineup above, and the real-screens-only rule for the wall
 - The `daystart/` folder and its `vercel.json` routing (serves daystart.bananaintelligence.ai)
 
 ### Deployment

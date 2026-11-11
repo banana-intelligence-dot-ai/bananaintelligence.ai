@@ -4,14 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Banana Intelligence</title>
-<meta name="description" content="Banana Intelligence is Nate Peace’s studio. We make personal media and tools, like DayStart and Plain Ballot, built to one standard: excellence, for everyone." />
+<meta name="description" content="Banana Intelligence is Nate Peace’s app studio. We build small apps that make your day easier, like DayStart, Plain Ballot and Artifact News." />
 <meta name="color-scheme" content="light dark" />
 <meta name="theme-color" content="#FBF8F0" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#12100B" media="(prefers-color-scheme: dark)" />
 <link rel="canonical" href="https://bananaintelligence.ai/" />
 <meta property="og:site_name" content="Banana Intelligence" />
 <meta property="og:title" content="Banana Intelligence" />
-<meta property="og:description" content="Excellence. For everyone. Personal media and tools from Nate Peace’s studio." />
+<meta property="og:description" content="We build small apps that make your day easier. An app studio from Nate Peace." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://bananaintelligence.ai/" />
 <meta property="og:image" content="https://bananaintelligence.ai/og-2026-11.png" />
@@ -20,7 +20,7 @@
 <meta property="og:image:alt" content="Banana Intelligence: Excellence. For everyone. Beside the line, the DayStart app’s ready screen." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Banana Intelligence" />
-<meta name="twitter:description" content="Excellence. For everyone. Personal media and tools from Nate Peace’s studio." />
+<meta name="twitter:description" content="We build small apps that make your day easier. An app studio from Nate Peace." />
 <meta name="twitter:image" content="https://bananaintelligence.ai/og-2026-11.png" />
 <link rel="icon" href="/favicon.ico" sizes="32x32" />
 <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -45,7 +45,7 @@
   "legalName": "Banana Intelligence, LLC",
   "url": "https://bananaintelligence.ai/",
   "logo": "https://bananaintelligence.ai/icon-512.png",
-  "description": "Nate Peace's studio for personal media and tools.",
+  "description": "Nate Peace's app studio. Small apps that make your day easier.",
   "email": "nate@bananaintelligence.ai",
   "founder": { "@type": "Person", "name": "Nate Peace", "url": "https://natepeace.com/" },
   "sameAs": [
@@ -169,30 +169,31 @@
   .top nav{ display: flex; gap: 32px; }
   .top nav a:hover{ color: var(--ink); }
 
-  /* Hero: the line on the left, the subline and one action set on its baseline at right.
-     No ornament: the first thing below it is the real product. */
-  .hero{
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: 64px;
-    align-items: end;
-    padding: 64px 0 0;
-  }
+  /* Hero: one line across the container, the subline and one action on a row below it.
+     The wall of real screens is the hero's lower half. */
+  .hero{ padding: 64px 0 0; }
   .hero h1{
-    font-size: 88px;
+    font-size: 80px;
     line-height: 1.02;
     font-weight: 600;
     letter-spacing: -0.045em;
+    max-width: 12.5em;
   }
-  .hero h1 span{ display: block; }
-  .intro{ padding-bottom: 12px; }
+  .intro{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px 48px;
+    margin-top: 32px;
+  }
   .lede{
     font-size: 18px;
     line-height: 1.6;
     color: var(--ink-2);
-    max-width: 46ch;
+    max-width: 44em;
   }
-  .asks{ margin-top: 32px; }
+  .lede strong{ font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
   .btn{
     display: inline-flex;
     align-items: center;
@@ -200,7 +201,6 @@
     min-height: 48px;
     padding: 0 24px;
     border-radius: 999px;
-    /* Ink, so DayStart’s play button stays the only banana mass up top */
     background: var(--ink);
     color: var(--paper);
     font-size: 16px;
@@ -213,6 +213,78 @@
   .btn:active{ transform: scale(0.97); }
   a.btn:focus-visible{ border-radius: 999px; }
 
+  /* The wall: three rows of real screens drifting in opposite directions.
+     Each row holds its tiles twice, so a -50% shift loops without a seam.
+     Pauses on hover and focus. A static grid under Reduce Motion. */
+  .wall{
+    --h: 208px;
+    --gap: 16px;
+    --r: 16px;
+    display: grid;
+    gap: var(--gap);
+    margin-top: 64px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 96px, #000 calc(100% - 96px), transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 96px, #000 calc(100% - 96px), transparent);
+  }
+  .row{ overflow: hidden; }
+  .track{
+    display: flex;
+    width: max-content;
+    animation: drift var(--dur, 110s) linear infinite;
+  }
+  .row:nth-child(2) .track{ --dur: 95s; animation-direction: reverse; }
+  .row:nth-child(3) .track{ --dur: 125s; }
+  .wall:hover .track,
+  .wall:focus-within .track{ animation-play-state: paused; }
+  @keyframes drift{ to{ transform: translate3d(-50%, 0, 0); } }
+  .set{ display: flex; gap: var(--gap); padding-right: var(--gap); }
+  .t{
+    position: relative;
+    flex: none;
+    display: block;
+    height: var(--h);
+    aspect-ratio: 16 / 10;
+    border-radius: var(--r);
+    overflow: hidden;
+    background: var(--line);
+    transition: transform 250ms var(--ease);
+  }
+  .t.p{ aspect-ratio: 7 / 10; }
+  .t img{ display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  /* Hairline drawn over the image, so light and dark screens both hold an edge */
+  .t::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--line);
+    pointer-events: none;
+    transition: box-shadow 150ms var(--ease);
+  }
+  /* The product's name, shown on hover or focus */
+  .t::before{
+    content: attr(data-name);
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    z-index: 1;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    box-shadow: 0 0 0 1px var(--line), 0 2px 8px rgba(26,20,7,0.12);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 150ms var(--ease), transform 150ms var(--ease);
+    pointer-events: none;
+  }
+  .t:hover::before, .t:focus-visible::before{ opacity: 1; transform: none; }
+  .t:hover::after{ box-shadow: inset 0 0 0 1px var(--ink-3); }
+  .t:focus-visible{ outline: 2px solid var(--ring); outline-offset: -2px; border-radius: var(--r); }
+
   /* Sections: 128 px apart on desktop, a hairline between */
   .lineup{ padding-top: 128px; }
   h2{
@@ -222,77 +294,71 @@
     letter-spacing: -0.025em;
   }
 
-  /* The lineup: an open hairline grid, no outer frame. Rules above and below, one
-     between cells; the outer edges of the screens and words sit on the page margins. */
-  .grid{
-    --inset: 32px;
+  /* The apps: every card has the same shape. Icon and status, name, one line,
+     one real proof point, the link. An open hairline grid, no outer frame. */
+  .apps{
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: 48px;
     border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
   }
-  .cell{
+  .app{
     position: relative;
     display: flex;
     flex-direction: column;
-    transition: background-color 150ms var(--ease);
-  }
-  .cell + .cell{ border-left: 1px solid var(--line); }
-  /* DayStart leads: one full-width row, screen on 7 columns, words on 5 */
-  .cell.lead{
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    align-items: center;
+    padding: 32px;
     border-bottom: 1px solid var(--line);
   }
-  .cell.lead .shot{ margin-bottom: var(--inset); }
-  .cell.lead .body{ padding: var(--inset) 0 var(--inset) 16px; }
-  .cell.lead h3{ font-size: 32px; }
-  .cell.lead p{ font-size: 18px; max-width: 34ch; hyphens: manual; }
-  .cell.lead .foot{ margin-top: 0; padding-top: 32px; justify-content: flex-start; gap: 0 24px; }
-  .cell.lead + .cell{ border-left: 0; }
-  /* Desktop: flush the outer edges to the page margins */
-  @media (min-width: 961px){
-    .cell.lead .shot,
-    .cell.lead + .cell .shot{ margin-left: 0; }
-    .cell.lead + .cell .body{ padding-left: 0; }
-    .cell.lead + .cell + .cell .shot{ margin-right: 0; }
-    .cell.lead + .cell + .cell .body{ padding-right: 0; }
+  .app:nth-child(3n+1){ padding-left: 0; }
+  .app:nth-child(3n){ padding-right: 0; }
+  .app:not(:nth-child(3n+1)){ border-left: 1px solid var(--line); }
+  .app .head{ display: flex; align-items: center; justify-content: space-between; }
+  .icon{
+    display: block;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    box-shadow: 0 0 0 1px var(--line);
   }
-  @media (hover: hover){
-    .cell:hover .go{ text-decoration-color: currentColor; }
-    .cell:hover .go .ext{ transform: translate(1px, -1px); }
+  .status{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink-2);
   }
-  .cell .body{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 24px var(--inset) var(--inset);
-  }
-  .cell h3{
+  .status::before{ content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--dot); }
+  .status.live{ --dot: #3C8F5E; }
+  .status.beta{ --dot: #B08300; }
+  .status.paused{ --dot: rgba(26,20,7,0.32); color: var(--ink-3); }
+  .app h3{
+    margin-top: 24px;
     font-size: 24px;
     line-height: 1.2;
     font-weight: 600;
     letter-spacing: -0.01em;
   }
-  .cell p{
-    margin-top: 8px;
-    font-size: 16px;
-    line-height: 1.55;
-    color: var(--ink-2);
+  .app p{ margin-top: 8px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+  .app .proof{
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
   }
   .foot{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
-    gap: 0 16px;
     margin-top: auto;
     padding-top: 16px;
     font-size: 14px;
-    color: var(--ink-3);
   }
   .go{
     display: inline-flex;
@@ -300,87 +366,18 @@
     gap: 4px;
     min-height: 44px;
   }
-  /* The whole cell is the click target; the link itself stays short for screen readers */
+  /* The whole card is the click target; the link itself stays short for screen readers */
   .go::after{ content: ""; position: absolute; inset: 0; }
-
-  .shot{
-    position: relative;
-    margin: var(--inset) var(--inset) 0;
-    aspect-ratio: 4 / 3;
-    border-radius: 8px;
-    overflow: hidden;
+  @media (hover: hover){
+    .app:hover .go{ text-decoration-color: currentColor; }
+    .app:hover .go .ext{ transform: translate(1px, -1px); }
   }
-  /* Hairline drawn inside, over the image, so it never shifts the crop */
-  .shot::before{
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px var(--line);
-    pointer-events: none;
-  }
-  .shot img{
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    object-position: top;
-  }
-  /* The two smaller screens: a wide crop, one focal moment each */
-  .cell:not(.lead) .shot{ aspect-ratio: 2 / 1; }
-  .shot-daystart{ background: #FFFDF1; --mx: 50%; --my: 40%; --light: 0; }
-  /* The one reactive light on the page: a banana glow that follows the pointer across DayStart's ready screen */
-  .glint{
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.24), rgba(255,210,63,0) 70%);
-    mix-blend-mode: multiply;
-    opacity: var(--light);
-    transition: opacity 200ms var(--ease);
-    pointer-events: none;
-  }
-  .shot-daystart img{ object-fit: contain; padding: 32px 32px 0; }
-  /* Plain Ballot: the race and one complete issue row, the note below it */
-  .shot-ballot{ background: #FFFDF1; }
-  .shot-ballot img{ object-fit: contain; object-position: left center; padding: 24px 24px 48px; mix-blend-mode: multiply; }
-  .shot .note{
-    position: absolute;
-    z-index: 1;
-    left: 24px;
-    bottom: 16px;
-    font-size: 12px;
-    color: var(--ink-3);
-  }
-  /* Artifact News: the headline alone, so nothing in the screen is smaller than 12 px */
-  .shot-artifact{ background: #F5F2EA; }
-  .shot-artifact img{ object-fit: contain; object-position: left center; padding: 32px; }
   @media (prefers-color-scheme: dark){
-    .shot-daystart{ background: #15110D; }
-    .glint{ mix-blend-mode: screen; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.12), rgba(255,210,63,0) 70%); }
-    .shot-ballot{ background: #131313; }
-    .shot-artifact{ background: #111111; }
-    .shot-ballot img{ mix-blend-mode: normal; }
+    .t::before{ box-shadow: 0 0 0 1px var(--line), 0 2px 8px rgba(0,0,0,0.4); }
+    .status.live{ --dot: #6CC08E; }
+    .status.beta{ --dot: #FFD23F; }
+    .status.paused{ --dot: rgba(244,239,227,0.36); }
   }
-
-  /* Coming soon: one quiet row closing the grid */
-  .soon{
-    grid-column: 1 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0 24px;
-    padding: 16px 0;
-    border-top: 1px solid var(--line);
-    font-size: 16px;
-    color: var(--ink-2);
-  }
-  .soon strong{ font-weight: 600; color: var(--ink); }
-  .soon .u{ display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
 
   /* How it works: the why as a lede, the how as three steps on a hairline row */
   .how{ padding-top: 128px; }
@@ -445,25 +442,15 @@
   /* Tablet */
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
-    .hero{ grid-template-columns: 1fr; gap: 24px; align-items: start; }
     .hero h1{ font-size: 64px; }
-    .intro{ padding-bottom: 0; }
-    .grid{ grid-template-columns: 1fr; }
+    .wall{ --h: 160px; }
+    .apps{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .app, .app:nth-child(3n+1), .app:nth-child(3n){ padding: 32px; border-left: 0; }
+    .app:nth-child(2n+1){ padding-left: 0; }
+    .app:nth-child(2n){ padding-right: 0; border-left: 1px solid var(--line); }
     .steps{ grid-template-columns: 1fr; }
     .step, .step:first-child, .step:last-child{ padding: 24px 0; }
     .step + .step{ border-left: 0; border-top: 1px solid var(--line); }
-    .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
-    .cell.lead + .cell{ border-top: 0; }
-    .cell, .cell.lead{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
-    .cell .shot, .cell.lead .shot{ margin: var(--inset) var(--inset) var(--inset) 0; }
-    .cell .body, .cell.lead .body{ padding: var(--inset) 0; }
-    /* Narrow screens: crop to the parts that stay 12 px or larger */
-    .shot-daystart{ aspect-ratio: 720 / 520; }
-    .shot-daystart img{ object-fit: cover; object-position: 50% 30%; padding: 16px 0 0; }
-    .cell:not(.lead) .shot{ aspect-ratio: auto; }
-    .cell:not(.lead) .shot img{ position: relative; height: auto; }
-    .shot-artifact img{ padding: 24px 16px; }
-    .shot-ballot img{ padding: 16px 8px 44px; }
   }
 
   /* Phone */
@@ -471,19 +458,20 @@
     .wrap{ padding: 0 16px; }
     .top{ height: 64px; }
     .hero{ padding-top: 48px; }
-    .hero h1{ font-size: 48px; }
+    .hero h1{ font-size: 40px; line-height: 1.05; letter-spacing: -0.04em; }
+    .intro{ margin-top: 16px; }
     .lede{ font-size: 16px; }
-    .asks{ margin-top: 24px; }
-    .grid{ --inset: 24px; }
-    .cell, .cell.lead{ display: flex; align-items: stretch; }
-    .cell .shot, .cell.lead .shot{ margin: var(--inset) 0 0; }
-    .cell .body, .cell.lead .body{ padding: 24px 0 var(--inset); }
-    .cell.lead h3{ font-size: 24px; }
-    .cell.lead p{ font-size: 16px; }
-    .cell.lead .foot{ padding-top: 16px; justify-content: space-between; }
+    .wall{ --h: 120px; --gap: 8px; --r: 8px; margin-top: 48px;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+              mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); }
+    .track{ --dur: 70s; }
+    .row:nth-child(2) .track{ --dur: 60s; }
+    .row:nth-child(3) .track{ --dur: 80s; }
+    .t::before{ display: none; }
     .lineup{ padding-top: 96px; }
     h2{ font-size: 32px; }
-    .grid{ margin-top: 32px; }
+    .apps{ grid-template-columns: 1fr; margin-top: 32px; }
+    .app, .app:nth-child(n){ padding: 24px 0; border-left: 0; }
     .how{ padding-top: 96px; }
     .steps{ margin-top: 32px; }
     .studio{ padding: 96px 0; }
@@ -495,10 +483,27 @@
     footer{ padding: 32px 0 48px; flex-direction: column; gap: 24px; }
   }
 
+  /* Reduce Motion: the wall stops and becomes a static grid of twelve screens */
   @media (prefers-reduced-motion: reduce){
-    .glint{ display: none; }
-    .u, .btn, .ext{ transition: none; }
+    .wall{
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      max-width: 1216px;
+      margin-inline: auto;
+      padding: 0 48px;
+      -webkit-mask-image: none;
+              mask-image: none;
+    }
+    .row, .track, .set{ display: contents; }
+    .set[inert], .t.x{ display: none; }
+    .t, .t.p{ height: auto; aspect-ratio: 16 / 10; }
+    .t, .t::before, .t::after, .u, .btn, .ext{ transition: none; }
     .btn:active{ transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) and (max-width: 960px){
+    .wall{ grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) and (max-width: 640px){
+    .wall{ grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 16px; }
   }
 </style>
 </head>
@@ -515,65 +520,136 @@
       </a>
       <nav aria-label="Primary"><a href="#make">Products</a><a href="#contact">Contact</a></nav>
     </header>
+  </div>
 
-    <main>
+  <main>
+      <div class="wrap">
       <section class="hero">
-        <h1><span>Excellence.</span> <span>For everyone.</span></h1>
+        <h1>We build small apps that make your day easier.</h1>
         <div class="intro">
-          <p class="lede">A morning briefing, a personal ballot, and the day’s news in one piece, from Nate Peace’s studio.</p>
-          <div class="asks">
-            <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
-          </div>
+          <p class="lede">An app studio. DayStart, Plain Ballot, Artifact News and more. <strong>5 apps live.</strong></p>
+          <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
         </div>
       </section>
+      </div>
 
+      <div class="wall" aria-label="Screens from our apps" role="region">
+        <div class="row"><div class="track">
+          <div class="set">
+            <a class="t" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-today-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-ready-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Spooky Particles" aria-label="Spooky Particles (opens in a new tab)"><img src="/media/wall/sp-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://natepeace.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Nate Peace" aria-label="Nate Peace (opens in a new tab)"><img src="/media/wall/np.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://artifactnews.ai/9/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 9" aria-label="Artifact News No. 9 (opens in a new tab)"><img src="/media/wall/an-9-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+          </div>
+          <div class="set" inert aria-hidden="true">
+            <a class="t" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-today-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-ready-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Spooky Particles" aria-label="Spooky Particles (opens in a new tab)"><img src="/media/wall/sp-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://natepeace.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Nate Peace" aria-label="Nate Peace (opens in a new tab)"><img src="/media/wall/np.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://artifactnews.ai/9/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 9" aria-label="Artifact News No. 9 (opens in a new tab)"><img src="/media/wall/an-9-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+          </div>
+        </div></div>
+        <div class="row"><div class="track">
+          <div class="set">
+            <a class="t" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Politicians by Jev" aria-label="Politicians by Jev (opens in a new tab)"><img src="/media/wall/jev-m.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t" href="https://artifactnews.ai/11/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 11" aria-label="Artifact News No. 11 (opens in a new tab)"><img src="/media/wall/an-11-light-chart.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-player-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://artifactnews.ai/10/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 10" aria-label="Artifact News No. 10 (opens in a new tab)"><img src="/media/wall/an-10-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Spooky Particles" aria-label="Spooky Particles (opens in a new tab)"><img src="/media/wall/sp-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+          </div>
+          <div class="set" inert aria-hidden="true">
+            <a class="t" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Politicians by Jev" aria-label="Politicians by Jev (opens in a new tab)"><img src="/media/wall/jev-m.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t" href="https://artifactnews.ai/11/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 11" aria-label="Artifact News No. 11 (opens in a new tab)"><img src="/media/wall/an-11-light-chart.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-player-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://artifactnews.ai/10/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 10" aria-label="Artifact News No. 10 (opens in a new tab)"><img src="/media/wall/an-10-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Spooky Particles" aria-label="Spooky Particles (opens in a new tab)"><img src="/media/wall/sp-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+          </div>
+        </div></div>
+        <div class="row"><div class="track">
+          <div class="set">
+            <a class="t" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Politicians by Jev" aria-label="Politicians by Jev (opens in a new tab)"><img src="/media/wall/jev.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-alarm-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://artifactnews.ai/11/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 11" aria-label="Artifact News No. 11 (opens in a new tab)"><img src="/media/wall/an-11-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-ready-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+          </div>
+          <div class="set" inert aria-hidden="true">
+            <a class="t" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Politicians by Jev" aria-label="Politicians by Jev (opens in a new tab)"><img src="/media/wall/jev.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-alarm-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t x" href="https://artifactnews.ai/11/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 11" aria-label="Artifact News No. 11 (opens in a new tab)"><img src="/media/wall/an-11-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-ready-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+            <a class="t p x" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="wrap">
       <section class="lineup" id="make" aria-labelledby="make-title">
         <h2 id="make-title">What we make</h2>
-        <div class="grid">
-          <article class="cell lead">
-            <div class="shot shot-daystart"><span class="glint" aria-hidden="true"></span>
-              <picture>
-                <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
-                <img src="/media/daystart-ready-light.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
-              </picture>
-            </div>
-            <div class="body">
-              <h3>DayStart</h3>
-              <p>My personal briefing. A five-minute morning show built around your calendar, your weather, and the news.</p>
-              <div class="foot"><a class="go u" href="https://daystartai.app/?ct=site-banana" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a><span>iPhone</span></div>
-            </div>
+        <div class="apps">
+          <article class="app">
+            <div class="head"><img class="icon" src="/media/apps/ds.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status live">Live</span></div>
+            <h3>DayStart</h3>
+            <p>My personal briefing. A five-minute morning show, ready by 7.</p>
+            <p class="proof">Rated 4.5 by 13 people on the App Store.</p>
+            <div class="foot"><a class="go u" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
           </article>
-          <article class="cell">
-            <div class="shot shot-ballot">
-              <picture>
-                <source srcset="/media/plain-ballot-row-dark.webp" media="(prefers-color-scheme: dark)" />
-                <img src="/media/plain-ballot-row-light.webp" width="624" height="348" alt="A State Senate race on a Plain Ballot sample ballot: two fictional candidates side by side on taxes and services, in their own words." loading="lazy" decoding="async" />
-              </picture>
-              <span class="note">Sample ballot. The candidates are fictional.</span>
-            </div>
-            <div class="body">
-              <h3>Plain Ballot</h3>
-              <p>My personal ballot. Who’s on it and where they stand, in the candidates’ own words.</p>
-              <div class="foot"><a class="go u" href="https://plainballot.com?ref=bananaintelligence" target="_blank" rel="noopener">plainballot.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a><span>Free on the web</span></div>
-            </div>
+          <article class="app">
+            <div class="head"><img class="icon" src="/media/apps/pb.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status live">Live</span></div>
+            <h3>Plain Ballot</h3>
+            <p>My personal ballot. Where every candidate stands, in their own words.</p>
+            <p class="proof">Every position quoted exactly, with a link to its source.</p>
+            <div class="foot"><a class="go u" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener">plainballot.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
           </article>
-          <article class="cell">
-            <div class="shot shot-artifact">
-              <picture>
-                <source srcset="/media/artifact-news-headline-dark.webp" media="(prefers-color-scheme: dark)" />
-                <img src="/media/artifact-news-headline-light.webp" width="684" height="182" alt="The headline of Artifact News No. 3, Nov. 3, 2026: Democrats need a net gain of four Senate seats, and Republicans need 50." loading="lazy" decoding="async" />
-              </picture>
-            </div>
-            <div class="body">
-              <h3>Artifact News</h3>
-              <p>The day’s news, in one piece. One interactive story, new every morning at 9 Eastern.</p>
-              <div class="foot"><a class="go u" href="https://artifactnews.ai?ref=bananaintelligence" target="_blank" rel="noopener">artifactnews.ai<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a><span>Free on the web</span></div>
-            </div>
+          <article class="app">
+            <div class="head"><img class="icon" src="/media/apps/an.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status live">Live</span></div>
+            <h3>Artifact News</h3>
+            <p>The day’s news in one interactive piece, new every morning.</p>
+            <p class="proof">Every number links to the record it came from.</p>
+            <div class="foot"><a class="go u" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener">artifactnews.ai<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
           </article>
-          <div class="soon">
-            <span><strong>My Happenings</strong>, my personal magazine. Coming soon.</span>
-            <a class="u" href="mailto:nate@bananaintelligence.ai?subject=My%20Happenings">Get a note when it’s ready</a>
-          </div>
+          <article class="app">
+            <div class="head"><img class="icon" src="/media/apps/mh.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status beta">Beta</span></div>
+            <h3>My Happenings</h3>
+            <p>The news as a short show to hear or read.</p>
+            <p class="proof">Four new editions a day, every source listed.</p>
+            <div class="foot"><a class="go u" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener">myhappenings.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
+          </article>
+          <article class="app">
+            <div class="head"><img class="icon" src="/media/apps/sp.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status live">Live</span></div>
+            <h3>Spooky Particles</h3>
+            <p>Tells you when an app you run on Vercel breaks.</p>
+            <p class="proof">Checks every live site every 5 minutes.</p>
+            <div class="foot"><a class="go u" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener">spookyparticles.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
+          </article>
+          <article class="app">
+            <div class="head"><img class="icon" src="/media/apps/jev.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status paused">Paused</span></div>
+            <h3>Politicians by Jev</h3>
+            <p>Ask a question. Watch 100 famous politicians float or sink.</p>
+            <p class="proof">Open source, with every portrait credited.</p>
+            <div class="foot"><a class="go u" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener">politiciansbyjev.vercel.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
+          </article>
         </div>
       </section>
 
@@ -604,8 +680,10 @@
           <p class="write">Something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
         </div>
       </section>
-    </main>
+      </div>
+  </main>
 
+  <div class="wrap">
     <footer>
       <span>© 2026 Banana Intelligence, LLC. SF East Bay.</span>
       <span><a href="/how-we-build">How we build</a> · <a href="/releases">Releases</a></span>
@@ -614,33 +692,10 @@
   </div>
 
 <script>
-// Pointer light on DayStart's screen: lerped so it glides, fine pointers only, off under Reduce Motion.
-(function(){
-  var cell = document.querySelector('.cell.lead');
-  var shot = cell && cell.querySelector('.shot-daystart');
-  if (!shot) return;
-  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  var pos = null, target = { x: 0, y: 0 }, raf = 0;
-  function tick(){
-    pos.x += (target.x - pos.x) * 0.15;
-    pos.y += (target.y - pos.y) * 0.15;
-    shot.style.setProperty('--mx', pos.x.toFixed(1) + 'px');
-    shot.style.setProperty('--my', pos.y.toFixed(1) + 'px');
-    if (Math.abs(target.x - pos.x) > 0.5 || Math.abs(target.y - pos.y) > 0.5) raf = requestAnimationFrame(tick);
-    else raf = 0;
-  }
-  cell.addEventListener('pointermove', function(e){
-    var r = shot.getBoundingClientRect();
-    target.x = e.clientX - r.left;
-    target.y = e.clientY - r.top;
-    if (!pos) pos = { x: target.x, y: target.y };
-    shot.style.setProperty('--light', '1');
-    if (!raf) raf = requestAnimationFrame(tick);
-  });
-  cell.addEventListener('pointerleave', function(){ shot.style.setProperty('--light', '0'); });
-})();
+// A tile reached by keyboard can scroll its row; put the row back when focus leaves the wall.
+document.querySelector('.wall').addEventListener('focusout', function(e){
+  if (!this.contains(e.relatedTarget)) this.querySelectorAll('.row').forEach(function(r){ r.scrollLeft = 0; });
+});
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script>
@@ -649,7 +704,7 @@ document.addEventListener('click', function (e) {
     // Match by host, not by tag: DayStart links carry ?ct= (its own tag system), not ?ref=.
     var a = e.target.closest && e.target.closest('a[href^="http"]');
     if (!a) return;
-    var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News' };
+    var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News', 'myhappenings.com': 'My Happenings', 'spookyparticles.com': 'Spooky Particles', 'politiciansbyjev.vercel.app': 'Politicians by Jev', 'natepeace.com': 'Nate Peace' };
     var product = names[new URL(a.href).hostname.replace(/^www\./, '')];
     if (product) window.va && window.va('event', { name: 'outbound_click', data: { product: product } });
   } catch (_) {}
