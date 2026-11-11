@@ -177,7 +177,8 @@
   .top{ position: relative; z-index: 2; }
   .hero{
     position: relative;
-    min-height: clamp(640px, calc(100svh - 96px), 880px);
+    z-index: 1;
+    min-height: clamp(600px, calc(100svh - 176px), 800px);
     padding: 40px 0 0;
   }
   .sunrise{
@@ -186,7 +187,7 @@
     top: -96px;
     left: calc(50% - 50vw);
     width: 100vw;
-    height: calc(100% + 96px);
+    height: calc(100% + 96px + 150px);
     pointer-events: none;
   }
   .hero-copy{ position: relative; z-index: 1; }
@@ -227,7 +228,34 @@
   a.btn:focus-visible{ border-radius: 999px; }
 
   /* Sections: 128 px apart on desktop, a hairline between */
-  .lineup{ padding-top: 128px; }
+  /* The lineup is the night the sun rises over: a full-bleed ink panel, the products in their dark screens */
+  .lineup{
+    --ink: #F4EFE3;
+    --ink-2: rgba(244,239,227,0.76);
+    --ink-3: rgba(244,239,227,0.6);
+    --line: rgba(244,239,227,0.14);
+    --ring: #FFD23F;
+    position: relative;
+    isolation: isolate;
+    padding: 136px 0 128px;
+    color: var(--ink);
+  }
+  .lineup::before{
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
+    background: #17130B;
+  }
+  .lineup .shot-daystart{ background: #15110D; }
+  .lineup .shot-ballot{ background: #131313; }
+  .lineup .shot-artifact{ background: #111111; }
+  .lineup .shot-ballot img{ mix-blend-mode: normal; }
+  @media (prefers-color-scheme: dark){ .lineup::before{ background: #221C11; } }
+  .how{ padding-top: 128px; }
   h2{
     font-size: 48px;
     line-height: 1.1;
@@ -389,7 +417,6 @@
   .steps .read{ position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--banana); transform: scaleX(0); transform-origin: 0 50%; }
   .seal{ display: inline-block; width: 40px; height: 40px; margin-right: 12px; vertical-align: middle; color: var(--ink-3); }
   /* How it works: the why as a lede, the how as three steps on a hairline row */
-  .how{ padding-top: 128px; }
   .how .lede{ margin-top: 24px; max-width: 50ch; }
   .steps{
     display: grid;
@@ -473,8 +500,8 @@
   @media (max-width: 640px){
     .wrap{ padding: 0 16px; }
     .top{ height: 64px; }
-    .hero{ padding-top: 24px; min-height: clamp(600px, calc(100svh - 64px), 760px); }
-    .sunrise{ top: -64px; height: calc(100% + 64px); }
+    .hero{ padding-top: 24px; min-height: clamp(560px, calc(100svh - 120px), 700px); }
+    .sunrise{ top: -64px; height: calc(100% + 64px + 96px); }
     .lede{ font-size: 16px; }
     .asks{ margin-top: 24px; }
     .grid{ --inset: 24px; }
@@ -484,7 +511,7 @@
     .cell.lead h3{ font-size: 24px; }
     .cell.lead p{ font-size: 16px; }
     .cell.lead .foot{ padding-top: 16px; justify-content: space-between; }
-    .lineup{ padding-top: 96px; }
+    .lineup{ padding: 104px 0 96px; }
     h2{ font-size: 32px; }
     .grid{ margin-top: 32px; }
     .how{ padding-top: 96px; }
@@ -537,8 +564,7 @@
           <article class="cell lead">
             <div class="shot shot-daystart">
               <picture>
-                <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
-                <img src="/media/daystart-ready-light.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
+                                <img src="/media/daystart-ready-dark.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
               </picture>
             </div>
             <div class="body">
@@ -550,8 +576,7 @@
           <article class="cell">
             <div class="shot shot-ballot">
               <picture>
-                <source srcset="/media/plain-ballot-row-dark.webp" media="(prefers-color-scheme: dark)" />
-                <img src="/media/plain-ballot-row-light.webp" width="624" height="348" alt="A State Senate race on a Plain Ballot sample ballot: two fictional candidates side by side on taxes and services, in their own words." loading="lazy" decoding="async" />
+                                <img src="/media/plain-ballot-row-dark.webp" width="624" height="348" alt="A State Senate race on a Plain Ballot sample ballot: two fictional candidates side by side on taxes and services, in their own words." loading="lazy" decoding="async" />
               </picture>
               <span class="note">Sample ballot. The candidates are fictional.</span>
             </div>
@@ -564,8 +589,7 @@
           <article class="cell">
             <div class="shot shot-artifact">
               <picture>
-                <source srcset="/media/artifact-news-headline-dark.webp" media="(prefers-color-scheme: dark)" />
-                <img src="/media/artifact-news-headline-light.webp" width="684" height="182" alt="The headline of Artifact News No. 3, Nov. 3, 2026: Democrats need a net gain of four Senate seats, and Republicans need 50." loading="lazy" decoding="async" />
+                                <img src="/media/artifact-news-headline-dark.webp" width="684" height="182" alt="The headline of Artifact News No. 3, Nov. 3, 2026: Democrats need a net gain of four Senate seats, and Republicans need 50." loading="lazy" decoding="async" />
               </picture>
             </div>
             <div class="body">
@@ -619,19 +643,18 @@
 
 <script>
 // The sunrise. Every ray is a line of microprint naming what gets read for you. The text drifts
-// in toward the sun (read, then handed to you); a loupe on fine pointers makes it legible.
-// Reduced motion: one still frame, no drift, no loupe. Paused when off screen or hidden.
+// in toward the sun (read, then handed to you). The sun sets on the edge of the night panel below.
+// Reduced motion: one still frame, no drift. Paused when off screen or hidden.
 (function(){
   var hero = document.querySelector('.hero'), cv = hero && hero.querySelector('.sunrise');
   if (!cv || !cv.getContext) return;
   var ctx = cv.getContext('2d');
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   var darkQ = matchMedia('(prefers-color-scheme: dark)');
   var READ = ['YOUR CALENDAR','YOUR WEATHER','THE SENATE RACES','THE FED','THE MARKETS','YOUR SCHOOL BOARD','CITY HALL','THE STATEHOUSE','THE COURTS','THE BALLOT MEASURES','THE WIRE','THE MORNING PAPERS','THE JOBS REPORT','YOUR COMMUTE','THE GAME LAST NIGHT','THE CANDIDATES, IN THEIR OWN WORDS','EVERY CLAIM, SOURCED','READ ONCE','CHECKED ONCE','MADE FOR ONE'];
   var S = window.__sun = { horizon: 1, rise: 1, reveal: 1, lift: 0 };
   var W, H, dpr, cx, hy, R, maxR, strips, rays, mask, ink, paper, on = true, raf = 0, t0 = performance.now();
-  var lp = { x: 0, y: 0, tx: 0, ty: 0, r: 0, tr: 0 }, copyRects = [];
+  var phase = 0, last = 0, EXT;
 
   function strip(i, size, weight){
     var words = READ.slice(i * 3).concat(READ.slice(0, i * 3)).join('  ·  ') + '  ·  ';
@@ -651,7 +674,7 @@
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     var narrow = W < 760;
     ink = darkQ.matches ? '#F4EFE3' : '#1A1407'; paper = darkQ.matches ? '#12100B' : '#FBF8F0';
-    hy = H * (narrow ? 0.9 : 0.85);
+    EXT = narrow ? 96 : 150; hy = H - EXT;
     cx = W * (narrow ? 0.64 : 0.73);
     R = narrow ? 70 : Math.max(118, Math.min(168, W * 0.1));
     maxR = Math.hypot(Math.max(cx, W - cx), hy + R) + 40;
@@ -675,46 +698,33 @@
   function buildMask(){
     mask = document.createElement('canvas'); mask.width = cv.width; mask.height = cv.height;
     var m = mask.getContext('2d'), base = cv.getBoundingClientRect();
-    m.scale(dpr, dpr); m.filter = 'blur(' + (W < 760 ? 10 : 16) + 'px)'; m.fillStyle = '#000';
-    copyRects = [];
+    m.scale(dpr, dpr); m.filter = 'blur(' + (W < 760 ? 12 : 22) + 'px)'; m.fillStyle = '#000';
     var els = document.querySelectorAll('.top .home, .top nav a, .hero h1 .ln, .hero .lede, .hero .btn');
     els.forEach(function(el){
       var rects = el.getClientRects();
       if (el.classList.contains('lede')){ var rg = document.createRange(); rg.selectNodeContents(el); rects = rg.getClientRects(); }
       for (var i = 0; i < rects.length; i++){
-        var q = rects[i], px = 18, py = 10;
+        var q = rects[i], px = 28, py = 18;
         var x = q.left - base.left - px, y = q.top - base.top - py, w = q.width + px * 2, h = q.height + py * 2;
-        m.fillRect(x, y, w, h); copyRects.push([x, y, w, h]);
+        m.fillRect(x, y, w, h);
       }
     });
   }
 
   function sunY(){ return hy + R * 1.3 - S.rise * R * 1.85 - S.lift * R * 0.9; }
 
-  function drawRays(g, t, sy, rev, loupe){
+  function drawRays(g, t, sy, rev){
     for (var i = 0; i < rays.length; i++){
       var ry = rays[i]; if (rev <= ry.start) continue;
       var len = Math.min(rev, maxR) - ry.start, st = ry.st;
       var band = 0.68 + 0.32 * Math.cos(ry.a * 9 + t * 0.22);
       g.globalAlpha = ry.alpha * band * (darkQ.matches ? 0.72 : 1);
       // Rays on the left are turned over so every line reads upright, toward the sun.
-      var flip = ry.c < 0, k = flip ? -1 : 1, off = (t * ry.v) % st.P;
+      var flip = ry.c < 0, k = flip ? -1 : 1, off = (phase * ry.v) % st.P;
       // segment [a0, a0 + len] in the ray's own x; text origin x0 is fixed, so the reveal never slides the words
       var a0 = flip ? -(ry.start + len) : ry.start, x0 = flip ? -maxR - st.P + off : ry.start - off;
-      if (loupe){
-        // distance from the loupe centre to this ray, in canvas px
-        var dx = lp.x - cx, dy = lp.y - sy, along = dx * ry.c + dy * ry.s, across = -dx * ry.s + dy * ry.c;
-        if (Math.abs(across) > loupe + 8 || along < ry.start - loupe || along > ry.start + len + loupe) continue;
-        g.save(); g.translate(cx, sy); g.rotate(flip ? ry.a + Math.PI : ry.a);
-        g.beginPath(); g.rect(a0, -st.h, len, st.h * 2); g.clip();
-        g.font = st.font; g.letterSpacing = '0.06em'; g.textBaseline = 'middle'; g.fillStyle = ink;
-        var u = k * along - loupe, from = Math.floor((u - x0) / st.P) * st.P;
-        g.fillText(st.text.slice(0, Math.ceil((loupe * 2 + st.P * 2) / 3)), x0 + from, 0);
-        g.restore();
-      } else {
-        g.setTransform(k * ry.c * dpr, k * ry.s * dpr, -k * ry.s * dpr, k * ry.c * dpr, cx * dpr, sy * dpr);
-        g.drawImage(st.c, (a0 - x0) * dpr, 0, len * dpr, st.h * dpr, a0, -st.h / 2, len, st.h);
-      }
+      g.setTransform(k * ry.c * dpr, k * ry.s * dpr, -k * ry.s * dpr, k * ry.c * dpr, cx * dpr, sy * dpr);
+      g.drawImage(st.c, (a0 - x0) * dpr, 0, len * dpr, st.h * dpr, a0, -st.h / 2, len, st.h);
     }
     g.globalAlpha = 1;
   }
@@ -745,78 +755,39 @@
 
   function frame(now){
     raf = 0;
-    var t = still ? 0 : (now - t0) / 1000, sy = sunY(), rev = R + (maxR - R) * S.reveal;
+    var t = still ? 0 : (now - t0) / 1000, dt = Math.min(0.05, t - last); last = t;
+    // As you scroll the sun keeps rising and pulls the words in, faster: everything read, handed over.
+    phase += dt * (1 + 6 * S.lift);
+    var sy = sunY(), rev = R + (maxR - R) * S.reveal * (1 - 0.75 * S.lift);
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.save(); ctx.scale(dpr, dpr); ctx.beginPath(); ctx.rect(0, 0, W, hy); ctx.clip(); ctx.setTransform(1, 0, 0, 1, 0, 0);
-    drawRays(ctx, t, sy, rev, 0);
+    drawRays(ctx, t, sy, rev);
     // The text is absorbed as it reaches the sun; copy keeps clear paper.
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.globalCompositeOperation = 'destination-out';
     var gr = ctx.createRadialGradient(cx, sy, R * 1.05, cx, sy, R * 1.9);
     gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = gr; ctx.fillRect(0, 0, W, hy);
-    var far = ctx.createRadialGradient(cx, sy, R * 2.6, cx, sy, maxR);
-    far.addColorStop(0, 'rgba(0,0,0,0)'); far.addColorStop(1, 'rgba(0,0,0,0.78)');
+    var far = ctx.createRadialGradient(cx, sy, R * 2.2, cx, sy, maxR * 0.9);
+    far.addColorStop(0, 'rgba(0,0,0,0)'); far.addColorStop(1, 'rgba(0,0,0,0.86)');
     ctx.fillStyle = far; ctx.fillRect(0, 0, W, hy);
     ctx.drawImage(mask, 0, 0, W, H);
     ctx.globalCompositeOperation = 'source-over';
     drawSun(ctx, sy);
     ctx.restore();
-    // Horizon and the ruled ground below it
+    // The sun on the night panel below: a broken column of light, like dawn on water
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var half = Math.max(cx, W - cx) * S.horizon;
-    ctx.strokeStyle = ink; ctx.lineWidth = 1; ctx.globalAlpha = 0.6;
-    ctx.beginPath(); ctx.moveTo(cx - half, hy + 0.5); ctx.lineTo(cx + half, hy + 0.5); ctx.stroke();
-    for (var i = 1; i < 7; i++){
-      ctx.globalAlpha = 0.16 * (1 - i / 8) * S.horizon;
-      var y = Math.round(hy + 4 * Math.pow(1.55, i)) + 0.5; if (y > H) break;
-      ctx.beginPath(); ctx.moveTo(cx - half, y); ctx.lineTo(cx + half, y); ctx.stroke();
+    var vis = Math.max(0, Math.min(1, (hy - (sy - R)) / (R * 1.4))) * S.horizon;
+    for (var i = 0; i < 11; i++){
+      var y = hy + 10 + i * (EXT - 24) / 11, w = R * (1.5 - i * 0.11) * (0.82 + 0.18 * Math.sin(t * 1.3 + i * 1.7));
+      ctx.globalAlpha = vis * 0.55 * (1 - i / 12); ctx.fillStyle = '#FFD23F';
+      ctx.fillRect(cx - w / 2 + Math.sin(t * 0.9 + i) * 4, Math.round(y), w, 2);
     }
     ctx.globalAlpha = 1;
-    // The loupe: magnifies the microprint under the pointer so you can read what was read
-    lp.x += (lp.tx - lp.x) * 0.2; lp.y += (lp.ty - lp.y) * 0.2; lp.r += (lp.tr - lp.r) * 0.2;
-    if (lp.r > 1 && lp.y < hy){
-      var Z = 2.4, L = lp.r;
-      ctx.save();
-      ctx.shadowColor = 'rgba(26,20,7,0.18)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 10;
-      ctx.fillStyle = paper; ctx.beginPath(); ctx.arc(lp.x, lp.y, L, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
-      ctx.save(); ctx.beginPath(); ctx.arc(lp.x, lp.y, L, 0, Math.PI * 2); ctx.clip();
-      ctx.beginPath(); ctx.rect(0, 0, W, hy); ctx.clip();
-      ctx.translate(lp.x, lp.y); ctx.scale(Z, Z); ctx.translate(-lp.x, -lp.y);
-      drawRays(ctx, t, sy, rev, L / Z);
-      ctx.globalCompositeOperation = 'destination-out';
-      var g2 = ctx.createRadialGradient(cx, sy, R * 1.05, cx, sy, R * 1.6);
-      g2.addColorStop(0, 'rgba(0,0,0,1)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = g2; ctx.fillRect(0, 0, W, hy);
-      ctx.globalCompositeOperation = 'source-over';
-      if (Math.hypot(lp.x - cx, lp.y - sy) < R * 1.4 + L) drawSun(ctx, sy);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalCompositeOperation = 'destination-out';
-      ctx.drawImage(mask, 0, 0, W, H); ctx.globalCompositeOperation = 'source-over';
-      ctx.restore();
-      ctx.strokeStyle = ink; ctx.globalAlpha = 0.85; ctx.lineWidth = 1.25;
-      ctx.beginPath(); ctx.arc(lp.x, lp.y, L, 0, Math.PI * 2); ctx.stroke();
-      ctx.globalAlpha = 0.35; ctx.lineWidth = 0.75;
-      ctx.beginPath(); ctx.arc(lp.x, lp.y, L + 5, 0, Math.PI * 2); ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
     if (!still && on) raf = requestAnimationFrame(frame);
   }
   function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
   window.__sunKick = kick;
-
-  function overCopy(x, y){
-    for (var i = 0; i < copyRects.length; i++){ var q = copyRects[i], m = 40; if (x > q[0] - m && x < q[0] + q[2] + m && y > q[1] - m && y < q[1] + q[3] + m) return true; }
-    return false;
-  }
-  if (fine && !still){
-    hero.addEventListener('pointermove', function(e){
-      var b = cv.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
-      if (lp.r < 1){ lp.x = x; lp.y = y; }
-      lp.tx = x; lp.ty = y; lp.tr = overCopy(x, y) || y > hy ? 0 : (W < 1100 ? 70 : 84);
-    });
-    hero.addEventListener('pointerleave', function(){ lp.tr = 0; });
-  }
 
   var rt = 0;
   function rebuild(){ build(); kick(); }
@@ -851,27 +822,27 @@ document.addEventListener('DOMContentLoaded', function(){
       .to(S, { reveal: 1, duration: 2.6, ease: 'power2.out' }, 1.1);
     gsap.to(S, { lift: 1, ease: 'none', onUpdate: kick, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 } });
   }
-  var once = function(el, start){ return { trigger: el, start: start || 'top 82%', once: true }; };
+  var once = function(el, start){ return { trigger: el, start: start || 'top 92%', once: true }; };
 
   // Section headings: set line by line from a baseline
   document.querySelectorAll('main h2').forEach(function(h){
     SplitText.create(h, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: function(sp){
-      return gsap.from(sp.lines, { yPercent: 105, duration: 1.0, ease: 'expo.out', stagger: 0.08, scrollTrigger: once(h) });
+      return gsap.from(sp.lines, { yPercent: 105, duration: 0.8, ease: 'expo.out', stagger: 0.07, scrollTrigger: once(h) });
     } });
   });
 
   // Lineup: the rule is drawn, DayStart's screen rises, the other two wipe in, left to right
   var grid = document.querySelector('.grid');
   if (grid){
-    var tl = gsap.timeline({ scrollTrigger: once(grid, 'top 78%') });
+    var tl = gsap.timeline({ scrollTrigger: once(grid, 'top 88%') });
     tl.from('.grid .rule', { scaleX: 0, duration: 1.1, ease: 'power3.inOut' }, 0)
       .from('.cell.lead .shot', { clipPath: 'inset(100% 0% 0% 0% round 8px)', duration: 1.2, ease: 'expo.out' }, 0.2)
       .from('.cell.lead .shot img', { yPercent: 12, duration: 1.4, ease: 'expo.out' }, 0.2)
-      .from('.cell.lead .body > *', { y: 16, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.06 }, 0.55);
+      .from('.cell.lead .body > *', { y: 10, opacity: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 }, 0.35);
     gsap.utils.toArray('.cell:not(.lead)').forEach(function(c, i){
-      gsap.timeline({ scrollTrigger: once(c, 'top 85%') })
+      gsap.timeline({ scrollTrigger: once(c, 'top 94%') })
         .from(c.querySelector('.shot'), { clipPath: 'inset(0% 100% 0% 0% round 8px)', duration: 1.1, ease: 'expo.inOut' }, i * 0.12)
-        .from(c.querySelectorAll('.body > *'), { y: 12, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.05 }, i * 0.12 + 0.5);
+        .from(c.querySelectorAll('.body > *'), { y: 10, opacity: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 }, i * 0.12 + 0.35);
     });
     gsap.from('.soon', { opacity: 0, duration: 0.8, scrollTrigger: once('.soon', 'top 92%') });
   }
@@ -880,10 +851,10 @@ document.addEventListener('DOMContentLoaded', function(){
   var steps = document.querySelector('.steps');
   if (steps){
     var st = gsap.utils.toArray('.step');
-    gsap.set(st, { opacity: 0.28 });
-    var rt = gsap.timeline({ scrollTrigger: { trigger: steps, start: 'top 75%', end: 'bottom 50%', scrub: 0.5 } });
+    gsap.set(st, { opacity: 0.45 });
+    var rt = gsap.timeline({ scrollTrigger: { trigger: steps, start: 'top 85%', end: 'bottom 65%', scrub: 0.5 } });
     rt.fromTo('.steps .read', { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 3 }, 0);
-    st.forEach(function(s, i){ rt.to(s, { opacity: 1, duration: 0.35, ease: 'none' }, i * (window.innerWidth > 960 ? 1 : 1) + 0.05); });
+    st.forEach(function(s, i){ rt.to(s, { opacity: 1, duration: 0.3, ease: 'none' }, i); });
   }
 
   // Studio note: the letter is set line by line; the seal turns once into place
@@ -891,7 +862,7 @@ document.addEventListener('DOMContentLoaded', function(){
   if (letter){
     letter.querySelectorAll('p').forEach(function(p){
       SplitText.create(p, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: function(sp){
-        return gsap.from(sp.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.07, scrollTrigger: once(p, 'top 88%') });
+        return gsap.from(sp.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.07, scrollTrigger: once(p, 'top 94%') });
       } });
     });
     gsap.from('.seal', { rotate: -90, scale: 0.6, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: once('.seal', 'top 92%') });
