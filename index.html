@@ -170,14 +170,14 @@
   .top nav{ display: flex; gap: 32px; }
   .top nav a:hover{ color: var(--ink); }
 
-  /* Hero: the line on the left, the subline and one action set on its baseline at right.
-     No ornament: the first thing below it is the real product. */
+  /* Hero: the line and one action on the left, the engraving on the right.
+     The engraving is the page's one signature: a banana cut the way a banknote portrait is. */
   .hero{
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: 64px;
-    align-items: end;
-    padding: 64px 0 0;
+    align-items: center;
+    padding: 32px 0 0;
   }
   .hero h1{
     font-size: 88px;
@@ -186,13 +186,36 @@
     letter-spacing: -0.03em;
   }
   .hero h1 span{ display: block; }
-  .intro{ padding-bottom: 12px; }
   .lede{
     font-size: 18px;
     line-height: 1.6;
     color: var(--ink-2);
     max-width: 46ch;
   }
+  .hero .lede{ margin-top: 32px; }
+  .engraving{
+    position: relative;
+    justify-self: end;
+    width: 100%;
+    max-width: 496px;
+    aspect-ratio: 4 / 5;
+    color: var(--ink);
+  }
+  .engraving svg, .engraving img, .engraving canvas{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .engraving path, .engraving ellipse{ fill: none; stroke: currentColor; vector-effect: non-scaling-stroke; }
+  .engraving .sky path{ stroke-width: 0.75px; opacity: 0.34; }
+  .engraving .band path{ stroke-width: 0.75px; opacity: 0.5; }
+  .engraving .band ellipse{ stroke-width: 1px; opacity: 0.7; }
+  /* The canvas takes over from the still once it has drawn */
+  .engraving canvas{ opacity: 0; }
+  .engraving.live canvas{ opacity: 1; }
+  .engraving.live img{ visibility: hidden; }
   .asks{ margin-top: 32px; }
   .btn{
     display: inline-flex;
@@ -332,18 +355,7 @@
   }
   /* The two smaller screens: a wide crop, one focal moment each */
   .cell:not(.lead) .shot{ aspect-ratio: 2 / 1; }
-  .shot-daystart{ background: #FFFDF1; --mx: 50%; --my: 40%; --light: 0; }
-  /* The one reactive light on the page: a banana glow that follows the pointer across DayStart's ready screen */
-  .glint{
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.24), rgba(255,210,63,0) 70%);
-    mix-blend-mode: multiply;
-    opacity: var(--light);
-    transition: opacity 200ms var(--ease);
-    pointer-events: none;
-  }
+  .shot-daystart{ background: #FFFDF1; }
   .shot-daystart img{ object-fit: contain; padding: 32px 32px 0; }
   /* Plain Ballot: the race and one complete issue row, the note below it */
   .shot-ballot{ background: #FFFDF1; }
@@ -361,7 +373,6 @@
   .shot-artifact img{ object-fit: contain; object-position: left center; padding: 32px; }
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
-    .glint{ mix-blend-mode: screen; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.12), rgba(255,210,63,0) 70%); }
     .shot-ballot{ background: #131313; }
     .shot-artifact{ background: #111111; }
     .shot-ballot img{ mix-blend-mode: normal; }
@@ -446,9 +457,9 @@
   /* Tablet */
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
-    .hero{ grid-template-columns: 1fr; gap: 24px; align-items: start; }
+    .hero{ grid-template-columns: 1fr; gap: 48px; }
+    .engraving{ justify-self: center; max-width: 400px; }
     .hero h1{ font-size: 64px; }
-    .intro{ padding-bottom: 0; }
     .grid{ grid-template-columns: 1fr; }
     .steps{ grid-template-columns: 1fr; }
     .step, .step:first-child, .step:last-child{ padding: 24px 0; }
@@ -471,7 +482,8 @@
   @media (max-width: 640px){
     .wrap{ padding: 0 16px; }
     .top{ height: 64px; }
-    .hero{ padding-top: 48px; }
+    .hero{ padding-top: 32px; gap: 32px; }
+    .hero .lede{ margin-top: 24px; }
     .hero h1{ font-size: 48px; }
     .lede{ font-size: 16px; }
     .asks{ margin-top: 24px; }
@@ -497,7 +509,6 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .glint{ display: none; }
     .u, .btn, .ext{ transition: none; }
     .btn:active{ transform: none; }
   }
@@ -519,12 +530,25 @@
 
     <main>
       <section class="hero">
-        <h1><span>Excellence.</span> <span>For everyone.</span></h1>
-        <div class="intro">
+        <div class="pitch">
+          <h1><span>Excellence.</span> <span>For everyone.</span></h1>
           <p class="lede">A morning briefing, a personal ballot, and the day’s news in one piece, from Nate Peace’s studio.</p>
           <div class="asks">
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
           </div>
+        </div>
+        <div class="engraving" role="img" aria-label="A banana, engraved the way a banknote portrait is.">
+          <svg viewBox="0 0 480 600" aria-hidden="true" focusable="false">
+            <defs>
+              <clipPath id="oval"><ellipse cx="240" cy="300" rx="190" ry="250"/></clipPath>
+              <radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0.25" stop-color="#fff" stop-opacity="0.15"/><stop offset="1" stop-color="#fff"/></radialGradient>
+              <mask id="vignette"><rect width="480" height="600" fill="url(#halo)"/></mask>
+            </defs>
+            <g class="sky" clip-path="url(#oval)" mask="url(#vignette)"></g>
+            <g class="band"><ellipse cx="240" cy="300" rx="190" ry="250"/><ellipse cx="240" cy="300" rx="224" ry="284"/></g>
+          </svg>
+          <img src="/media/banana-engraving.webp" width="992" height="1240" alt="" decoding="async" />
+          <canvas></canvas>
         </div>
       </section>
 
@@ -532,7 +556,7 @@
         <h2 id="make-title">What we make</h2>
         <div class="grid">
           <article class="cell lead">
-            <div class="shot shot-daystart"><span class="glint" aria-hidden="true"></span>
+            <div class="shot shot-daystart">
               <picture>
                 <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
                 <img src="/media/daystart-ready-light.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
@@ -615,32 +639,142 @@
   </div>
 
 <script>
-// Pointer light on DayStart's screen: lerped so it glides, fine pointers only, off under Reduce Motion.
+// The engraving. The lace frame is drawn as SVG curves; the banana is one small fragment shader
+// (a bent, tapered tube, shaded, then cut into engraver's lines that swell in shadow).
+// The light follows the pointer with a little mass. Fine pointers only; still under Reduce Motion.
 (function(){
-  var cell = document.querySelector('.cell.lead');
-  var shot = cell && cell.querySelector('.shot-daystart');
-  if (!shot) return;
-  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var note = document.querySelector('.engraving');
+  if (!note) return;
+  var NS = 'http://www.w3.org/2000/svg', TAU = Math.PI * 2;
+  function path(d, parent){ var p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); parent.appendChild(p); }
 
-  var pos = null, target = { x: 0, y: 0 }, raf = 0;
-  function tick(){
-    pos.x += (target.x - pos.x) * 0.15;
-    pos.y += (target.y - pos.y) * 0.15;
-    shot.style.setProperty('--mx', pos.x.toFixed(1) + 'px');
-    shot.style.setProperty('--my', pos.y.toFixed(1) + 'px');
-    if (Math.abs(target.x - pos.x) > 0.5 || Math.abs(target.y - pos.y) > 0.5) raf = requestAnimationFrame(tick);
-    else raf = 0;
+  // Sky: fine wavy rules behind the fruit
+  var sky = note.querySelector('.sky'), y, x, d;
+  for (y = 52; y < 552; y += 5){
+    d = '';
+    for (x = 44; x <= 436; x += 8) d += (x === 44 ? 'M' : 'L') + x + ' ' + (y + 1.6 * Math.sin(x / 21 + y / 34)).toFixed(1);
+    path(d, sky);
   }
-  cell.addEventListener('pointermove', function(e){
-    var r = shot.getBoundingClientRect();
-    target.x = e.clientX - r.left;
-    target.y = e.clientY - r.top;
-    if (!pos) pos = { x: target.x, y: target.y };
-    shot.style.setProperty('--light', '1');
-    if (!raf) raf = requestAnimationFrame(tick);
+  // Band: phase-shifted waves between the two ovals, the way a guilloche lathe lays them down
+  var band = note.querySelector('.band');
+  [[44, 6, 13], [22, 4, 13]].forEach(function(w){
+    for (var j = 0; j < w[1]; j++){
+      d = '';
+      for (var i = 0; i <= 1440; i++){
+        var a = i / 1440 * TAU, m = w[2] * Math.sin(w[0] * a + j * TAU / w[1]);
+        d += (i ? 'L' : 'M') + (240 + (207 + m) * Math.cos(a)).toFixed(1) + ' ' + (300 + (267 + m) * Math.sin(a)).toFixed(1);
+      }
+      path(d + 'Z', band);
+    }
   });
-  cell.addEventListener('pointerleave', function(){ shot.style.setProperty('--light', '0'); });
+
+  var cv = note.querySelector('canvas');
+  var gl = cv.getContext('webgl', { premultipliedAlpha: true, antialias: false });
+  if (!gl) return;
+  gl.getExtension('OES_standard_derivatives');
+  var VS = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  var FS = [
+    '#extension GL_OES_standard_derivatives : enable',
+    'precision highp float;',
+    'uniform vec2 uRes; uniform vec3 uL; uniform float uInk; uniform float uYaw;',
+    'const float A = 0.80;',
+    'float map(vec3 p, out float u, out float phi){',
+    '  vec2 q = vec2(p.x, p.y - 0.86);',
+    '  float t = clamp(atan(q.x, -q.y), -A, A * 1.2);',
+    '  vec2 n = vec2(sin(t), -cos(t));',
+    '  vec3 d = vec3(q - n, p.z);',
+    '  phi = atan(p.z, dot(d.xy, n));',
+    '  u = t / A;',
+    '  float body = 0.215 * pow(max(0.0, 1.0 - pow(abs(u), 2.4) * (u > 0.0 ? 0.80 : 0.90)), 0.6);',
+    '  float stem = 0.045 + 0.014 * smoothstep(1.1, 1.2, u);',
+    '  float r = mix(body, stem, smoothstep(0.9, 1.05, u));',
+    '  r *= 1.0 + 0.04 * cos(5.0 * phi + 0.5) * (1.0 - smoothstep(0.8, 1.0, abs(u)));',
+    '  return length(d) - r;',
+    '}',
+    'mat3 rx(float a){ float c = cos(a), s = sin(a); return mat3(1., 0., 0., 0., c, s, 0., -s, c); }',
+    'mat3 ry(float a){ float c = cos(a), s = sin(a); return mat3(c, 0., -s, 0., 1., 0., s, 0., c); }',
+    'mat3 rz(float a){ float c = cos(a), s = sin(a); return mat3(c, s, 0., -s, c, 0., 0., 0., 1.); }',
+    'float line(float v, float w){',
+    '  float f = abs(fract(v) - 0.5) * 2.0, a = fwidth(v) * 2.0;',
+    '  return (1.0 - smoothstep(w - a, w + a, f)) * smoothstep(0.03, 0.12, w);',
+    '}',
+    'void main(){',
+    '  float px = 1.9 / min(uRes.x, uRes.y);',
+    '  vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) * px;',
+    '  mat3 M = rz(-0.45) * rx(0.42) * ry(uYaw);',
+    '  vec3 ro = M * vec3(uv, 3.0), rd = M * vec3(0., 0., -1.), L = normalize(M * uL);',
+    '  float t = 1.8, u, phi, d, minD = 1.0; bool hit = false; vec3 p;',
+    '  for (int i = 0; i < 72; i++){',
+    '    p = ro + rd * t; d = map(p, u, phi); minD = min(minD, d);',
+    '    if (d < 0.0012){ hit = true; break; }',
+    '    t += d * 0.8; if (t > 4.4) break;',
+    '  }',
+    '  vec3 ink = vec3(0.102, 0.078, 0.027), banana = vec3(1.0, 0.824, 0.247);',
+    '  if (!hit){',
+    '    float a = (1.0 - smoothstep(0.004, 0.004 + px * 1.5, minD)) * uInk;',
+    '    gl_FragColor = vec4(ink * a, a); return;',
+    '  }',
+    '  float e = 0.002, u2, p2;',
+    '  vec3 n = normalize(vec3(',
+    '    map(p + vec3(e, 0., 0.), u2, p2) - map(p - vec3(e, 0., 0.), u2, p2),',
+    '    map(p + vec3(0., e, 0.), u2, p2) - map(p - vec3(0., e, 0.), u2, p2),',
+    '    map(p + vec3(0., 0., e), u2, p2) - map(p - vec3(0., 0., e), u2, p2)));',
+    '  float diff = max(dot(n, L), 0.0), rim = pow(1.0 - max(dot(n, -rd), 0.0), 2.0);',
+    '  float lum = clamp(0.10 + 1.0 * diff - 0.30 * rim, 0.0, 1.0);',
+    '  lum *= 1.0 - 0.85 * smoothstep(-0.90, -0.99, u) - 0.7 * smoothstep(1.15, 1.2, u);',
+    '  float spec = pow(max(dot(reflect(-L, n), -rd), 0.0), 18.0);',
+    '  float dark = (1.0 - lum) * uInk;',
+    '  float i1 = line(phi / 6.2832 * 30.0, clamp((0.13 * uInk + 0.9 * dark) * (1.0 - smoothstep(0.25, 0.7, spec)), 0.0, 0.94));',
+    '  float i2 = line(u * A / 0.034, clamp((dark - 0.5) * 1.5, 0.0, 0.8));',
+    '  gl_FragColor = vec4(mix(banana, ink, max(i1, i2)), 1.0);',
+    '}'
+  ].join('\n');
+  function sh(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; }
+  var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
+  if (!vs || !fs) return;
+  var pr = gl.createProgram(); gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
+  gl.useProgram(pr);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+  var U = {}; ['uRes', 'uL', 'uInk', 'uYaw'].forEach(function(k){ U[k] = gl.getUniformLocation(pr, k); });
+
+  var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rest = { x: -0.55, y: 0.6 }, cur = { x: rest.x, y: rest.y }, aim = { x: rest.x, y: rest.y };
+  var ink = still ? 1 : 0, t0 = 0, raf = 0;
+  function draw(){
+    var r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
+    if (!w || !h) return;
+    if (cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+    var z = 0.75, len = Math.sqrt(cur.x * cur.x + cur.y * cur.y + z * z);
+    gl.uniform2f(U.uRes, w, h);
+    gl.uniform3f(U.uL, cur.x / len, cur.y / len, z / len);
+    gl.uniform1f(U.uInk, ink);
+    gl.uniform1f(U.uYaw, cur.x * 0.12);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    note.classList.add('live');
+  }
+  function tick(now){
+    raf = 0;
+    if (ink < 1){ if (!t0) t0 = now; var k = Math.min((now - t0) / 900, 1); ink = 1 - Math.pow(1 - k, 3); }
+    cur.x += (aim.x - cur.x) * 0.08; cur.y += (aim.y - cur.y) * 0.08;
+    draw();
+    if (ink < 1 || Math.abs(aim.x - cur.x) > 0.002 || Math.abs(aim.y - cur.y) > 0.002) raf = requestAnimationFrame(tick);
+  }
+  function wake(){ if (!raf) raf = requestAnimationFrame(tick); }
+  if (still) draw(); else wake();
+  addEventListener('resize', function(){ if (still) draw(); else wake(); });
+  if (!still && matchMedia('(hover: hover) and (pointer: fine)').matches){
+    addEventListener('pointermove', function(e){
+      var r = note.getBoundingClientRect();
+      var dx = (e.clientX - (r.left + r.width / 2)) / innerWidth * 2.4, dy = ((r.top + r.height / 2) - e.clientY) / innerHeight * 2.4;
+      aim.x = Math.max(-1.2, Math.min(1.2, dx)); aim.y = Math.max(-0.9, Math.min(1.2, dy));
+      wake();
+    }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', function(){ aim.x = rest.x; aim.y = rest.y; wake(); });
+  }
 })();
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
