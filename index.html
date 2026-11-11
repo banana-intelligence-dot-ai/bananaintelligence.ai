@@ -113,7 +113,7 @@
     border-radius: 8px;
   }
   /* Inline links in prose: a 44px-tall hit area without moving the line */
-  .letter a, .contact a, footer a{ padding-block: 14px; }
+  .letter a, footer a{ padding-block: 14px; }
   .sr{
     position: absolute;
     width: 1px;
@@ -296,7 +296,7 @@
   }
 
   /* Sections: 128 px apart on desktop, a hairline between */
-  .lineup{ padding: 128px 0; }
+  .lineup{ padding-top: 128px; }
   h2{
     font-size: 48px;
     line-height: 1.1;
@@ -380,19 +380,37 @@
   }
   .shot-daystart{ background: #FFFDF1; }
   .shot-daystart img{ object-fit: contain; padding: 24px 24px 0; }
-  .shot-ballot{ background: #FFFDF1; }
+  .shot-ballot{ --fade: #FFFDF1; background: var(--fade); }
   .shot-ballot img{ object-fit: cover; object-position: left top; mix-blend-mode: multiply; }
-  .shot-artifact{ background: #F5F2EA; }
+  /* The crop fades out under the note instead of cutting a row in half */
+  .shot-ballot::after{
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 96px;
+    background: linear-gradient(to bottom, transparent, var(--fade) 72%);
+    pointer-events: none;
+  }
   .shot .note{
     position: absolute;
-    left: 16px;
-    bottom: 12px;
+    z-index: 1;
+    left: 24px;
+    bottom: 16px;
     font-size: 12px;
     color: var(--ink-3);
   }
+  /* Artifact News: crop in on the headline and the seat count */
+  .shot-artifact{ background: #F5F2EA; }
+  .shot-artifact img{
+    inset: auto;
+    left: -12.5%;
+    top: -33.3%;
+    width: 125%;
+    height: auto;
+  }
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
-    .shot-ballot{ background: #131313; }
+    .shot-ballot{ --fade: #131313; }
     .shot-artifact{ background: #121211; }
     .shot-ballot img{ mix-blend-mode: normal; }
   }
@@ -413,26 +431,22 @@
   .soon strong{ font-weight: 600; color: var(--ink); }
   .soon .u{ display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
 
-  /* Studio note */
-  .studio, .contact{
-    padding: 96px 0;
+  /* Studio note and contact: heading left, letter right */
+  .studio{
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 64px;
+    padding: 128px 0;
+  }
+  .letter{ max-width: 60ch; }
+  .letter p{ font-size: 20px; line-height: 1.6; }
+  .letter p + p{ margin-top: 24px; }
+  .letter .sign{ font-size: 16px; color: var(--ink-3); }
+  .letter .write{
+    margin-top: 48px;
+    padding-top: 32px;
     border-top: 1px solid var(--line);
   }
-  .studio h2, .contact h2{
-    font-size: 32px;
-    line-height: 1.15;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .letter{ max-width: 62ch; margin-top: 32px; }
-  .letter p{ font-size: 20px; line-height: 1.55; }
-  .letter p + p{ margin-top: 24px; }
-  .letter .sign{
-    margin-top: 32px;
-    font-size: 16px;
-    color: var(--ink-3);
-  }
-  .contact p{ margin-top: 24px; max-width: 62ch; font-size: 20px; line-height: 1.55; }
   .mail{ overflow-wrap: anywhere; }
 
   footer{
@@ -441,6 +455,7 @@
     justify-content: space-between;
     gap: 8px 24px;
     padding: 48px 0 64px;
+    border-top: 1px solid var(--line);
     font-size: 14px;
     color: var(--ink-3);
     font-variant-numeric: tabular-nums;
@@ -458,6 +473,7 @@
     .wrap{ padding: 0 32px; }
     .hero{ padding-top: 64px; }
     .hero h1{ font-size: 64px; }
+    .studio{ grid-template-columns: 1fr; gap: 32px; }
     .grid{ grid-template-columns: 1fr; }
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
     .cell{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -474,20 +490,18 @@
     .asks{ margin-top: 24px; }
     /* Static on touch: the script only runs on fine pointers */
     .stage{ margin-top: 64px; max-width: 320px; }
-    .lineup{ padding: 96px 0; }
+    .lineup{ padding-top: 96px; }
     h2{ font-size: 32px; }
     .grid{ margin-top: 32px; }
     .cell{ display: flex; }
     .shot{ border-right: 0; border-bottom: 1px solid var(--line); }
     .cell .body{ padding: 24px; }
     .soon{ padding: 16px 24px; }
-    .studio, .contact{ padding: 32px 0 48px; }
-    .contact{ padding-bottom: 64px; }
-    .letter{ margin-top: 24px; }
-    .letter p, .contact p{ font-size: 16px; line-height: 1.6; }
+    .studio{ padding: 96px 0; gap: 24px; }
+    .letter p{ font-size: 16px; }
     .letter p + p{ margin-top: 16px; }
-    .letter .sign{ margin-top: 24px; font-size: 14px; }
-    .contact p{ margin-top: 16px; }
+    .letter .sign{ font-size: 14px; }
+    .letter .write{ margin-top: 32px; padding-top: 24px; }
     footer{ padding: 32px 0 48px; flex-direction: column; gap: 24px; }
   }
 
@@ -516,7 +530,7 @@
     <main>
       <section class="hero">
         <h1><span>Excellence.</span> <span>For everyone.</span></h1>
-        <p class="lede">Nate Peace’s studio for personal media and tools. A morning briefing, a ballot guide, and the day’s news, each built to that standard.</p>
+        <p class="lede">Personal media and tools from Nate Peace’s studio, each one built to that standard.</p>
         <div class="asks">
           <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
         </div>
@@ -578,20 +592,15 @@
         </div>
       </section>
 
-      <section class="studio" aria-labelledby="studio">
+      <section class="studio" id="contact" aria-labelledby="studio">
         <h2 id="studio">Nate Peace’s studio</h2>
         <div class="letter">
           <p>I started Banana Intelligence to build the tools I wanted for my own family. The people at the top have always had someone to brief them, explain the ballot, and pick what’s worth reading.</p>
           <p>Software can do that for everyone now, if it’s made with care. Each product does one job, calmly, and treats your time like it matters.</p>
           <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
+          <p class="write">Something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
         </div>
       </section>
-
-      <section class="contact" id="contact" aria-labelledby="contact-title">
-        <h2 id="contact-title">Contact</h2>
-        <p>Questions, ideas, or something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
-      </section>
-
     </main>
 
     <footer>
