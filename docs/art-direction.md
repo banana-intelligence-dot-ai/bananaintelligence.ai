@@ -1,6 +1,6 @@
 # Art direction: the pin-up wall
 
-Status: on branch `bi-unslop`, not shipped. The independent critic scored it 5/10, then 6/10, so the stall rule held it back (2026-11-11).
+Status: on branch `bi-unslop`, not shipped. Critic: 5, 6, then on round 2 7.5 and 7.75 of 10 (2026-11-11). The blurred guess now reads "a small studio", but one high finding is still open.
 
 ## The world
 A studio's wall of finished apps. The page is the wall. Every real screen is a paper sheet held up with banana tape. The headline and the studio note are pinned sheets too. On a desktop with a mouse, a work lamp follows the pointer, and each sheet's shadow swings away from it.
@@ -20,11 +20,11 @@ A studio's wall of finished apps. The page is the wall. Every real screen is a p
 - Wall: #EFE8D9 light, #12100B dark. Sheets: paper #FBF8F0. Tape: banana #FFD23F with torn ends.
 - One sans: Hanken Grotesk (Nate's choice, 2026-11-11).
 - Real screens only. Never edit them or invent data. No user numbers.
-- Lamp: fine pointers only. Off for touch and reduced motion.
+- Pointer as lamp: sheet shadows swing away from it, no glow. Fine pointers only, off for touch and reduced motion.
 - OG image: og-2026-11b.png, with the headline sheet pinned among real screens.
 
 ## What the critic still flags (fix these next)
-- No piece leads the wall. Make one lead sheet about 2x size and use at most 3 sizes.
-- The tape varies too much. Use one strip per sheet.
-- The real screenshots carry their own glow, spaced caps, dot meta and a stale date. Take fresh, current screens.
-- One sans with a generic headline caps the score. A display face for the headline would need Nate's yes.
+- Under the lead, the second row is three equal small screens (Spooky Particles, My Happenings, Jev), too small to read. Use the third size: one mid-size readable crop and tight crops of one telling detail for the others.
+- The key repeats the wall row for row, and every row has the same weight.
+- The pointer's shadow shift is too faint to see. Make it stronger or cut it.
+- On phones Jev hangs alone at half width.
