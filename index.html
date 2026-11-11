@@ -178,7 +178,7 @@
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: 64px;
     align-items: center;
-    padding: 96px 0 32px;
+    padding: 64px 0 0;
   }
   .hero h1{
     font-size: 88px;
@@ -192,7 +192,7 @@
     font-size: 18px;
     line-height: 1.6;
     color: var(--ink-2);
-    max-width: 40ch;
+    max-width: 46ch;
   }
   .asks{ margin-top: 32px; }
   .btn{
@@ -258,7 +258,7 @@
     position: absolute;
     inset: 0;
     background:
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='252' preserveAspectRatio='none'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.012 0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.3 0 0 0 0 0 0 0 0 0.22 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='252' preserveAspectRatio='none'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.012 0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.3 0 0 0 0 0 0 0 0 0.12 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
     background-size: 100% 100%;
     pointer-events: none;
   }
@@ -281,7 +281,7 @@
     width: 64px;
     height: auto;
     display: block;
-    color: #2A1F06;
+    color: rgba(42,31,6,0.82);
     filter: drop-shadow(0 1px 0 rgba(255,246,205,0.8)) drop-shadow(0 -1px 0 rgba(90,60,0,0.35));
   }
   .card-holder{
@@ -306,11 +306,13 @@
     letter-spacing: -0.025em;
   }
 
-  /* The lineup: a hairline grid, one real screen per product */
+  /* The lineup: a hairline grid. Every cell frames its screen the same way:
+     inset 32 px, radius 8, a hairline, then the words under it. */
   .grid{
+    --inset: 32px;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 64px;
+    margin-top: 48px;
     border: 1px solid var(--line);
     border-radius: 16px;
     overflow: hidden;
@@ -322,18 +324,19 @@
     transition: background-color 150ms var(--ease);
   }
   .cell + .cell{ border-left: 1px solid var(--line); }
-  /* DayStart leads: one full-width row, screen left, words right */
+  /* DayStart leads: one full-width row, screen on 7 columns, words on 5 */
   .cell.lead{
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: center;
     border-bottom: 1px solid var(--line);
   }
-  .cell.lead .shot{ border-bottom: 0; border-right: 1px solid var(--line); }
-  .cell.lead .body{ padding: 48px; justify-content: center; }
+  .cell.lead .shot{ margin-bottom: var(--inset); }
+  .cell.lead .body{ padding: var(--inset) 48px var(--inset) 16px; }
   .cell.lead h3{ font-size: 32px; }
-  .cell.lead p{ font-size: 18px; max-width: 32ch; }
-  .cell.lead .foot{ margin-top: 32px; justify-content: flex-start; gap: 0 24px; }
+  .cell.lead p{ font-size: 18px; max-width: 34ch; hyphens: manual; }
+  .cell.lead .foot{ margin-top: 0; padding-top: 32px; justify-content: flex-start; gap: 0 24px; }
   .cell.lead + .cell{ border-left: 0; }
   @media (hover: hover){
     .cell:hover{ background: var(--raise); }
@@ -344,7 +347,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 32px;
+    padding: 24px var(--inset) var(--inset);
   }
   .cell h3{
     font-size: 24px;
@@ -365,7 +368,7 @@
     align-items: center;
     gap: 0 16px;
     margin-top: auto;
-    padding-top: 24px;
+    padding-top: 16px;
     font-size: 14px;
     color: var(--ink-3);
   }
@@ -380,9 +383,20 @@
 
   .shot{
     position: relative;
+    margin: var(--inset) var(--inset) 0;
     aspect-ratio: 4 / 3;
+    border-radius: 8px;
     overflow: hidden;
-    border-bottom: 1px solid var(--line);
+  }
+  /* Hairline drawn inside, over the image, so it never shifts the crop */
+  .shot::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--line);
+    pointer-events: none;
   }
   .shot img{
     position: absolute;
@@ -393,8 +407,8 @@
     object-fit: cover;
     object-position: top;
   }
-  /* The two smaller screens: a wider crop, one focal moment each */
-  .cell:not(.lead) .shot{ aspect-ratio: 16 / 10; }
+  /* The two smaller screens: a wide crop, one focal moment each */
+  .cell:not(.lead) .shot{ aspect-ratio: 2 / 1; }
   .shot-daystart{ background: #FFFDF1; }
   .shot-daystart img{ object-fit: contain; padding: 32px 32px 0; }
   .shot-ballot{ --fade: #FFFDF1; background: var(--fade); }
@@ -404,24 +418,24 @@
     content: "";
     position: absolute;
     inset: auto 0 0;
-    height: 128px;
-    background: linear-gradient(to bottom, transparent, var(--fade) 55%);
+    height: 50%;
+    background: linear-gradient(to bottom, transparent, var(--fade) 60%);
     pointer-events: none;
   }
   .shot .note{
     position: absolute;
     z-index: 1;
-    left: 24px;
-    bottom: 16px;
+    left: 16px;
+    bottom: 12px;
     font-size: 12px;
     color: var(--ink-3);
   }
-  /* Artifact News: crop in on the headline and the seat count */
+  /* Artifact News: the headline and its first lines, at a readable size */
   .shot-artifact{ background: #F5F2EA; }
   .shot-artifact img{
     inset: auto;
     left: -14.7%;
-    top: -68.2%;
+    top: -88.2%;
     width: 147%;
     height: auto;
   }
@@ -483,15 +497,15 @@
   /* Tablet */
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
-    .hero{ padding-top: 64px; }
-    .hero h1{ font-size: 64px; }
     .hero{ grid-template-columns: 1fr; gap: 48px; }
+    .hero h1{ font-size: 64px; }
     .stage{ justify-self: start; max-width: 360px; }
     .grid{ grid-template-columns: 1fr; }
-    .cell.lead + .cell{ border-top: 0; }
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
-    .cell{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-    .shot{ border-bottom: 0; border-right: 1px solid var(--line); }
+    .cell.lead + .cell{ border-top: 0; }
+    .cell, .cell.lead{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+    .cell .shot, .cell.lead .shot{ margin-bottom: var(--inset); }
+    .cell .body, .cell.lead .body{ padding: var(--inset) var(--inset) var(--inset) 0; }
   }
 
   /* Phone */
@@ -503,20 +517,17 @@
     .lede{ font-size: 16px; }
     .asks{ margin-top: 24px; }
     /* Static on touch: the script only runs on fine pointers */
-    .hero{ gap: 48px; padding-bottom: 0; }
     .stage{ max-width: 240px; }
-    .cell.lead{ display: flex; }
-    .cell.lead .shot{ border-right: 0; border-bottom: 1px solid var(--line); }
-    .cell.lead .body{ padding: 24px; }
+    .grid{ --inset: 24px; }
+    .cell, .cell.lead{ display: flex; align-items: stretch; }
+    .cell .shot, .cell.lead .shot{ margin-bottom: 0; }
+    .cell .body, .cell.lead .body{ padding: 24px var(--inset) var(--inset); }
     .cell.lead h3{ font-size: 24px; }
     .cell.lead p{ font-size: 16px; }
-    .cell.lead .foot{ margin-top: auto; justify-content: space-between; }
+    .cell.lead .foot{ padding-top: 16px; justify-content: space-between; }
     .lineup{ padding-top: 96px; }
     h2{ font-size: 32px; }
     .grid{ margin-top: 32px; }
-    .cell{ display: flex; }
-    .shot{ border-right: 0; border-bottom: 1px solid var(--line); }
-    .cell .body{ padding: 24px; }
     .soon{ padding: 16px 24px; }
     .studio{ padding: 96px 0; }
     .letter{ margin-top: 24px; }
@@ -553,7 +564,7 @@
       <section class="hero">
         <div>
           <h1><span>Excellence.</span> <span>For everyone.</span></h1>
-          <p class="lede">Personal media and tools from Nate Peace’s studio, each one built to that standard.</p>
+          <p class="lede">A morning briefing, a personal ballot, and the day’s news in one piece, from Nate Peace’s studio.</p>
           <div class="asks">
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
           </div>
