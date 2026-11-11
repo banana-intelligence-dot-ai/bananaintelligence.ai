@@ -345,22 +345,14 @@
     pointer-events: none;
   }
   .shot-daystart img{ object-fit: contain; padding: 32px 32px 0; }
-  .shot-ballot{ --fade: #FFFDF1; background: var(--fade); }
-  .shot-ballot img{ object-fit: cover; object-position: left top; mix-blend-mode: multiply; }
-  /* The crop fades out under the note instead of cutting a row in half */
-  .shot-ballot::after{
-    content: "";
-    position: absolute;
-    inset: auto 0 0;
-    height: 50%;
-    background: linear-gradient(to bottom, transparent, var(--fade) 60%);
-    pointer-events: none;
-  }
+  /* Plain Ballot: the race and one complete issue row, the note below it */
+  .shot-ballot{ background: #FFFDF1; }
+  .shot-ballot img{ object-fit: contain; object-position: left center; padding: 24px 24px 48px; mix-blend-mode: multiply; }
   .shot .note{
     position: absolute;
     z-index: 1;
-    left: 16px;
-    bottom: 12px;
+    left: 24px;
+    bottom: 16px;
     font-size: 12px;
     color: var(--ink-3);
   }
@@ -370,7 +362,7 @@
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
     .glint{ mix-blend-mode: screen; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.12), rgba(255,210,63,0) 70%); }
-    .shot-ballot{ --fade: #131313; }
+    .shot-ballot{ background: #131313; }
     .shot-artifact{ background: #121211; }
     .shot-ballot img{ mix-blend-mode: normal; }
   }
@@ -438,8 +430,10 @@
     /* Narrow screens: crop to the parts that stay 12 px or larger */
     .shot-daystart{ aspect-ratio: 720 / 520; }
     .shot-daystart img{ object-fit: cover; object-position: 50% 30%; padding: 16px 0 0; }
-    .cell:not(.lead) .shot-artifact{ aspect-ratio: auto; }
-    .shot-artifact img{ position: relative; height: auto; padding: 24px 16px; }
+    .cell:not(.lead) .shot{ aspect-ratio: auto; }
+    .cell:not(.lead) .shot img{ position: relative; height: auto; }
+    .shot-artifact img{ padding: 24px 16px; }
+    .shot-ballot img{ padding: 16px 8px 44px; }
   }
 
   /* Phone */
@@ -520,8 +514,8 @@
           <article class="cell">
             <div class="shot shot-ballot">
               <picture>
-                <source srcset="/media/plain-ballot-phone-dark.webp" media="(prefers-color-scheme: dark)" />
-                <img src="/media/plain-ballot-phone-light.webp" width="780" height="728" alt="A State Senate race on a Plain Ballot sample ballot: two fictional candidates side by side, issue by issue, in their own words." loading="lazy" decoding="async" />
+                <source srcset="/media/plain-ballot-row-dark.webp" media="(prefers-color-scheme: dark)" />
+                <img src="/media/plain-ballot-row-light.webp" width="624" height="348" alt="A State Senate race on a Plain Ballot sample ballot: two fictional candidates side by side on taxes and services, in their own words." loading="lazy" decoding="async" />
               </picture>
               <span class="note">Sample ballot. The candidates are fictional.</span>
             </div>
