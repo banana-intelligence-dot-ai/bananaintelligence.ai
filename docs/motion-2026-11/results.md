@@ -29,3 +29,22 @@ Partly. Motion moved us about half a point (5.8 to 6.2 on average) and the criti
 - Full scroll recording: `shots/scroll-light.mp4`; frame sheets `shots/frames-light.jpg`, `shots/frames-dark.jpg`.
 - Each round as the critics saw it (names swapped): `rounds/r1..r3-still.jpg`, `rounds/r1..r3-frames.jpg`.
 - References: `ref/`.
+
+## Second try: the hero as a live product demo (rounds 4 and 5)
+
+Hero = option B ("Read for you, every morning."), built to do the product's job on today's real front pages from the shared newsroom feed: a highlighter (strokes made with ChatGPT image generation through Codex) marks three real headlines, and each marked line lifts, word for word, into a DayStart briefing that then plays. Below the fold each product repeats the act on its own real line. Every number comes from the feed. Same method, same references.
+
+| Round | Ours (3 sets) | Rank | Named agent-made | Wispr | Greptile | Spade |
+|---|---|---|---|---|---|---|
+| 4 | 6, 6.5, 6.5 | last x3 | 3 of 3 (75 to 90%) | 9 | 8.5 | 8 |
+| 5 | 6.5, 6, 6 | last x3 | 3 of 3 (85%) | 9 | 8.5 | 8 |
+
+Rounds 4 and 5 are the two stalls; the test stopped there. Between them: no font reflow, settled by about 3 s, the card never shows empty rows or covers the page, the triplet became one marked line of live counts.
+
+What changed the critics' minds: all six now call the idea right ("the right idea", "a good idea, poorly run"), and they read the highlight-to-briefing step as the product working.
+
+What did not: the hero is still "two UI cards, not art". Every reference owns one made visual (Wispr's text ribbon, Greptile's halftone lizard, Spade's engraved coin) and ours is product UI. Their shared fix: one large, physical asset (a stack of real front pages with the marker across it) with the briefing as a small second element. Smaller notes, fixed after round 5 but not re-tested: cut-off outlet names, faint unmarked rows, near-duplicate headlines, a dark lineup band that showed empty before its content arrived.
+
+After round 5 the type moved to sans serif (Nate, Nov 11), matching main's bi-sans.
+
+Evidence: `rounds/r4-*.jpg`, `rounds/r5-*.jpg`. The sunrise version is tag `bi-motion-v1`.
