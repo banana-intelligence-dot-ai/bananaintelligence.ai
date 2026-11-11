@@ -383,7 +383,35 @@
   .soon strong{ font-weight: 600; color: var(--ink); }
   .soon .u{ display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
 
-  /* Studio note and contact: heading left, letter right */
+  /* How it works: the why as a lede, the how as three steps on a hairline row */
+  .how{ padding-top: 128px; }
+  .how .lede{ margin-top: 24px; max-width: 50ch; }
+  .steps{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 48px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .step{ padding: 32px 32px 40px; }
+  .step:first-child{ padding-left: 0; }
+  .step:last-child{ padding-right: 0; }
+  .step + .step{ border-left: 1px solid var(--line); }
+  .step h3{
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .step p{
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .step strong{ font-weight: 600; color: var(--ink); }
+
+  /* Studio note and contact: one column */
   .studio{ padding: 128px 0; }
   .letter{ max-width: 60ch; margin-top: 32px; }
   .letter p{ font-size: 20px; line-height: 1.6; }
@@ -422,6 +450,9 @@
     .hero h1{ font-size: 64px; }
     .intro{ padding-bottom: 0; }
     .grid{ grid-template-columns: 1fr; }
+    .steps{ grid-template-columns: 1fr; }
+    .step, .step:first-child, .step:last-child{ padding: 24px 0; }
+    .step + .step{ border-left: 0; border-top: 1px solid var(--line); }
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
     .cell.lead + .cell{ border-top: 0; }
     .cell, .cell.lead{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
@@ -454,6 +485,8 @@
     .lineup{ padding-top: 96px; }
     h2{ font-size: 32px; }
     .grid{ margin-top: 32px; }
+    .how{ padding-top: 96px; }
+    .steps{ margin-top: 32px; }
     .studio{ padding: 96px 0; }
     .letter{ margin-top: 24px; }
     .letter p{ font-size: 16px; }
@@ -545,11 +578,29 @@
         </div>
       </section>
 
+      <section class="how" id="how" aria-labelledby="how-title">
+        <h2 id="how-title">Someone who read it all first</h2>
+        <p class="lede">The powerful have always had an assistant who reads everything first and tells them what matters. Now everyone gets one, built to the same standard.</p>
+        <div class="steps">
+          <div class="step">
+            <h3>Read once</h3>
+            <p>One shared newsroom reads the day’s news, once, for every product.</p>
+          </div>
+          <div class="step">
+            <h3>Checked once</h3>
+            <p>It checks what it reads. Every claim keeps its source.</p>
+          </div>
+          <div class="step">
+            <h3>Shaped for you</h3>
+            <p><strong>DayStart</strong> reads it to you. <strong>Plain Ballot</strong> covers your ballot. <strong>Artifact News</strong> draws it.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="studio" id="contact" aria-labelledby="studio">
         <h2 id="studio">Nate Peace’s studio</h2>
         <div class="letter">
-          <p>I started Banana Intelligence to build the tools I wanted for my own family. The people at the top have always had someone to brief them, explain the ballot, and pick what’s worth reading.</p>
-          <p>Software can do that for everyone now, if it’s made with care. Each product does one job, calmly, and treats your time like it matters.</p>
+          <p>I started Banana Intelligence to build the tools I wanted for my own family. Each product does one job, calmly, and treats your time like it matters.</p>
           <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
           <p class="write">Something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
         </div>
