@@ -511,7 +511,7 @@
     held = { pc: pc, id: e.pointerId, sx: e.clientX, sy: e.clientY, x0: pc.x, y0: pc.y, lx: e.clientX,
       // Wide sheets swing less, so even the lead stays on a phone-width wall while carried
       cap: r.width > b.width * 0.6 ? 2.5 : 10,
-      vx: 0, moved: false, slop: e.pointerType === 'mouse' ? 6 : 3,
+      vx: 0, moved: false, slop: e.pointerType === 'mouse' ? 6 : 10,
       // The whole sheet stays on the wall
       lo: { x: Math.min(0, b.left + m - r.left), y: Math.min(0, b.top + m - r.top) },
       hi: { x: Math.max(0, b.right - m - r.right), y: Math.max(0, b.bottom - m - r.bottom) } };
