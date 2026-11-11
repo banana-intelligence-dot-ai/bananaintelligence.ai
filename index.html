@@ -61,6 +61,7 @@
     --ink-2: rgba(26,20,7,0.72);
     --ink-3: rgba(26,20,7,0.64);
     --line: rgba(26,20,7,0.10);
+    --raise: rgba(26,20,7,0.025);
     --banana: #FFD23F;
     --ring: #8F6A00;
     --serif: "Fraunces", ui-serif, Georgia, serif;
@@ -75,6 +76,7 @@
       --ink-2: rgba(244,239,227,0.74);
       --ink-3: rgba(244,239,227,0.62);
       --line: rgba(244,239,227,0.10);
+      --raise: rgba(244,239,227,0.03);
       --ring: #FFD23F;
     }
   }
@@ -125,7 +127,7 @@
   }
   .ext{ width: 12px; height: 12px; flex: none; transition: transform 150ms var(--ease); }
   a:hover .ext{ transform: translate(1px, -1px); }
-  h1, h2, h3, .what{
+  h1, h2, h3{
     font-family: var(--serif);
     font-variation-settings: "opsz" 144;
     margin: 0;
@@ -293,54 +295,62 @@
     color: rgba(26,20,7,0.82);
   }
 
-  /* Sections */
-  .section-head{
-    padding-top: 48px;
-    border-top: 1px solid var(--line);
-  }
-  .section-head h2{
-    font-size: 32px;
-    line-height: 1.15;
+  /* Sections: 128 px apart on desktop, a hairline between */
+  .lineup{ padding: 128px 0; }
+  h2{
+    font-size: 48px;
+    line-height: 1.1;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.025em;
   }
 
-  .products{ padding-bottom: 96px; }
-  .product{
+  /* The lineup: a hairline grid, one real screen per product */
+  .grid{
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: 64px;
-    align-items: start;
-    padding: 64px 0;
-    position: relative;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 64px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
   }
-  .product + .product{ border-top: 1px solid var(--line); }
-  .product h3{
-    font-size: 48px;
-    line-height: 1.05;
+  .cell{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 150ms var(--ease);
+  }
+  .cell + .cell{ border-left: 1px solid var(--line); }
+  @media (hover: hover){
+    .cell:hover{ background: var(--raise); }
+    .cell:hover .go{ text-decoration-color: currentColor; }
+    .cell:hover .go .ext{ transform: translate(1px, -1px); }
+  }
+  .cell .body{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 32px;
+  }
+  .cell h3{
+    font-size: 24px;
+    line-height: 1.2;
     font-weight: 600;
     letter-spacing: -0.01em;
   }
-  .product .what{
-    margin-top: 12px;
-    font-size: 24px;
-    line-height: 1.3;
-    font-weight: 500;
-    letter-spacing: 0;
-  }
-  .product .desc{
-    margin-top: 16px;
-    font-size: 20px;
-    line-height: 1.5;
+  .cell p{
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 1.55;
     color: var(--ink-2);
-    max-width: 30ch;
   }
-  .meta{
-    margin-top: 24px;
+  .foot{
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 16px;
+    justify-content: space-between;
     align-items: center;
+    gap: 0 16px;
+    margin-top: auto;
+    padding-top: 24px;
     font-size: 14px;
     color: var(--ink-3);
   }
@@ -350,18 +360,14 @@
     gap: 4px;
     min-height: 44px;
   }
-  .store{ position: relative; z-index: 1; display: inline-flex; border-radius: 8px; }
-  .store img{ display: block; width: 133px; height: 44px; }
-  /* The whole row is the click target; the link itself stays short for screen readers */
+  /* The whole cell is the click target; the link itself stays short for screen readers */
   .go::after{ content: ""; position: absolute; inset: 0; }
-  .product:hover .go{ text-decoration-color: currentColor; }
-  .product:hover .go .ext{ transform: translate(1px, -1px); }
 
   .shot{
     position: relative;
-    aspect-ratio: 5 / 4;
-    border-radius: 16px;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
+    border-bottom: 1px solid var(--line);
   }
   .shot img{
     position: absolute;
@@ -369,58 +375,43 @@
     width: 100%;
     height: 100%;
     display: block;
-  }
-  .shot::after{
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px rgba(26,20,7,0.08);
-    pointer-events: none;
+    object-fit: cover;
+    object-position: top;
   }
   .shot-daystart{ background: #FFFDF1; }
-  .shot-daystart img{
-    inset: auto;
-    top: 32px;
-    left: 50%;
-    width: auto;
-    height: calc(100% - 48px);
-    transform: translateX(-50%);
-  }
+  .shot-daystart img{ object-fit: contain; padding: 24px 24px 0; }
   .shot-ballot{ background: #FFFDF1; }
-  .shot-ballot img{ object-fit: contain; padding: 16px; mix-blend-mode: multiply; }
+  .shot-ballot img{ object-fit: cover; object-position: left top; mix-blend-mode: multiply; }
   .shot-artifact{ background: #F5F2EA; }
-  .shot-artifact img{ object-fit: cover; object-position: top; }
+  .shot .note{
+    position: absolute;
+    left: 16px;
+    bottom: 12px;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
     .shot-ballot{ background: #131313; }
     .shot-artifact{ background: #121211; }
     .shot-ballot img{ mix-blend-mode: normal; }
-    .shot::after{ box-shadow: inset 0 0 0 1px var(--line); }
   }
-  .caption{ margin-top: 12px; font-size: 14px; color: var(--ink-3); }
 
-  .next{
-    padding: 48px 0 0;
-    border-top: 1px solid var(--line);
-  }
+  /* Coming soon: one quiet row closing the grid */
   .soon{
-    margin-left: 12px;
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: var(--ink-3);
-    white-space: nowrap;
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0 24px;
+    padding: 16px 32px;
+    border-top: 1px solid var(--line);
+    font-size: 16px;
+    color: var(--ink-2);
   }
-  .next h3{
-    font-size: 32px;
-    line-height: 1.15;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .next .note{ margin-top: 12px; font-size: 20px; color: var(--ink-2); max-width: 48ch; }
-  .next .ask{ display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; }
+  .soon strong{ font-weight: 600; color: var(--ink); }
+  .soon .u{ display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
 
   /* Studio note */
   .studio, .contact{
@@ -467,7 +458,10 @@
     .wrap{ padding: 0 32px; }
     .hero{ padding-top: 64px; }
     .hero h1{ font-size: 64px; }
-    .product{ grid-template-columns: 1fr; gap: 32px; }
+    .grid{ grid-template-columns: 1fr; }
+    .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
+    .cell{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .shot{ border-bottom: 0; border-right: 1px solid var(--line); }
   }
 
   /* Phone */
@@ -480,17 +474,13 @@
     .asks{ margin-top: 24px; }
     /* Static on touch: the script only runs on fine pointers */
     .stage{ margin-top: 64px; max-width: 320px; }
-    .section-head{ padding-top: 32px; }
-    .products{ padding-bottom: 64px; }
-    .product{ padding: 48px 0; gap: 24px; }
-    .product h3{ font-size: 32px; line-height: 1.1; }
-    .product .what{ margin-top: 8px; font-size: 20px; }
-    .product .desc{ font-size: 16px; }
-    .shot-daystart img{ top: 16px; height: calc(100% - 24px); }
-    .shot-ballot{ aspect-ratio: auto; }
-    .shot-ballot img{ position: static; height: auto; padding: 0 0 16px; }
-    .next{ padding-top: 32px; }
-    .next .note{ font-size: 16px; }
+    .lineup{ padding: 96px 0; }
+    h2{ font-size: 32px; }
+    .grid{ margin-top: 32px; }
+    .cell{ display: flex; }
+    .shot{ border-right: 0; border-bottom: 1px solid var(--line); }
+    .cell .body{ padding: 24px; }
+    .soon{ padding: 16px 24px; }
     .studio, .contact{ padding: 32px 0 48px; }
     .contact{ padding-bottom: 64px; }
     .letter{ margin-top: 24px; }
@@ -538,69 +528,53 @@
         </div>
       </section>
 
-      <section class="products" id="make" aria-labelledby="make-title">
-        <div class="section-head"><h2 id="make-title">What we make</h2></div>
-
-        <div class="product">
-          <div>
-            <h3>DayStart</h3>
-            <p class="what">My personal briefing.</p>
-            <p class="desc">A five-minute morning show built around your day: the top story, your calendar, and your weather.</p>
-            <p class="meta">
-              <a class="store" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener"><picture><source media="(prefers-color-scheme: dark)" srcset="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" /><img src="https://toolbox.marketingtools.apple.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" width="133" height="44" alt="Download DayStart on the App Store (opens in a new tab)" loading="lazy" decoding="async" /></picture></a>
-              <a class="go u" href="https://daystartai.app/?ct=site-banana" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
-            </p>
-          </div>
-          <div class="shot shot-daystart">
-            <picture>
-              <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
-              <img src="/media/daystart-ready-light.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
-            </picture>
-          </div>
-        </div>
-
-        <div class="product">
-          <div>
-            <h3>Plain Ballot</h3>
-            <p class="what">My personal ballot.</p>
-            <p class="desc">Who’s on your ballot and where they stand, in the candidates’ own words. Free and nonpartisan.</p>
-            <p class="meta"><span>Free on the web</span><a class="go u" href="https://plainballot.com?ref=bananaintelligence" target="_blank" rel="noopener">plainballot.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></p>
-          </div>
-          <div>
+      <section class="lineup" id="make" aria-labelledby="make-title">
+        <h2 id="make-title">What we make</h2>
+        <div class="grid">
+          <article class="cell">
+            <div class="shot shot-daystart">
+              <picture>
+                <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
+                <img src="/media/daystart-ready-light.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
+              </picture>
+            </div>
+            <div class="body">
+              <h3>DayStart</h3>
+              <p>My personal briefing. A five-minute morning show built around your calendar, your weather, and the news.</p>
+              <div class="foot"><a class="go u" href="https://daystartai.app/?ct=site-banana" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a><span>iPhone</span></div>
+            </div>
+          </article>
+          <article class="cell">
             <div class="shot shot-ballot">
               <picture>
-                <source srcset="/media/plain-ballot-phone-dark.webp" media="(max-width: 640px) and (prefers-color-scheme: dark)" width="780" height="728" />
-                <source srcset="/media/plain-ballot-phone-light.webp" media="(max-width: 640px)" width="780" height="728" />
-                <source srcset="/media/plain-ballot-dark.webp" media="(prefers-color-scheme: dark)" width="1000" height="769" />
-                <img src="/media/plain-ballot-light.webp" width="1000" height="769" alt="A State Senate race on a Plain Ballot sample ballot: two candidates side by side, issue by issue, in their own words." loading="lazy" decoding="async" />
+                <source srcset="/media/plain-ballot-phone-dark.webp" media="(prefers-color-scheme: dark)" />
+                <img src="/media/plain-ballot-phone-light.webp" width="780" height="728" alt="A State Senate race on a Plain Ballot sample ballot: two fictional candidates side by side, issue by issue, in their own words." loading="lazy" decoding="async" />
               </picture>
+              <span class="note">Sample ballot. The candidates are fictional.</span>
             </div>
-            <p class="caption">From the sample ballot. The candidates are fictional.</p>
-          </div>
-        </div>
-
-        <div class="product">
-          <div>
-            <h3>Artifact News</h3>
-            <p class="what">The day’s news, in one piece.</p>
-            <p class="desc">One interactive piece a day, made from that morning’s news. New every morning at 9 Eastern.</p>
-            <p class="meta"><span>Free on the web</span><a class="go u" href="https://artifactnews.ai?ref=bananaintelligence" target="_blank" rel="noopener">artifactnews.ai<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></p>
-          </div>
-          <div>
+            <div class="body">
+              <h3>Plain Ballot</h3>
+              <p>My personal ballot. Who’s on it and where they stand, in the candidates’ own words.</p>
+              <div class="foot"><a class="go u" href="https://plainballot.com?ref=bananaintelligence" target="_blank" rel="noopener">plainballot.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a><span>Free on the web</span></div>
+            </div>
+          </article>
+          <article class="cell">
             <div class="shot shot-artifact">
               <picture>
-                <source srcset="/media/artifact-news-dark.webp" media="(prefers-color-scheme: dark)" width="1000" height="800" />
-                <img src="/media/artifact-news-light.webp" width="1000" height="800" alt="Artifact News No. 3: the headline says Democrats need a net gain of four Senate seats and Republicans need 50, above the start of a Senate seat count." loading="lazy" decoding="async" />
+                <source srcset="/media/artifact-news-dark.webp" media="(prefers-color-scheme: dark)" />
+                <img src="/media/artifact-news-light.webp" width="1000" height="800" alt="Artifact News No. 3, Nov. 3, 2026: the headline says Democrats need a net gain of four Senate seats and Republicans need 50." loading="lazy" decoding="async" />
               </picture>
             </div>
-            <p class="caption">No. 3, from Nov. 3, 2026.</p>
+            <div class="body">
+              <h3>Artifact News</h3>
+              <p>The day’s news, in one piece. One interactive story, new every morning at 9 Eastern.</p>
+              <div class="foot"><a class="go u" href="https://artifactnews.ai?ref=bananaintelligence" target="_blank" rel="noopener">artifactnews.ai<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a><span>Free on the web</span></div>
+            </div>
+          </article>
+          <div class="soon">
+            <span><strong>My Happenings</strong>, my personal magazine. Coming soon.</span>
+            <a class="u" href="mailto:nate@bananaintelligence.ai?subject=My%20Happenings">Get a note when it’s ready</a>
           </div>
-        </div>
-
-        <div class="next">
-          <h3>My Happenings <span class="soon">Coming soon</span></h3>
-          <p class="note">My personal magazine. A free daily news podcast and a monthly magazine.</p>
-          <a class="ask u" href="mailto:nate@bananaintelligence.ai?subject=My%20Happenings">Get a note when it’s ready</a>
         </div>
       </section>
 
