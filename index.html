@@ -57,8 +57,8 @@
 </script>
 <style>
   /* The world: a studio's pin-up wall of finished apps.
-     The page is the wall. Real screens are pinned to it with banana tape, the headline
-     and the studio note are pinned up with them, and a work lamp follows the pointer.
+     The page is the wall. The headline is painted on it; only the work is pinned up, each real
+     screen with one strip of banana tape. The pointer is the work lamp: shadows swing away from it.
      Tokens: wall, paper (the sheets), ink, one accent (banana, used as tape and links only).
      Type: Hanken Grotesk only, on the house scale (14 / 16 / 20 / 24 / 32 / 48 / 96).
      Skipped on purpose: a world typeface. Nate chose one sans on 2026-11-11 for readability. */
@@ -74,7 +74,6 @@
     --ring: #8F6A00;
     --pin: 0 1px 0 rgba(26,20,7,0.05), var(--dx, 0px) var(--dy, 16px) 28px -18px rgba(26,20,7,0.38);
     --lift: 0 1px 0 rgba(26,20,7,0.05), var(--dx, 0px) calc(var(--dy, 16px) + 6px) 34px -18px rgba(26,20,7,0.44);
-    --lamp: rgba(255,253,245,0.95);
     --sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
     --ease: cubic-bezier(0.23, 1, 0.32, 1);
     color-scheme: light dark;
@@ -91,9 +90,7 @@
       --ring: #FFD23F;
       --pin: inset 0 1px 0 rgba(244,239,227,0.06), var(--dx, 0px) var(--dy, 16px) 30px -16px rgba(0,0,0,0.7);
       --lift: inset 0 1px 0 rgba(244,239,227,0.08), var(--dx, 0px) calc(var(--dy, 16px) + 6px) 36px -16px rgba(0,0,0,0.8);
-      --lamp: rgba(255,214,120,0.10);
     }
-    .pc img{ filter: brightness(0.9); }
     /* Dark screens on a dark wall: a hairline paper edge keeps each sheet distinct */
     .pc .sheet{ outline: 1px solid rgba(244,239,227,0.14); }
   }
@@ -174,9 +171,10 @@
      columns. Two sizes of screen, one strip of tape each, every screen hung whole. */
   .board{ position: relative; overflow: hidden; padding: 24px 0 112px; }
   .hang{ position: relative; z-index: 1; max-width: 1216px; margin: 0 auto; padding: 0 48px; }
+  /* The headline is painted on the wall itself; only the work is pinned up */
   .head{
     display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 48px; align-items: end;
-    padding: 56px 56px 56px;
+    padding: 40px 0 0;
   }
   .head h1{ font-size: 96px; line-height: 0.98; font-weight: 600; letter-spacing: -0.045em; }
   .lede{ font-size: 20px; line-height: 1.5; color: var(--ink-2); max-width: 32em; }
@@ -190,11 +188,15 @@
   .btn:hover{ opacity: 0.88; }
   .btn:active{ transform: scale(0.97); }
   a.btn:focus-visible{ border-radius: 999px; }
-  .wall{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 40px; align-items: start; margin-top: 72px; }
-  .col{ display: grid; gap: 56px; align-content: start; }
-  .col.big{ grid-column: span 2; }
-  .pair{ display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-  .col.drop{ padding-top: 96px; }
+  /* Desktop: the lead fills two columns, DayStart and Plain Ballot hang beside it at half size,
+     the rest hang in a row under them. Reading order matches the numbers. */
+  .wall{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 56px 40px; align-items: start; margin-top: 88px; }
+  .wall > .lead{ grid-column: 1 / 3; grid-row: 1; }
+  .wall > :nth-child(2){ grid-column: 3; grid-row: 1; margin-top: 40px; }
+  .wall > :nth-child(3){ grid-column: 4; grid-row: 1 / 3; margin-top: 104px; }
+  .wall > :nth-child(4){ grid-column: 1; grid-row: 2; }
+  .wall > :nth-child(5){ grid-column: 2; grid-row: 2; margin-top: 24px; }
+  .wall > :nth-child(6){ grid-column: 3; grid-row: 2; }
   .pc{ display: block; text-decoration: none; transition: transform 200ms var(--ease); }
   .pc .sheet{ display: block; transition: box-shadow 200ms var(--ease); }
   .pc img{ display: block; width: 100%; height: auto; }
@@ -214,23 +216,9 @@
   .pc:focus-visible{ outline: none; }
   .pc:focus-visible .sheet{ outline: 2px solid var(--ring); outline-offset: 3px; }
 
-  /* The work lamp: a pool of warm light on the wall, behind the pinned work. It switches on
-     when a fine pointer moves over the wall and follows it; every sheet's shadow swings away
-     from it. Touch and Reduce Motion: no lamp, the shadows fall straight down. */
-  .lamp{
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(640px 520px at var(--lx, 50%) var(--ly, 30%), var(--lamp), transparent 70%);
-    opacity: 0;
-    transition: opacity 300ms var(--ease);
-    z-index: 0;
-  }
-  .lamp.on{ opacity: 1; }
-
   @media (max-width: 1199px){
     .head h1{ font-size: 48px; }
-    .head{ padding: 48px 48px 48px; grid-template-columns: minmax(0, 1fr) 280px; }
+    .head{ grid-template-columns: minmax(0, 1fr) 280px; }
   }
   /* Sections: 128 px apart on desktop */
   section{ scroll-margin-top: 24px; }
@@ -260,6 +248,9 @@
   .status{ padding-top: 12px; font-size: 14px; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
   .app.paused h3, .app.paused .what, .app.paused .status{ color: var(--ink-3); }
   .app.paused .no{ background: var(--line); color: var(--ink-3); }
+  .app.paused{ padding: 16px 0; }
+  .app.paused h3{ font-size: 20px; }
+  .app.paused .icon{ width: 40px; height: 40px; margin-left: 4px; border-radius: 10px; opacity: 0.8; }
   @media (hover: hover){
     .app:hover h3 a{ text-decoration: underline; text-decoration-color: var(--banana); text-decoration-thickness: 2px; text-underline-offset: 5px; }
   }
@@ -267,7 +258,7 @@
 
   /* The studio note: pinned up like the rest */
   .studio{ padding: 128px 0; }
-  .note{ max-width: 720px; margin: 0 auto; padding: 56px 64px 48px; }
+  .note{ max-width: 640px; margin: 0 auto; padding-top: 40px; border-top: 1px solid var(--ink); }
   .note p{ font-size: 20px; line-height: 1.6; }
   .note p + p{ margin-top: 24px; }
   .note .sign{ font-size: 16px; color: var(--ink-3); }
@@ -287,10 +278,7 @@
     .wrap{ padding: 0 32px; }
     .hang{ padding: 0 32px; }
     .head{ grid-template-columns: 1fr; gap: 24px; }
-    .wall{ gap: 0 24px; }
-    .pair{ gap: 24px; }
-    .col{ gap: 40px; }
-    .col.drop{ padding-top: 64px; }
+    .wall{ gap: 40px 24px; }
     .lineup{ grid-template-columns: 1fr; gap: 40px; }
   }
 
@@ -300,14 +288,12 @@
     .top{ height: 64px; }
     .board{ padding: 8px 0 72px; }
     .hang{ padding: 0 16px; }
-    .head{ padding: 32px 24px 32px; gap: 16px; }
+    .head{ padding: 24px 0 0; gap: 16px; }
     .head h1{ font-size: 48px; line-height: 1.0; letter-spacing: -0.04em; }
     .lede{ font-size: 16px; }
-    .wall{ grid-template-columns: 1fr 1fr; gap: 0 16px; margin-top: 48px; }
-    .col.big{ grid-column: 1 / -1; margin-bottom: 40px; }
-    .pair{ gap: 16px; }
-    .col{ gap: 32px; }
-    .col.drop{ padding-top: 40px; }
+    .wall{ grid-template-columns: 1fr 1fr; gap: 32px 16px; margin-top: 48px; }
+    .wall > *, .wall > .lead{ grid-column: auto; grid-row: auto; margin-top: 0; }
+    .wall > .lead{ grid-column: 1 / -1; }
     .pc .tag{ margin-top: 12px; }
     .pc .tag .sub{ display: none; }
     .tape{ width: 60px; height: 18px; margin-left: -30px; top: -9px; }
@@ -318,7 +304,7 @@
     .app h3{ font-size: 20px; }
     .status{ grid-column: 3; padding-top: 4px; }
     .studio{ padding: 96px 0; }
-    .note{ padding: 40px 24px 32px; }
+    .note{ padding-top: 32px; }
     .note p{ font-size: 16px; }
     .note p + p{ margin-top: 16px; }
     .note .sign{ font-size: 14px; }
@@ -347,60 +333,49 @@
   <main>
     <div class="board" id="board">
       <div class="hang">
-        <section class="head sheet" aria-labelledby="hero-title">
-          <span class="tape" style="--tl:12%;--tilt:-3deg" aria-hidden="true"></span>
+        <section class="head" aria-labelledby="hero-title">
           <h1 id="hero-title">We build small apps that make your day easier.</h1>
           <div>
             <p class="lede">An app studio. DayStart, Plain Ballot, Artifact News and more. <strong>5 apps live.</strong></p>
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
           </div>
         </section>
-        <!-- The pinned work. Every image is a real screen from the live app, hung whole. -->
+        <!-- The pinned work, numbered in reading order to match the key. Every image is a real
+             screen from the live app, hung whole. -->
         <div class="wall">
-          <div class="col big">
-            <a class="pc lead" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:-1deg" aria-hidden="true"></span><img src="/media/wall/w-an-lead.webp" width="1200" height="813" alt="" decoding="async" /></span><span class="tag"><span class="no">3</span><span><b>Artifact News</b><span class="sub">, today’s piece</span><span class="sr"> (opens in a new tab)</span></span></span></a>
-            <div class="pair">
-              <a class="pc" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:1.5deg" aria-hidden="true"></span><img src="/media/wall/w-sp.webp" width="560" height="327" alt="" decoding="async" /></span><span class="tag"><span class="no">4</span><span><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span></span></span></a>
-              <a class="pc" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tl:22%;--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-mh.webp" width="560" height="327" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>My Happenings</b><span class="sr"> (opens in a new tab)</span></span></span></a>
-            </div>
-          </div>
-          <div class="col">
-            <a class="pc" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:2deg" aria-hidden="true"></span><img src="/media/wall/w-ds-m.webp" width="560" height="582" alt="" decoding="async" /></span><span class="tag"><span class="no">1</span><span><b>DayStart</b><span class="sub">, on a phone</span><span class="sr"> (opens in a new tab)</span></span></span></a>
-            <a class="pc" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tl:78%;--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="327" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Politicians by Jev</b><span class="sub">, paused</span><span class="sr"> (opens in a new tab)</span></span></span></a>
-          </div>
-          <div class="col drop">
-            <a class="pc" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:-2.5deg" aria-hidden="true"></span><img src="/media/wall/w-pb-m.webp" width="560" height="962" alt="" decoding="async" /></span><span class="tag"><span class="no">2</span><span><b>Plain Ballot</b><span class="sub">, on a phone</span><span class="sr"> (opens in a new tab)</span></span></span></a>
-            <a class="pc" href="https://natepeace.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:-1deg" aria-hidden="true"></span><img src="/media/wall/w-np.webp" width="560" height="327" alt="" decoding="async" /></span><span class="tag"><span><b>natepeace.com</b><span class="sub">, the founder’s site</span><span class="sr"> (opens in a new tab)</span></span></span></a>
-          </div>
+          <a class="pc lead" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:-1deg" aria-hidden="true"></span><img src="/media/wall/w-an-lead.webp" width="1200" height="813" alt="" decoding="async" /></span><span class="tag"><span class="no">1</span><span><b>Artifact News</b><span class="sub">, today’s piece</span><span class="sr"> (opens in a new tab)</span></span></span></a>
+          <a class="pc" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:2deg" aria-hidden="true"></span><img src="/media/wall/w-ds-m.webp" width="560" height="582" alt="" decoding="async" /></span><span class="tag"><span class="no">2</span><span><b>DayStart</b><span class="sub">, on a phone</span><span class="sr"> (opens in a new tab)</span></span></span></a>
+          <a class="pc" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:-2.5deg" aria-hidden="true"></span><img src="/media/wall/w-pb-m.webp" width="560" height="962" alt="" decoding="async" /></span><span class="tag"><span class="no">3</span><span><b>Plain Ballot</b><span class="sub">, on a phone</span><span class="sr"> (opens in a new tab)</span></span></span></a>
+          <a class="pc" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tilt:1.5deg" aria-hidden="true"></span><img src="/media/wall/w-sp.webp" width="560" height="327" alt="" decoding="async" /></span><span class="tag"><span class="no">4</span><span><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span></span></span></a>
+          <a class="pc" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tl:22%;--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-mh.webp" width="560" height="327" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>My Happenings</b><span class="sr"> (opens in a new tab)</span></span></span></a>
+          <a class="pc" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" style="--tl:78%;--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="327" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Politicians by Jev</b><span class="sub">, paused</span><span class="sr"> (opens in a new tab)</span></span></span></a>
         </div>
       </div>
-      <div class="lamp" id="lamp" aria-hidden="true"></div>
     </div>
 
     <div class="wrap">
       <section class="lineup" id="make" aria-labelledby="make-title">
         <div class="intro">
           <h2 id="make-title">What’s on the wall</h2>
-          <p>The powerful have always had an assistant who reads everything first and tells them what matters. Now everyone gets one, built to the same standard.</p>
           <p><b>One shared newsroom reads the day’s news once and checks every claim against its source.</b> Then each app makes it for one person. DayStart reads it to you. Plain Ballot covers your ballot. Artifact News draws it.</p>
         </div>
         <ol class="key">
           <li class="app">
             <span class="no">1</span>
+            <img class="icon" src="/media/apps/an.webp" width="48" height="48" alt="" decoding="async" />
+            <div><h3><a href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener">Artifact News<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">The day’s news in one interactive piece, new every morning.</p><p class="proof">Every number links to the record it came from.</p></div>
+            <span class="status">Live</span>
+          </li>
+          <li class="app">
+            <span class="no">2</span>
             <img class="icon" src="/media/apps/ds.webp" width="48" height="48" alt="" decoding="async" />
             <div><h3><a href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener">DayStart<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">My personal briefing. A five-minute morning show, ready by 7.</p><p class="proof">On the App Store since September 2025.</p></div>
             <span class="status">Live</span>
           </li>
           <li class="app">
-            <span class="no">2</span>
+            <span class="no">3</span>
             <img class="icon" src="/media/apps/pb.webp" width="48" height="48" alt="" decoding="async" />
             <div><h3><a href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener">Plain Ballot<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">My personal ballot. Where every candidate stands, in their own words.</p><p class="proof">Every position quoted exactly, with a link to its source.</p></div>
-            <span class="status">Live</span>
-          </li>
-          <li class="app">
-            <span class="no">3</span>
-            <img class="icon" src="/media/apps/an.webp" width="48" height="48" alt="" decoding="async" />
-            <div><h3><a href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener">Artifact News<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">The day’s news in one interactive piece, new every morning.</p><p class="proof">Every number links to the record it came from.</p></div>
             <span class="status">Live</span>
           </li>
           <li class="app">
@@ -418,15 +393,14 @@
           <li class="app paused">
             <span class="no">6</span>
             <img class="icon" src="/media/apps/jev.webp" width="48" height="48" alt="" decoding="async" />
-            <div><h3><a href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener">Politicians by Jev<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">Ask a question. Watch 100 famous politicians float or sink.</p><p class="proof">Open source, with every portrait credited.</p></div>
+            <div><h3><a href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener">Politicians by Jev<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">Ask a question. Watch 100 famous politicians float or sink.</p></div>
             <span class="status">Paused</span>
           </li>
         </ol>
       </section>
 
       <section class="studio" id="contact" aria-labelledby="studio">
-        <div class="note sheet">
-          <span class="tape" aria-hidden="true"></span>
+        <div class="note">
           <h2 id="studio" class="sr">Nate Peace’s studio</h2>
           <p>I started Banana Intelligence to build the tools I wanted for my own family. Each app does one job, calmly, and treats your time like it matters.</p>
           <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
@@ -445,11 +419,12 @@
   </div>
 
 <script>
-// The work lamp. It glides after the pointer (lerped, so it has a little mass), and each
-// pinned sheet's shadow swings away from it. Fine pointers only, never under Reduce Motion.
+// The pointer is the work lamp. Each pinned sheet's shadow swings away from it, lerped so the
+// light has a little mass. Fine pointers only, never under Reduce Motion; otherwise the
+// shadows fall straight down.
 (function(){
-  var board = document.getElementById('board'), lamp = document.getElementById('lamp');
-  if (!board || !lamp) return;
+  var board = document.getElementById('board');
+  if (!board) return;
   if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var sheets = [].slice.call(board.querySelectorAll('.sheet')), spots = [];
@@ -464,8 +439,6 @@
   function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
   function tick(){
     x += (tx - x) * 0.12; y += (ty - y) * 0.12;
-    lamp.style.setProperty('--lx', x.toFixed(1) + 'px');
-    lamp.style.setProperty('--ly', y.toFixed(1) + 'px');
     spots.forEach(function(s){
       s.el.style.setProperty('--dx', clamp((s.cx - x) / 30, -20, 20).toFixed(1) + 'px');
       s.el.style.setProperty('--dy', clamp(14 + (s.cy - y) / 36, 4, 32).toFixed(1) + 'px');
@@ -474,11 +447,11 @@
   }
   measure();
   addEventListener('resize', measure);
-  board.addEventListener('pointerleave', function(){ on = false; lamp.classList.remove('on'); });
+  board.addEventListener('pointerleave', function(){ on = false; });
   board.addEventListener('pointermove', function(e){
     var r = board.getBoundingClientRect();
     tx = e.clientX - r.left; ty = e.clientY - r.top;
-    if (!on){ x = tx; y = ty; on = true; lamp.classList.add('on'); }
+    if (!on){ x = tx; y = ty; on = true; }
     if (!raf) raf = requestAnimationFrame(tick);
   });
 })();
