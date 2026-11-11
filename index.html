@@ -61,7 +61,6 @@
     --ink-2: rgba(26,20,7,0.72);
     --ink-3: rgba(26,20,7,0.64);
     --line: rgba(26,20,7,0.10);
-    --raise: rgba(26,20,7,0.025);
     --banana: #FFD23F;
     --ring: #8F6A00;
     --serif: "Fraunces", ui-serif, Georgia, serif;
@@ -76,7 +75,6 @@
       --ink-2: rgba(244,239,227,0.74);
       --ink-3: rgba(244,239,227,0.62);
       --line: rgba(244,239,227,0.10);
-      --raise: rgba(244,239,227,0.03);
       --ring: #FFD23F;
     }
   }
@@ -225,16 +223,15 @@
     letter-spacing: -0.025em;
   }
 
-  /* The lineup: a hairline grid. Every cell frames its screen the same way:
-     inset 32 px, radius 8, a hairline, then the words under it. */
+  /* The lineup: an open hairline grid, no outer frame. Rules above and below, one
+     between cells; the outer edges of the screens and words sit on the page margins. */
   .grid{
     --inset: 32px;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 48px;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    overflow: hidden;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
   .cell{
     position: relative;
@@ -252,13 +249,20 @@
     border-bottom: 1px solid var(--line);
   }
   .cell.lead .shot{ margin-bottom: var(--inset); }
-  .cell.lead .body{ padding: var(--inset) 48px var(--inset) 16px; }
+  .cell.lead .body{ padding: var(--inset) 0 var(--inset) 16px; }
   .cell.lead h3{ font-size: 32px; }
   .cell.lead p{ font-size: 18px; max-width: 34ch; hyphens: manual; }
   .cell.lead .foot{ margin-top: 0; padding-top: 32px; justify-content: flex-start; gap: 0 24px; }
   .cell.lead + .cell{ border-left: 0; }
+  /* Desktop: flush the outer edges to the page margins */
+  @media (min-width: 961px){
+    .cell.lead .shot,
+    .cell.lead + .cell .shot{ margin-left: 0; }
+    .cell.lead + .cell .body{ padding-left: 0; }
+    .cell.lead + .cell + .cell .shot{ margin-right: 0; }
+    .cell.lead + .cell + .cell .body{ padding-right: 0; }
+  }
   @media (hover: hover){
-    .cell:hover{ background: var(--raise); }
     .cell:hover .go{ text-decoration-color: currentColor; }
     .cell:hover .go .ext{ transform: translate(1px, -1px); }
   }
@@ -385,7 +389,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 0 24px;
-    padding: 16px 32px;
+    padding: 16px 0;
     border-top: 1px solid var(--line);
     font-size: 16px;
     color: var(--ink-2);
@@ -435,8 +439,8 @@
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
     .cell.lead + .cell{ border-top: 0; }
     .cell, .cell.lead{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
-    .cell .shot, .cell.lead .shot{ margin-bottom: var(--inset); }
-    .cell .body, .cell.lead .body{ padding: var(--inset) var(--inset) var(--inset) 0; }
+    .cell .shot, .cell.lead .shot{ margin: var(--inset) var(--inset) var(--inset) 0; }
+    .cell .body, .cell.lead .body{ padding: var(--inset) 0; }
   }
 
   /* Phone */
@@ -449,15 +453,14 @@
     .asks{ margin-top: 24px; }
     .grid{ --inset: 24px; }
     .cell, .cell.lead{ display: flex; align-items: stretch; }
-    .cell .shot, .cell.lead .shot{ margin-bottom: 0; }
-    .cell .body, .cell.lead .body{ padding: 24px var(--inset) var(--inset); }
+    .cell .shot, .cell.lead .shot{ margin: var(--inset) 0 0; }
+    .cell .body, .cell.lead .body{ padding: 24px 0 var(--inset); }
     .cell.lead h3{ font-size: 24px; }
     .cell.lead p{ font-size: 16px; }
     .cell.lead .foot{ padding-top: 16px; justify-content: space-between; }
     .lineup{ padding-top: 96px; }
     h2{ font-size: 32px; }
     .grid{ margin-top: 32px; }
-    .soon{ padding: 16px 24px; }
     .studio{ padding: 96px 0; }
     .letter{ margin-top: 24px; }
     .letter p{ font-size: 16px; }
