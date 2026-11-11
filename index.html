@@ -364,15 +364,9 @@
     font-size: 12px;
     color: var(--ink-3);
   }
-  /* Artifact News: the headline and its first lines, at a readable size */
+  /* Artifact News: the headline alone, so nothing in the screen is smaller than 12 px */
   .shot-artifact{ background: #F5F2EA; }
-  .shot-artifact img{
-    inset: auto;
-    left: -14.7%;
-    top: -88.2%;
-    width: 147%;
-    height: auto;
-  }
+  .shot-artifact img{ object-fit: contain; object-position: left center; padding: 32px; }
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
     .glint{ mix-blend-mode: screen; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.12), rgba(255,210,63,0) 70%); }
@@ -441,6 +435,11 @@
     .cell, .cell.lead{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
     .cell .shot, .cell.lead .shot{ margin: var(--inset) var(--inset) var(--inset) 0; }
     .cell .body, .cell.lead .body{ padding: var(--inset) 0; }
+    /* Narrow screens: crop to the parts that stay 12 px or larger */
+    .shot-daystart{ aspect-ratio: 720 / 520; }
+    .shot-daystart img{ object-fit: cover; object-position: 50% 30%; padding: 16px 0 0; }
+    .cell:not(.lead) .shot-artifact{ aspect-ratio: auto; }
+    .shot-artifact img{ position: relative; height: auto; padding: 24px 16px; }
   }
 
   /* Phone */
@@ -535,8 +534,8 @@
           <article class="cell">
             <div class="shot shot-artifact">
               <picture>
-                <source srcset="/media/artifact-news-dark.webp" media="(prefers-color-scheme: dark)" />
-                <img src="/media/artifact-news-light.webp" width="1000" height="800" alt="Artifact News No. 3, Nov. 3, 2026: the headline says Democrats need a net gain of four Senate seats and Republicans need 50." loading="lazy" decoding="async" />
+                <source srcset="/media/artifact-news-headline-dark.webp" media="(prefers-color-scheme: dark)" />
+                <img src="/media/artifact-news-headline-light.webp" width="684" height="182" alt="The headline of Artifact News No. 3, Nov. 3, 2026: Democrats need a net gain of four Senate seats, and Republicans need 50." loading="lazy" decoding="async" />
               </picture>
             </div>
             <div class="body">
