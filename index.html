@@ -135,7 +135,7 @@
 
   .wrap{
     width: 100%;
-    max-width: 1120px;
+    max-width: 1216px;
     margin: 0 auto;
     padding: 0 48px;
   }
@@ -169,37 +169,29 @@
   }
   .top nav a:hover{ color: var(--ink); }
 
-  /* Hero */
+  /* Hero: one line, one subline, one action, then the card */
   .hero{
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: 64px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 64px 0 128px;
+    text-align: center;
+    padding: 96px 0 0;
   }
   .hero h1{
-    font-size: 64px;
-    line-height: 1.05;
+    font-size: 88px;
+    line-height: 1.02;
     font-weight: 600;
-    letter-spacing: -0.01em;
-    max-width: 14ch;
+    letter-spacing: -0.03em;
   }
+  .hero h1 span{ display: block; }
   .lede{
-    margin-top: 32px;
-    font-size: 20px;
-    line-height: 1.5;
+    margin-top: 24px;
+    font-size: 18px;
+    line-height: 1.6;
     color: var(--ink-2);
-    max-width: 34em;
+    max-width: 544px;
   }
-
-  /* Hero asks: one primary action, one quiet second */
-  .asks{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 16px 32px;
-    margin-top: 32px;
-  }
+  .asks{ margin-top: 32px; }
   .btn{
     display: inline-flex;
     align-items: center;
@@ -218,10 +210,9 @@
   .btn:hover{ background: #F7C82A; }
   .btn:active{ transform: scale(0.97); }
   a.btn:focus-visible{ border-radius: 999px; }
-  .asks .u{ display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 
   /* The card: the one reactive light surface on the page */
-  .stage{ position: relative; perspective: 1200px; }
+  .stage{ position: relative; perspective: 1200px; width: 100%; max-width: 440px; margin-top: 96px; }
   .card{
     --mx: 30%;
     --my: 20%;
@@ -231,8 +222,6 @@
     position: relative;
     aspect-ratio: 1.586;
     width: 100%;
-    max-width: 400px;
-    margin-left: auto;
     border-radius: 16px;
     /* Anodized banana: brighter where the light lands, deeper toward the lower right */
     background:
@@ -476,8 +465,8 @@
   /* Tablet */
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
-    .hero{ grid-template-columns: 1fr; gap: 48px; padding: 48px 0 96px; }
-    .card{ margin-left: 0; }
+    .hero{ padding-top: 64px; }
+    .hero h1{ font-size: 64px; }
     .product{ grid-template-columns: 1fr; gap: 32px; }
   }
 
@@ -485,12 +474,12 @@
   @media (max-width: 640px){
     .wrap{ padding: 0 16px; }
     .top{ height: 64px; }
-    .hero{ padding: 32px 0 64px; gap: 32px; }
-    .hero h1{ font-size: 48px; max-width: none; }
-    .lede{ margin-top: 24px; }
-    .asks{ margin-top: 24px; gap: 8px 24px; }
-    /* The card is decoration and static on touch; on a phone the asks end the hero */
-    .stage{ display: none; }
+    .hero{ padding-top: 48px; }
+    .hero h1{ font-size: 48px; }
+    .lede{ font-size: 16px; }
+    .asks{ margin-top: 24px; }
+    /* Static on touch: the script only runs on fine pointers */
+    .stage{ margin-top: 64px; max-width: 320px; }
     .section-head{ padding-top: 32px; }
     .products{ padding-bottom: 64px; }
     .product{ padding: 48px 0; gap: 24px; }
@@ -536,13 +525,10 @@
 
     <main>
       <section class="hero">
-        <div>
-          <h1>Excellence. For everyone.</h1>
-          <p class="lede">Banana Intelligence makes personal media and tools. The morning briefing and the ballot guide, built to that standard.</p>
-          <div class="asks">
-            <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
-            <a class="u" href="https://plainballot.com?ref=bananaintelligence" target="_blank" rel="noopener">Open Plain Ballot<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
-          </div>
+        <h1><span>Excellence.</span> <span>For everyone.</span></h1>
+        <p class="lede">Nate Peace’s studio for personal media and tools. A morning briefing, a ballot guide, and the day’s news, each built to that standard.</p>
+        <div class="asks">
+          <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
         </div>
         <div class="stage" aria-hidden="true">
           <div class="card">
