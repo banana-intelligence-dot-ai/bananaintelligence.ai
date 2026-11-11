@@ -6,7 +6,7 @@
 <title>Banana Intelligence</title>
 <meta name="description" content="Banana Intelligence is Nate Peace’s app studio. We build small apps that make your day easier, like DayStart, Plain Ballot and Artifact News." />
 <meta name="color-scheme" content="light dark" />
-<meta name="theme-color" content="#FBF8F0" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#EFE8D9" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#12100B" media="(prefers-color-scheme: dark)" />
 <link rel="canonical" href="https://bananaintelligence.ai/" />
 <meta property="og:site_name" content="Banana Intelligence" />
@@ -56,37 +56,55 @@
 }
 </script>
 <style>
+  /* The world: a studio's pin-up wall of finished apps.
+     The page is the wall. Real screens are pinned to it with banana tape, the headline
+     and the studio note are pinned up with them, and a work lamp follows the pointer.
+     Tokens: wall, paper (the sheets), ink, one accent (banana, used as tape and links only).
+     Type: Hanken Grotesk only, on the house scale (14 / 16 / 20 / 24 / 32 / 48 / 96).
+     Skipped on purpose: a world typeface. Nate chose one sans on 2026-11-11 for readability. */
   :root{
+    --wall: #EFE8D9;
     --paper: #FBF8F0;
     --ink: #1A1407;
-    --ink-2: rgba(26,20,7,0.82);
-    --ink-3: rgba(26,20,7,0.72);
-    --line: rgba(26,20,7,0.10);
+    --ink-2: rgba(26,20,7,0.80);
+    --ink-3: rgba(26,20,7,0.68);
+    --line: rgba(26,20,7,0.12);
     --banana: #FFD23F;
+    --tape: rgba(255,210,63,0.88);
     --ring: #8F6A00;
+    --pin: 0 1px 0 rgba(26,20,7,0.05), var(--dx, 0px) var(--dy, 16px) 28px -18px rgba(26,20,7,0.38);
+    --lift: 0 1px 0 rgba(26,20,7,0.05), var(--dx, 0px) calc(var(--dy, 16px) + 6px) 34px -18px rgba(26,20,7,0.44);
+    --lamp: rgba(255,253,245,0.95);
     --sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
     --ease: cubic-bezier(0.23, 1, 0.32, 1);
     color-scheme: light dark;
   }
   @media (prefers-color-scheme: dark){
     :root{
-      --paper: #12100B;
+      --wall: #12100B;
+      --paper: #1D1A12;
       --ink: #F4EFE3;
       --ink-2: rgba(244,239,227,0.84);
-      --ink-3: rgba(244,239,227,0.72);
-      --line: rgba(244,239,227,0.10);
+      --ink-3: rgba(244,239,227,0.70);
+      --line: rgba(244,239,227,0.12);
+      --tape: rgba(255,210,63,0.78);
       --ring: #FFD23F;
+      --pin: inset 0 1px 0 rgba(244,239,227,0.06), var(--dx, 0px) var(--dy, 16px) 30px -16px rgba(0,0,0,0.7);
+      --lift: inset 0 1px 0 rgba(244,239,227,0.08), var(--dx, 0px) calc(var(--dy, 16px) + 6px) 36px -16px rgba(0,0,0,0.8);
+      --lamp: rgba(255,214,120,0.10);
     }
+    .pc img{ filter: brightness(0.9); }
   }
 
   *{ box-sizing: border-box; }
-  html{ -webkit-text-size-adjust: 100%; }
+  html{ -webkit-text-size-adjust: 100%; overflow-x: clip; }
   body{
     margin: 0;
-    background: var(--paper);
+    overflow-x: clip;
+    background: var(--wall);
     color: var(--ink);
     font-family: var(--sans);
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -105,415 +123,234 @@
     transition: text-decoration-color 150ms var(--ease);
   }
   .u:hover{ text-decoration-color: currentColor; }
-  a:focus-visible{
-    outline: 2px solid var(--ring);
-    outline-offset: 3px;
-    border-radius: 8px;
-  }
+  a:focus-visible{ outline: 2px solid var(--ring); outline-offset: 3px; border-radius: 8px; }
   /* Inline links in prose: a 44px-tall hit area without moving the line */
-  .letter a, footer a{ padding-block: 14px; }
+  .note a, footer a{ padding-block: 14px; }
   .sr{
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-    border: 0;
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
   .ext{ width: 12px; height: 12px; flex: none; transition: transform 150ms var(--ease); }
   a:hover .ext{ transform: translate(1px, -1px); }
-  h1, h2, h3{
-    font-family: var(--sans);
-    letter-spacing: -0.035em;
-    margin: 0;
-    text-wrap: balance;
-  }
+  h1, h2, h3{ font-family: var(--sans); margin: 0; text-wrap: balance; }
   p{ margin: 0; text-wrap: pretty; }
 
-  .wrap{
-    width: 100%;
+  .wrap{ width: 100%; max-width: 1216px; margin: 0 auto; padding: 0 48px; }
+
+  /* Header */
+  .top{ display: flex; align-items: center; justify-content: space-between; height: 96px; }
+  .home{
+    display: inline-flex; align-items: center; gap: 12px; min-height: 44px;
+    text-decoration: none; font-weight: 600; font-size: 16px; letter-spacing: -0.005em;
+  }
+  .tile{ display: block; width: 32px; height: 32px; }
+  .top nav{ display: flex; gap: 32px; }
+  .top nav a{
+    display: inline-flex; align-items: center; min-height: 44px;
+    font-size: 14px; font-weight: 500; color: var(--ink-2); text-decoration: none;
+  }
+  .top nav a:hover{ color: var(--ink); }
+
+  /* A sheet pinned to the wall: paper, a soft cast shadow, one strip of banana tape */
+  .sheet{ position: relative; background: var(--paper); box-shadow: var(--pin); }
+  .tape{
+    position: absolute;
+    top: -11px;
+    left: var(--tl, 50%);
+    width: 76px;
+    height: 22px;
+    margin-left: -38px;
+    background: var(--tape);
+    transform: rotate(var(--tilt, -2deg));
+    /* Torn ends */
+    clip-path: polygon(0 8%, 4% 0, 96% 6%, 100% 0, 98% 50%, 100% 94%, 95% 100%, 3% 92%, 0 100%, 2% 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  /* Wide sheets are held at two corners, narrow ones by one strip, placed by hand */
+  .tape.l{ top: 4px; left: -22px; margin-left: 0; width: 64px; --tilt: -38deg; }
+  .tape.r{ top: 4px; left: auto; right: -22px; margin-left: 0; width: 64px; --tilt: 36deg; }
+
+  /* The wall. The headline sheet and the lead piece (DayStart, the app the button sells) are
+     pinned side by side, the lead overlapping the headline's edge. Every other app hangs below,
+     once each, at mixed sizes and drops. Every screen hangs whole: nothing is cut at an edge. */
+  .board{ position: relative; overflow: hidden; padding: 32px 0 96px; }
+  .hang{
+    position: relative;
+    z-index: 1;
     max-width: 1216px;
     margin: 0 auto;
     padding: 0 48px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 31%;
+    align-items: start;
   }
-
-  /* Header */
-  .top{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 96px;
-  }
-  .home{
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    min-height: 44px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 16px;
-    letter-spacing: -0.005em;
-  }
-  .tile{ display: block; width: 32px; height: 32px; }
-  .top nav a{
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink-2);
-    text-decoration: none;
-  }
-  .top nav{ display: flex; gap: 32px; }
-  .top nav a:hover{ color: var(--ink); }
-
-  /* Hero: one line across the container, the subline and one action on a row below it.
-     The wall of real screens is the hero's lower half. */
-  .hero{ padding: 64px 0 0; }
-  .hero h1{
-    font-size: 80px;
-    line-height: 1.02;
-    font-weight: 600;
-    letter-spacing: -0.045em;
-    max-width: 12.5em;
-  }
-  .intro{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px 48px;
-    margin-top: 32px;
-  }
-  .lede{
-    font-size: 18px;
-    line-height: 1.6;
-    color: var(--ink-2);
-    max-width: 44em;
-  }
-  .lede strong{ font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .head{ padding: 56px 56px 56px; margin-top: 48px; }
+  .head h1{ font-size: 96px; line-height: 0.98; font-weight: 600; letter-spacing: -0.045em; }
+  .lede{ margin-top: 24px; font-size: 20px; line-height: 1.5; color: var(--ink-2); max-width: 32em; }
+  .lede strong{ font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .btn{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 48px;
-    padding: 0 24px;
-    border-radius: 999px;
-    background: var(--ink);
-    color: var(--paper);
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 1px 2px rgba(26,20,7,0.16);
+    display: inline-flex; align-items: center; gap: 8px; min-height: 48px; margin-top: 32px;
+    padding: 0 24px; border-radius: 999px; background: var(--ink); color: var(--paper);
+    font-size: 16px; font-weight: 600; text-decoration: none;
     transition: opacity 150ms var(--ease), transform 150ms var(--ease);
   }
   .btn:hover{ opacity: 0.88; }
   .btn:active{ transform: scale(0.97); }
   a.btn:focus-visible{ border-radius: 999px; }
-
-  /* The wall: three rows of real screens drifting in opposite directions.
-     Each row holds its tiles twice, so a -50% shift loops without a seam.
-     Pauses on hover and focus. A static grid under Reduce Motion. */
-  .wall{
-    --h: 208px;
-    --gap: 16px;
-    --r: 16px;
-    display: grid;
-    gap: var(--gap);
-    margin-top: 64px;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 96px, #000 calc(100% - 96px), transparent);
-            mask-image: linear-gradient(90deg, transparent, #000 96px, #000 calc(100% - 96px), transparent);
-  }
-  .row{ overflow: hidden; }
-  .track{
-    display: flex;
-    width: max-content;
-    animation: drift var(--dur, 110s) linear infinite;
-  }
-  .row:nth-child(2) .track{ --dur: 95s; animation-direction: reverse; }
-  .row:nth-child(3) .track{ --dur: 125s; }
-  .wall:hover .track,
-  .wall:focus-within .track{ animation-play-state: paused; }
-  .wall.kb .track{ animation: none; }
-  @keyframes drift{ to{ transform: translate3d(-50%, 0, 0); } }
-  .set{ display: flex; gap: var(--gap); padding-right: var(--gap); }
-  .t{
-    position: relative;
-    flex: none;
-    display: block;
-    height: var(--h);
-    aspect-ratio: 16 / 10;
-    border-radius: var(--r);
-    overflow: hidden;
-    background: var(--line);
-    transition: transform 250ms var(--ease);
-  }
-  .t.p{ aspect-ratio: 7 / 10; }
-  .t img{ display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
-  /* Hairline drawn over the image, so light and dark screens both hold an edge */
-  .t::after{
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: inset 0 0 0 1px var(--line);
-    pointer-events: none;
-    transition: box-shadow 150ms var(--ease);
-  }
-  /* The product's name, shown on hover or focus */
-  .t::before{
-    content: attr(data-name);
-    position: absolute;
-    left: 8px;
-    bottom: 8px;
-    z-index: 1;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: var(--paper);
-    color: var(--ink);
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 16px;
-    box-shadow: 0 0 0 1px var(--line), 0 2px 8px rgba(26,20,7,0.12);
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 150ms var(--ease), transform 150ms var(--ease);
-    pointer-events: none;
-  }
-  .t:hover::before, .t:focus-visible::before{ opacity: 1; transform: none; }
-  .t:hover::after{ box-shadow: inset 0 0 0 1px var(--ink-3); }
-  .t:focus-visible{ outline: 2px solid var(--ring); outline-offset: -2px; border-radius: var(--r); }
-
-  /* Sections: 128 px apart on desktop, a hairline between */
-  .lineup{ padding-top: 128px; }
-  h2{
-    font-size: 48px;
-    line-height: 1.1;
-    font-weight: 600;
-    letter-spacing: -0.025em;
-  }
-
-  /* The apps: every card has the same shape. Icon and status, name, one line,
-     one real proof point, the link. An open hairline grid, no outer frame. */
-  .apps{
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: 48px;
-    border-top: 1px solid var(--line);
-  }
-  .app{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 32px;
-    border-bottom: 1px solid var(--line);
-  }
-  .app:nth-child(3n+1){ padding-left: 0; }
-  .app:nth-child(3n){ padding-right: 0; }
-  .app:not(:nth-child(3n+1)){ border-left: 1px solid var(--line); }
-  .app .head{ display: flex; align-items: center; justify-content: space-between; }
-  .icon{
-    display: block;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    box-shadow: 0 0 0 1px var(--line);
-  }
-  .status{
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--ink-2);
-  }
-  .status::before{ content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--dot); }
-  .status.live{ --dot: #3C8F5E; }
-  .status.beta{ --dot: #B08300; }
-  .status.paused{ --dot: rgba(26,20,7,0.32); color: var(--ink-3); }
-  .app h3{
-    margin-top: 24px;
-    font-size: 24px;
-    line-height: 1.2;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .app p{ margin-top: 8px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
-  .app .proof{
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--ink);
-    font-variant-numeric: tabular-nums;
-  }
-  .foot{
-    display: flex;
-    align-items: center;
-    margin-top: auto;
-    padding-top: 16px;
-    font-size: 14px;
-  }
-  .go{
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    min-height: 44px;
-  }
-  /* The whole card is the click target; the link itself stays short for screen readers */
-  .go::after{ content: ""; position: absolute; inset: 0; }
-  @media (hover: hover){
-    .app:hover .go{ text-decoration-color: currentColor; }
-    .app:hover .go .ext{ transform: translate(1px, -1px); }
-  }
-  @media (prefers-color-scheme: dark){
-    .t::before{ box-shadow: 0 0 0 1px var(--line), 0 2px 8px rgba(0,0,0,0.4); }
-    .status.live{ --dot: #6CC08E; }
-    .status.beta{ --dot: #FFD23F; }
-    .status.paused{ --dot: rgba(244,239,227,0.36); }
-  }
-
-  /* How it works: the why as a lede, the how as three steps on a hairline row */
-  .how{ padding-top: 128px; }
-  .how .lede{ margin-top: 24px; max-width: 50ch; }
-  .steps{
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: 48px;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .step{ padding: 32px 32px 40px; }
-  .step:first-child{ padding-left: 0; }
-  .step:last-child{ padding-right: 0; }
-  .step + .step{ border-left: 1px solid var(--line); }
-  .step h3{
-    font-size: 24px;
-    line-height: 1.2;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .step p{
-    margin-top: 8px;
-    font-size: 16px;
-    line-height: 1.55;
-    color: var(--ink-2);
-  }
-  .step strong{ font-weight: 600; color: var(--ink); }
-
-  /* Studio note and contact: one column */
-  .studio{ padding: 128px 0; }
-  .letter{ max-width: 60ch; margin-top: 32px; }
-  .letter p{ font-size: 20px; line-height: 1.6; }
-  .letter p + p{ margin-top: 24px; }
-  .letter .sign{ font-size: 16px; color: var(--ink-3); }
-  .letter .write{
-    margin-top: 48px;
-    padding-top: 32px;
-    border-top: 1px solid var(--line);
-  }
-  .mail{ overflow-wrap: anywhere; }
-
-  footer{
+  .lead{ position: relative; z-index: 2; margin: 112px 0 0 -24px; }
+  /* The ready card is a tight crop of the app screen; mount it on the screen's own black so its top line breathes */
+  .lead .sheet{ background: #15110D; padding: 16px 0 8px; }
+  .rest{
+    grid-column: 1 / -1;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 8px 24px;
-    padding: 48px 0 64px;
-    border-top: 1px solid var(--line);
-    font-size: 14px;
-    color: var(--ink-3);
-    font-variant-numeric: tabular-nums;
+    align-items: flex-start;
+    row-gap: 56px;
+    margin-top: 72px;
   }
-  footer a{
-    color: var(--ink-2);
-    text-decoration: underline;
-    text-decoration-color: var(--banana);
-    text-underline-offset: 5px;
+  .rest .pc{ flex: none; width: var(--w); margin-top: var(--drop, 0px); }
+
+  .pc{ display: block; text-decoration: none; transition: transform 200ms var(--ease); }
+  .pc .sheet{ display: block; transition: box-shadow 200ms var(--ease); }
+  .pc img{ display: block; width: 100%; height: auto; }
+  .pc .tag{ display: block; margin-top: 12px; font-size: 14px; line-height: 20px; font-weight: 500; color: var(--ink-2); }
+  .pc .tag b{ font-weight: 600; color: var(--ink); }
+  @media (hover: hover){
+    .pc:hover{ transform: translateY(-2px); }
+    .pc:hover .sheet{ box-shadow: var(--lift); }
   }
+  .pc:focus-visible{ outline: none; }
+  .pc:focus-visible .sheet{ outline: 2px solid var(--ring); outline-offset: 3px; }
+
+  /* The work lamp: a pool of warm light on the wall, behind the pinned work. It switches on
+     when a fine pointer moves over the wall and follows it; every sheet's shadow swings away
+     from it. Touch and Reduce Motion: no lamp, the shadows fall straight down. */
+  .lamp{
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(640px 520px at var(--lx, 50%) var(--ly, 30%), var(--lamp), transparent 70%);
+    opacity: 0;
+    transition: opacity 300ms var(--ease);
+    z-index: 0;
+  }
+  .lamp.on{ opacity: 1; }
+
+  @media (max-width: 1199px){
+    .head h1{ font-size: 64px; }
+    .head{ padding: 48px 48px 48px; margin-top: 32px; }
+  }
+  /* Sections: 128 px apart on desktop */
+  section{ scroll-margin-top: 24px; }
+  h2{ font-size: 48px; line-height: 1.1; font-weight: 600; letter-spacing: -0.03em; }
+
+  /* What we make: the wall's key. One row per app, live ones first. */
+  .lineup{ padding-top: 96px; }
+  .key{ margin: 48px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
+  .app{
+    position: relative;
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1.1fr) minmax(0, 1fr) 96px;
+    gap: 8px 32px;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .icon{ display: block; width: 48px; height: 48px; border-radius: 12px; box-shadow: 0 0 0 1px var(--line); }
+  .app h3{ font-size: 24px; line-height: 1.2; font-weight: 600; letter-spacing: -0.015em; }
+  .app h3 a{ text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+  .app h3 a::after{ content: ""; position: absolute; inset: 0; }
+  .app .what{ margin-top: 2px; font-size: 16px; color: var(--ink-2); }
+  .app .proof{ font-size: 16px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .status{ justify-self: end; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+  .app.paused{ color: var(--ink-3); }
+  .app.paused h3, .app.paused .status{ color: var(--ink-3); }
+  @media (hover: hover){
+    .app:hover h3 a{ text-decoration: underline; text-decoration-color: var(--banana); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+    .app:hover .ext{ transform: translate(1px, -1px); }
+  }
+  .app h3 a:focus-visible{ outline-offset: 6px; }
+
+  /* How it works: the why on the left, how it is made as one run on the right */
+  .how{ padding-top: 128px; display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
+  .how .lede{ margin-top: 24px; }
+  .run{ padding-top: 24px; border-top: 1px solid var(--ink); font-size: 24px; line-height: 1.45; letter-spacing: -0.01em; color: var(--ink-2); }
+  .run b{ font-weight: 600; color: var(--ink); }
+
+  /* The studio note: pinned up like the rest */
+  .studio{ padding: 128px 0; }
+  .note{ max-width: 720px; margin: 0 auto; padding: 56px 64px 48px; }
+  .note p{ font-size: 20px; line-height: 1.6; }
+  .note p + p{ margin-top: 24px; }
+  .note .sign{ font-size: 16px; color: var(--ink-3); }
+  .note .write{ margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 16px; }
+  .mail{ overflow-wrap: anywhere; }
+
+  footer{
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;
+    padding: 48px 0 64px; border-top: 1px solid var(--line);
+    font-size: 14px; color: var(--ink-3); font-variant-numeric: tabular-nums;
+  }
+  footer a{ color: var(--ink-2); text-decoration: underline; text-decoration-color: var(--banana); text-underline-offset: 5px; }
   footer a:hover{ color: var(--ink); text-decoration-color: currentColor; }
 
   /* Tablet */
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
-    .hero h1{ font-size: 64px; }
-    .wall{ --h: 160px; }
-    .apps{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .app:nth-child(n){ padding: 32px; border-left: 0; }
-    .app:nth-child(2n+1){ padding-left: 0; }
-    .app:nth-child(2n){ padding-right: 0; border-left: 1px solid var(--line); }
-    .steps{ grid-template-columns: 1fr; }
-    .step, .step:first-child, .step:last-child{ padding: 24px 0; }
-    .step + .step{ border-left: 0; border-top: 1px solid var(--line); }
+    .app{ grid-template-columns: 48px minmax(0, 1fr) auto; }
+    .app{ align-items: start; }
+    .app .status{ grid-row: 1; grid-column: 3; padding-top: 12px; }
+    .app .proof{ grid-column: 2 / -1; }
+    .how{ grid-template-columns: 1fr; gap: 32px; }
+    .hang{ padding: 0 32px; grid-template-columns: minmax(0, 1fr) 36%; }
+    .rest .pc{ width: var(--wt, var(--w)); }
   }
 
   /* Phone */
   @media (max-width: 640px){
     .wrap{ padding: 0 16px; }
     .top{ height: 64px; }
-    .hero{ padding-top: 48px; }
-    .hero h1{ font-size: 40px; line-height: 1.05; letter-spacing: -0.04em; }
-    .intro{ margin-top: 16px; }
-    .lede{ font-size: 16px; }
-    .wall{ --h: 120px; --gap: 8px; --r: 8px; margin-top: 48px;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
-              mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); }
-    .track{ --dur: 70s; }
-    .row:nth-child(2) .track{ --dur: 60s; }
-    .row:nth-child(3) .track{ --dur: 80s; }
-    .t::before{ display: none; }
-    .lineup{ padding-top: 96px; }
+    .board{ padding: 16px 0 64px; }
+    .hang{ padding: 0 16px; grid-template-columns: minmax(0, 1fr); }
+    .head{ margin-top: 16px; padding: 32px 24px 32px; }
+    .lead{ width: 72%; margin: -24px 0 0 auto; }
+    .rest{ margin-top: 48px; row-gap: 40px; }
+    .rest .pc{ width: var(--wp, 47%); margin-top: var(--dropp, 0px); }
+    .head h1{ font-size: 48px; line-height: 1.0; letter-spacing: -0.04em; }
+    .lede{ margin-top: 16px; font-size: 16px; }
+    .btn{ margin-top: 24px; }
+    .rest .x{ display: none; }
+    .rest .pc:nth-child(1){ order: 1; } .rest .pc:nth-child(3){ order: 2; } .rest .pc:nth-child(2){ order: 3; }
+    .rest .pc:nth-child(6){ order: 4; } .rest .pc:nth-child(7){ order: 5; } .rest .pc:nth-child(4){ order: 6; }
+    .tape{ width: 60px; height: 18px; margin-left: -30px; top: -9px; }
+    .tape.l, .tape.r{ width: 52px; top: 2px; }
+    .tape.l{ left: -18px; } .tape.r{ right: -18px; }
+    .lineup{ padding-top: 64px; }
     h2{ font-size: 32px; }
-    .apps{ grid-template-columns: 1fr; margin-top: 32px; }
-    .app, .app:nth-child(n){ padding: 24px 0; border-left: 0; }
+    .key{ margin-top: 32px; }
+    .app{ grid-template-columns: 48px minmax(0, 1fr) auto; gap: 4px 16px; padding: 20px 0; }
+    .app h3{ font-size: 20px; }
     .how{ padding-top: 96px; }
-    .steps{ margin-top: 32px; }
+    .run{ font-size: 20px; }
     .studio{ padding: 96px 0; }
-    .letter{ margin-top: 24px; }
-    .letter p{ font-size: 16px; }
-    .letter p + p{ margin-top: 16px; }
-    .letter .sign{ font-size: 14px; }
-    .letter .write{ margin-top: 32px; padding-top: 24px; }
+    .note{ padding: 40px 24px 32px; }
+    .note p{ font-size: 16px; }
+    .note p + p{ margin-top: 16px; }
+    .note .sign{ font-size: 14px; }
+    .note .write{ margin-top: 32px; }
     footer{ padding: 32px 0 48px; flex-direction: column; gap: 24px; }
   }
 
-  /* Reduce Motion: the wall stops and becomes a static grid of twelve screens */
   @media (prefers-reduced-motion: reduce){
-    .wall{
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      max-width: 1216px;
-      margin-inline: auto;
-      padding: 0 48px;
-      -webkit-mask-image: none;
-              mask-image: none;
-    }
-    .row, .track, .set{ display: contents; }
-    .set[inert], .t.x{ display: none; }
-    .t, .t.p{ height: auto; aspect-ratio: 16 / 10; }
-    .t, .t::before, .t::after, .u, .btn, .ext{ transition: none; }
+    .pc, .pc .sheet, .u, .btn, .ext{ transition: none; }
+    .pc:hover{ transform: none; }
     .btn:active{ transform: none; }
-  }
-  @media (prefers-reduced-motion: reduce) and (max-width: 960px){
-    .wall{ grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0 32px; }
-  }
-  @media (prefers-reduced-motion: reduce) and (max-width: 640px){
-    .wall{ grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 16px; }
   }
 </style>
 </head>
 <body>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <symbol id="bi" viewBox="0 0 1838 1400"><path fill="currentColor" d="M1170 1063Q1170 1213 1045 1306Q921 1400 681 1400H10Q5 1400 2 1398Q0 1396 0 1394Q0 1388 12 1386L93 1374Q113 1370 122 1361Q132 1352 132 1333V54Q132 42 124 36Q116 30 93 26L12 14Q0 12 0 6Q0 4 2 2Q5 0 10 0H497Q689 0 821 50Q953 101 1022 190Q1090 279 1090 396Q1090 494 1036 570Q982 647 882 690Q781 734 642 734L685 728Q828 728 937 771Q1047 815 1108 891Q1170 966 1170 1063ZM574 744H379V724H587Q671 724 728 688Q785 652 814 582Q843 512 843 412Q843 294 797 205Q752 117 672 68Q593 19 492 19H406V1340Q406 1362 420 1372Q434 1381 461 1381H611Q700 1381 764 1340Q828 1300 862 1227Q896 1155 896 1059Q896 914 813 829Q730 744 574 744ZM1706 1346Q1706 1358 1715 1364Q1725 1370 1744 1374L1825 1386Q1837 1388 1837 1393Q1837 1396 1835 1398Q1833 1400 1828 1400H1304Q1299 1400 1296 1398Q1294 1396 1294 1393Q1294 1388 1306 1386L1387 1374Q1407 1370 1416 1364Q1426 1358 1426 1346V54Q1426 42 1416 36Q1407 29 1387 26L1306 14Q1294 12 1294 6Q1294 4 1296 2Q1299 0 1304 0H1828Q1833 0 1835 2Q1837 4 1837 6Q1837 12 1825 14L1744 26Q1725 29 1715 36Q1706 42 1706 54Z"/></symbol>
-  </svg>
-
   <div class="wrap">
     <header class="top">
       <a class="home" href="/" aria-label="Banana Intelligence, home">
@@ -525,189 +362,137 @@
   </div>
 
   <main>
-      <div class="wrap">
-      <section class="hero">
-        <h1>We build small apps that make your day easier.</h1>
-        <div class="intro">
+    <div class="board" id="board">
+      <div class="hang">
+        <section class="head sheet" aria-labelledby="hero-title">
+          <span class="tape l" aria-hidden="true"></span>
+          <h1 id="hero-title">We build small apps that make your day easier.</h1>
           <p class="lede">An app studio. DayStart, Plain Ballot, Artifact News and more. <strong>5 apps live.</strong></p>
           <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+        </section>
+        <!-- The pinned work. Every image is a real screen, hung whole. .x: hidden on phones. -->
+        <a class="pc lead" style="--tl:58%;--tilt:2deg" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" aria-hidden="true"></span><img src="/media/wall/ds-ready-card-dark.webp" width="720" height="740" alt="" decoding="async" /></span><span class="tag"><b>DayStart</b> for iPhone, ready at 7:20<span class="sr"> (opens in a new tab)</span></span></a>
+        <div class="rest">
+        <a class="pc" style="--w:16%;--wt:30%;--drop:24px;--tl:40%;--tilt:-3deg" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" aria-hidden="true"></span><img src="/media/wall/pb-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" /></span><span class="tag"><b>Plain Ballot</b><span class="sr"> (opens in a new tab)</span></span></a>
+        <a class="pc" style="--w:30%;--wt:62%;--wp:100%" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape l" aria-hidden="true"></span><span class="tape r" aria-hidden="true"></span><img src="/media/wall/an-today-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" /></span><span class="tag"><b>Artifact News</b>, No. 12<span class="sr"> (opens in a new tab)</span></span></a>
+        <a class="pc" style="--w:15%;--wt:30%;--drop:56px;--dropp:0px;--tilt:1.5deg" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" aria-hidden="true"></span><img src="/media/wall/mh-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" /></span><span class="tag"><b>My Happenings</b><span class="sr"> (opens in a new tab)</span></span></a>
+        <a class="pc" style="--w:29%;--wt:62%;--wp:100%;--drop:8px" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape l" aria-hidden="true"></span><span class="tape r" aria-hidden="true"></span><img src="/media/wall/sp-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" /></span><span class="tag"><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span></span></a>
+        <a class="pc x" style="--w:31%;--wt:62%;--drop:16px" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape l" aria-hidden="true"></span><span class="tape r" aria-hidden="true"></span><img src="/media/wall/ds-web-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" /></span><span class="tag"><b>DayStart</b> on the web<span class="sr"> (opens in a new tab)</span></span></a>
+        <a class="pc" style="--w:14%;--wt:30%;--drop:48px;--dropp:0px;--tl:62%;--tilt:3deg" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" aria-hidden="true"></span><img src="/media/wall/jev-m.webp" width="294" height="420" alt="" loading="lazy" decoding="async" /></span><span class="tag"><b>Politicians by Jev</b><span class="sr"> (opens in a new tab)</span></span></a>
+        <a class="pc" style="--w:15%;--wt:30%;--tl:44%;--tilt:-1.5deg" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape" aria-hidden="true"></span><img src="/media/wall/an-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" /></span><span class="tag"><b>Artifact News</b> on a phone<span class="sr"> (opens in a new tab)</span></span></a>
+        <a class="pc x" style="--w:28%;--wt:62%;--drop:40px" href="https://natepeace.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape l" aria-hidden="true"></span><span class="tape r" aria-hidden="true"></span><img src="/media/wall/np.webp" width="672" height="420" alt="" loading="lazy" decoding="async" /></span><span class="tag"><b>natepeace.com</b>, the founder’s site<span class="sr"> (opens in a new tab)</span></span></a>
         </div>
-      </section>
       </div>
+      <div class="lamp" id="lamp" aria-hidden="true"></div>
+    </div>
 
-      <div class="wall" aria-label="Screens from our apps" role="region">
-        <div class="row"><div class="track">
-          <div class="set">
-            <a class="t" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-today-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-ready-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Spooky Particles" aria-label="Spooky Particles (opens in a new tab)"><img src="/media/wall/sp-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://natepeace.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Nate Peace" aria-label="Nate Peace (opens in a new tab)"><img src="/media/wall/np.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://artifactnews.ai/9/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 9" aria-label="Artifact News No. 9 (opens in a new tab)"><img src="/media/wall/an-9-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-          </div>
-          <div class="set" inert aria-hidden="true">
-            <a class="t" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-today-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-ready-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Spooky Particles" aria-label="Spooky Particles (opens in a new tab)"><img src="/media/wall/sp-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://natepeace.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Nate Peace" aria-label="Nate Peace (opens in a new tab)"><img src="/media/wall/np.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://artifactnews.ai/9/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 9" aria-label="Artifact News No. 9 (opens in a new tab)"><img src="/media/wall/an-9-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-          </div>
-        </div></div>
-        <div class="row"><div class="track">
-          <div class="set">
-            <a class="t" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Politicians by Jev" aria-label="Politicians by Jev (opens in a new tab)"><img src="/media/wall/jev-m.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t" href="https://artifactnews.ai/11/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 11" aria-label="Artifact News No. 11 (opens in a new tab)"><img src="/media/wall/an-11-light-chart.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-player-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://artifactnews.ai/10/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 10" aria-label="Artifact News No. 10 (opens in a new tab)"><img src="/media/wall/an-10-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Spooky Particles" aria-label="Spooky Particles (opens in a new tab)"><img src="/media/wall/sp-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-          </div>
-          <div class="set" inert aria-hidden="true">
-            <a class="t" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Politicians by Jev" aria-label="Politicians by Jev (opens in a new tab)"><img src="/media/wall/jev-m.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t" href="https://artifactnews.ai/11/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 11" aria-label="Artifact News No. 11 (opens in a new tab)"><img src="/media/wall/an-11-light-chart.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-player-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://artifactnews.ai/10/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 10" aria-label="Artifact News No. 10 (opens in a new tab)"><img src="/media/wall/an-10-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Spooky Particles" aria-label="Spooky Particles (opens in a new tab)"><img src="/media/wall/sp-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-          </div>
-        </div></div>
-        <div class="row"><div class="track">
-          <div class="set">
-            <a class="t" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-alarm-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Politicians by Jev" aria-label="Politicians by Jev (opens in a new tab)"><img src="/media/wall/jev.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://artifactnews.ai/11/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 11" aria-label="Artifact News No. 11 (opens in a new tab)"><img src="/media/wall/an-11-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-ready-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-          </div>
-          <div class="set" inert aria-hidden="true">
-            <a class="t" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="My Happenings" aria-label="My Happenings (opens in a new tab)"><img src="/media/wall/mh-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart" aria-label="DayStart (opens in a new tab)"><img src="/media/wall/ds-web-light.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-alarm-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Politicians by Jev" aria-label="Politicians by Jev (opens in a new tab)"><img src="/media/wall/jev.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Plain Ballot" aria-label="Plain Ballot (opens in a new tab)"><img src="/media/wall/pb-m-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t x" href="https://artifactnews.ai/11/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News No. 11" aria-label="Artifact News No. 11 (opens in a new tab)"><img src="/media/wall/an-11-dark.webp" width="672" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener" data-name="DayStart for iPhone" aria-label="DayStart for iPhone (opens in a new tab)"><img src="/media/wall/ds-app-ready-light.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-            <a class="t p x" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener" data-name="Artifact News" aria-label="Artifact News (opens in a new tab)"><img src="/media/wall/an-m-dark.webp" width="294" height="420" alt="" loading="lazy" decoding="async" fetchpriority="low" /></a>
-          </div>
-        </div></div>
-      </div>
-
-      <div class="wrap">
+    <div class="wrap">
       <section class="lineup" id="make" aria-labelledby="make-title">
-        <h2 id="make-title">What we make</h2>
-        <div class="apps">
-          <article class="app">
-            <div class="head"><img class="icon" src="/media/apps/ds.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status live">Live</span></div>
-            <h3>DayStart</h3>
-            <p>My personal briefing. A five-minute morning show, ready by 7.</p>
-            <p class="proof">Rated 4.5 by 13 people on the App Store.</p>
-            <div class="foot"><a class="go u" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
-          </article>
-          <article class="app">
-            <div class="head"><img class="icon" src="/media/apps/pb.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status live">Live</span></div>
-            <h3>Plain Ballot</h3>
-            <p>My personal ballot. Where every candidate stands, in their own words.</p>
+        <h2 id="make-title">What’s on the wall</h2>
+        <ul class="key">
+          <li class="app">
+            <img class="icon" src="/media/apps/ds.webp" width="48" height="48" alt="" decoding="async" />
+            <div><h3><a href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener">DayStart<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">My personal briefing. A five-minute morning show, ready by 7.</p></div>
+            <p class="proof">On the App Store since September 2025.</p>
+            <span class="status">Live</span>
+          </li>
+          <li class="app">
+            <img class="icon" src="/media/apps/pb.webp" width="48" height="48" alt="" decoding="async" />
+            <div><h3><a href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener">Plain Ballot<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">My personal ballot. Where every candidate stands, in their own words.</p></div>
             <p class="proof">Every position quoted exactly, with a link to its source.</p>
-            <div class="foot"><a class="go u" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener">plainballot.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
-          </article>
-          <article class="app">
-            <div class="head"><img class="icon" src="/media/apps/an.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status live">Live</span></div>
-            <h3>Artifact News</h3>
-            <p>The day’s news in one interactive piece, new every morning.</p>
+            <span class="status">Live</span>
+          </li>
+          <li class="app">
+            <img class="icon" src="/media/apps/an.webp" width="48" height="48" alt="" decoding="async" />
+            <div><h3><a href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener">Artifact News<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">The day’s news in one interactive piece, new every morning.</p></div>
             <p class="proof">Every number links to the record it came from.</p>
-            <div class="foot"><a class="go u" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener">artifactnews.ai<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
-          </article>
-          <article class="app">
-            <div class="head"><img class="icon" src="/media/apps/mh.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status beta">Beta</span></div>
-            <h3>My Happenings</h3>
-            <p>The news as a short show to hear or read.</p>
-            <p class="proof">Four new editions a day, every source listed.</p>
-            <div class="foot"><a class="go u" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener">myhappenings.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
-          </article>
-          <article class="app">
-            <div class="head"><img class="icon" src="/media/apps/sp.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status live">Live</span></div>
-            <h3>Spooky Particles</h3>
-            <p>Tells you when an app you run on Vercel breaks.</p>
+            <span class="status">Live</span>
+          </li>
+          <li class="app">
+            <img class="icon" src="/media/apps/sp.webp" width="48" height="48" alt="" decoding="async" />
+            <div><h3><a href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener">Spooky Particles<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">Tells you when an app you run on Vercel breaks.</p></div>
             <p class="proof">Checks every live site every 5 minutes.</p>
-            <div class="foot"><a class="go u" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener">spookyparticles.com<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
-          </article>
-          <article class="app">
-            <div class="head"><img class="icon" src="/media/apps/jev.webp" width="48" height="48" alt="" loading="lazy" decoding="async" /><span class="status paused">Paused</span></div>
-            <h3>Politicians by Jev</h3>
-            <p>Ask a question. Watch 100 famous politicians float or sink.</p>
+            <span class="status">Live</span>
+          </li>
+          <li class="app">
+            <img class="icon" src="/media/apps/mh.webp" width="48" height="48" alt="" decoding="async" />
+            <div><h3><a href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener">My Happenings<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">The news as a short show to hear or read.</p></div>
+            <p class="proof">Four new editions a day, every source listed.</p>
+            <span class="status">Live in beta</span>
+          </li>
+          <li class="app paused">
+            <img class="icon" src="/media/apps/jev.webp" width="48" height="48" alt="" decoding="async" />
+            <div><h3><a href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener">Politicians by Jev<span class="sr"> (opens in a new tab)</span></a></h3><p class="what">Ask a question. Watch 100 famous politicians float or sink.</p></div>
             <p class="proof">Open source, with every portrait credited.</p>
-            <div class="foot"><a class="go u" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener">politiciansbyjev.vercel.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a></div>
-          </article>
-        </div>
+            <span class="status">Paused</span>
+          </li>
+        </ul>
       </section>
 
       <section class="how" id="how" aria-labelledby="how-title">
-        <h2 id="how-title">Someone who read it all first</h2>
-        <p class="lede">The powerful have always had an assistant who reads everything first and tells them what matters. Now everyone gets one, built to the same standard.</p>
-        <div class="steps">
-          <div class="step">
-            <h3>Read once</h3>
-            <p>One shared newsroom reads the day’s news, once, for every product.</p>
-          </div>
-          <div class="step">
-            <h3>Checked once</h3>
-            <p>It checks what it reads. Every claim keeps its source.</p>
-          </div>
-          <div class="step">
-            <h3>Made for one</h3>
-            <p><strong>DayStart</strong> reads it to you. <strong>Plain Ballot</strong> covers your ballot. <strong>Artifact News</strong> draws it.</p>
-          </div>
+        <div>
+          <h2 id="how-title">Someone who read it all first</h2>
+          <p class="lede">The powerful have always had an assistant who reads everything first and tells them what matters. Now everyone gets one, built to the same standard.</p>
         </div>
+        <p class="run"><b>One shared newsroom reads the day’s news once and checks every claim against its source.</b> Then each app makes it for one person. DayStart reads it to you. Plain Ballot covers your ballot. Artifact News draws it.</p>
       </section>
 
       <section class="studio" id="contact" aria-labelledby="studio">
-        <h2 id="studio">Nate Peace’s studio</h2>
-        <div class="letter">
-          <p>I started Banana Intelligence to build the tools I wanted for my own family. Each product does one job, calmly, and treats your time like it matters.</p>
+        <div class="note sheet">
+          <span class="tape" aria-hidden="true"></span>
+          <h2 id="studio" class="sr">Nate Peace’s studio</h2>
+          <p>I started Banana Intelligence to build the tools I wanted for my own family. Each app does one job, calmly, and treats your time like it matters.</p>
           <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
           <p class="write">Something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
         </div>
       </section>
-      </div>
+    </div>
   </main>
 
   <div class="wrap">
     <footer>
       <span>© 2026 Banana Intelligence, LLC. SF East Bay.</span>
-      <span><a href="/how-we-build">How we build</a> · <a href="/releases">Releases</a></span>
+      <span><a href="/how-we-build">How we build</a>, <a href="/releases">Releases</a></span>
       <span>Made by <a href="https://natepeace.com" target="_blank" rel="noopener">Nate Peace<span class="sr"> (opens in a new tab)</span></a></span>
     </footer>
   </div>
 
 <script>
-// Keyboard focus: stop the rows at their start so the focused tile can be scrolled into view.
-// When focus leaves the wall, put the rows back and let them drift again.
+// The work lamp. It glides after the pointer (lerped, so it has a little mass), and each
+// pinned sheet's shadow swings away from it. Fine pointers only, never under Reduce Motion.
 (function(){
-  var wall = document.querySelector('.wall');
-  if (!wall) return;
-  wall.addEventListener('focusin', function(e){
-    if (!e.target.matches(':focus-visible')) return;
-    wall.classList.add('kb');
-    e.target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  });
-  wall.addEventListener('focusout', function(e){
-    if (wall.contains(e.relatedTarget)) return;
-    wall.classList.remove('kb');
-    wall.querySelectorAll('.row').forEach(function(r){ r.scrollLeft = 0; });
+  var board = document.getElementById('board'), lamp = document.getElementById('lamp');
+  if (!board || !lamp) return;
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var sheets = [].slice.call(board.querySelectorAll('.sheet')), spots = [];
+  var tx = 0, ty = 0, x = 0, y = 0, raf = 0, on = false;
+  function measure(){
+    var b = board.getBoundingClientRect();
+    spots = sheets.map(function(el){
+      var r = el.getBoundingClientRect();
+      return { el: el, cx: r.left - b.left + r.width / 2, cy: r.top - b.top + r.height / 2 };
+    });
+  }
+  function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+  function tick(){
+    x += (tx - x) * 0.12; y += (ty - y) * 0.12;
+    lamp.style.setProperty('--lx', x.toFixed(1) + 'px');
+    lamp.style.setProperty('--ly', y.toFixed(1) + 'px');
+    spots.forEach(function(s){
+      s.el.style.setProperty('--dx', clamp((s.cx - x) / 30, -20, 20).toFixed(1) + 'px');
+      s.el.style.setProperty('--dy', clamp(14 + (s.cy - y) / 36, 4, 32).toFixed(1) + 'px');
+    });
+    raf = (Math.abs(tx - x) > 0.5 || Math.abs(ty - y) > 0.5) ? requestAnimationFrame(tick) : 0;
+  }
+  measure();
+  addEventListener('resize', measure);
+  board.addEventListener('pointerleave', function(){ on = false; lamp.classList.remove('on'); });
+  board.addEventListener('pointermove', function(e){
+    var r = board.getBoundingClientRect();
+    tx = e.clientX - r.left; ty = e.clientY - r.top;
+    if (!on){ x = tx; y = ty; on = true; lamp.classList.add('on'); }
+    if (!raf) raf = requestAnimationFrame(tick);
   });
 })();
 </script>
