@@ -55,6 +55,10 @@
 }
 </script>
 <style>
+  /* Georgia, resized to Fraunces' widths: big display sizes run narrow, text sizes run wide */
+  @font-face{ font-family: "Fraunces Display"; src: local("Georgia Bold"), local("Georgia-Bold"); font-weight: 600; size-adjust: 81%; }
+  @font-face{ font-family: "Fraunces Display"; src: local("Georgia Italic"), local("Georgia-Italic"); font-style: italic; font-weight: 400; size-adjust: 85%; }
+  @font-face{ font-family: "Fraunces Text"; src: local("Georgia"); size-adjust: 105%; }
   :root{
     --paper: #FBF8F0;
     --ink: #1A1407;
@@ -63,7 +67,7 @@
     --line: rgba(26,20,7,0.10);
     --banana: #FFD23F;
     --ring: #8F6A00;
-    --serif: "Fraunces", ui-serif, Georgia, serif;
+    --serif: "Fraunces", "Fraunces Text", Georgia, serif;
     --sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
     --ease: cubic-bezier(0.23, 1, 0.32, 1);
     color-scheme: light dark;
@@ -171,35 +175,231 @@
   .top nav{ display: flex; gap: 32px; }
   .top nav a:hover{ color: var(--ink); }
 
-  /* Hero: the sunrise. A banknote sunburst whose rays are microprint (what we read for you),
-     rising behind the line as a banana sun that is DayStart's play button. Full bleed: the canvas
-     runs under the header to the viewport edges; the copy sits in cleared paper. */
+  /* Hero: the highlighter. This morning's real front pages; a banana highlighter marks the few
+     lines that matter, and they lift into a DayStart briefing. The motion is the product's job. */
   .top{ position: relative; z-index: 2; }
   .hero{
     position: relative;
     z-index: 1;
-    min-height: clamp(600px, calc(100svh - 176px), 800px);
-    padding: 40px 0 0;
-  }
-  .sunrise{
-    position: absolute;
-    z-index: 0;
-    top: -96px;
-    left: calc(50% - 50vw);
-    width: 100vw;
-    height: calc(100% + 96px + 150px);
-    pointer-events: none;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 64px;
+    align-items: center;
+    min-height: clamp(640px, calc(100svh - 96px), 820px);
+    padding: 16px 0 72px;
   }
   .hero-copy{ position: relative; z-index: 1; }
+  .m .hero-copy > *{ opacity: 0; }
   .hero h1{
-    font-size: clamp(52px, 8.3vw, 120px);
+    font-family: "Fraunces", "Fraunces Display", Georgia, serif;
+    font-size: clamp(48px, 5.4vw, 80px);
     line-height: 0.98;
     font-weight: 600;
     letter-spacing: -0.02em;
   }
   .hero h1 .ln{ display: block; }
   .hero h1 em{ font-style: italic; font-weight: 400; letter-spacing: -0.015em; }
-  .hero .lede{ margin-top: 32px; max-width: 40ch; }
+  .hero .lede{ margin-top: 28px; max-width: 34ch; }
+  .proof{
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-top: 32px;
+    max-width: 38ch;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .proof b{ color: var(--ink); font-weight: 600; }
+  .live{
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--banana);
+    transform: translateY(-1px);
+    animation: live 2.4s var(--ease) infinite;
+  }
+  @keyframes live{
+    0%{ box-shadow: 0 0 0 0 rgba(255,210,63,0.75); }
+    70%, 100%{ box-shadow: 0 0 0 10px rgba(255,210,63,0); }
+  }
+
+  /* The desk: a page of front-page headlines (always newsprint, in both themes) and the briefing */
+  .desk{ position: relative; align-self: start; margin-top: 24px; } /* top-anchored: the card grows down, nothing above it moves */
+  .page{
+    position: relative;
+    background: #FFFDF6;
+    color: #1A1407;
+    border-radius: 6px;
+    padding: 22px 28px 64px;
+    box-shadow: 0 0 0 1px rgba(26,20,7,0.10), 0 2px 2px rgba(26,20,7,0.04), 0 28px 56px -28px rgba(26,20,7,0.34);
+  }
+  .mast{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding-bottom: 10px;
+    border-bottom: 3px double rgba(26,20,7,0.72);
+  }
+  .mast b{ font-family: var(--serif); font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .mast span, .lines .o{
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(26,20,7,0.56);
+    white-space: nowrap;
+  }
+  .lines{ position: relative; z-index: 1; list-style: none; margin: 0; padding: 0; }
+  .lines li{
+    display: grid;
+    grid-template-columns: 108px minmax(0, 1fr);
+    gap: 16px;
+    align-items: baseline;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(26,20,7,0.09);
+  }
+  .lines li:last-child{ border-bottom: 0; }
+  .lines .o{ overflow: hidden; text-overflow: ellipsis; }
+  .lines .t{
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.32;
+    color: rgba(26,20,7,0.8);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .lines .pick .t{ white-space: normal; color: #1A1407; }
+  .marks{ position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .mk{
+    position: absolute;
+    display: block;
+    background: url(/media/marker-1.webp) 0 50% / 100% 100% no-repeat;
+  }
+  .mk.k2{ background-image: url(/media/marker-2.webp); }
+  .mk.k3{ background-image: url(/media/marker-3.webp); }
+  .fly{
+    position: absolute;
+    z-index: 4;
+    padding: 1px 4px;
+    margin-left: -4px;
+    background: #FFD23F;
+    color: #1A1407;
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.32;
+    transform-origin: 0 0;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  /* The briefing: DayStart's dark player, the marked lines become the show */
+  .brief{
+    position: relative;
+    z-index: 3;
+    margin: -48px -28px 0 auto;
+    width: min(400px, 78%);
+    padding: 18px 20px 6px;
+    border-radius: 24px;
+    background: #15110D;
+    color: #F4EFE3;
+    box-shadow: inset 0 0 0 1px rgba(244,239,227,0.08), 0 32px 64px -24px rgba(26,20,7,0.55);
+  }
+  .m .brief{ visibility: hidden; }
+  .bh{ display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid rgba(244,239,227,0.1); }
+  .play{ position: relative; flex: none; width: 52px; height: 52px; }
+  .play svg{ display: block; width: 100%; height: 100%; }
+  .play .pz{ display: none; }
+  .play.on .tri{ display: none; }
+  .play.on .pz{ display: inline; }
+  .bh b{ display: block; font-family: var(--serif); font-size: 20px; font-weight: 600; line-height: 1.15; }
+  .bh span{ font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(244,239,227,0.6); }
+  .wave{ display: flex; gap: 3px; align-items: center; height: 22px; margin-left: auto; }
+  .wave i{ display: block; width: 3px; height: 100%; border-radius: 2px; background: #FFD23F; transform: scaleY(0.3); }
+  .items{ list-style: none; margin: 0; padding: 0; }
+  .items li{
+    position: relative;
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 4px 10px;
+    margin: 0 -20px;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(244,239,227,0.08);
+  }
+  .items li:last-child{ border-bottom: 0; }
+  .items li::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background: #FFD23F;
+    transform: scaleY(0);
+    transition: transform 400ms var(--ease);
+  }
+  .items li.now::before{ transform: none; }
+  .items .n{ font-family: var(--serif); font-size: 16px; line-height: 1.3; font-weight: 600; color: #FFD23F; font-variant-numeric: tabular-nums; }
+  .items .it{ font-family: var(--serif); font-size: 16px; line-height: 1.3; font-weight: 500; }
+  .items .im{ grid-column: 2; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(244,239,227,0.56); }
+
+  /* Below the fold, each product repeats the act: a real line is marked, then made into the product */
+  .src{ margin: var(--inset) var(--inset) 0; }
+  .cell.lead .src{ margin: 0 0 24px; }
+  .src .o{
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .src .hl, .tally .hl{
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.4;
+    color: #1A1407;
+    padding: 0 4px;
+    margin: 0 -4px;
+    background: url(/media/marker-2.webp) 0 55% / 100% 100% no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .m .src .hl, .m .tally .hl{ color: var(--ink); background-size: 0% 100%; }
+  .tally .hl{ font-size: inherit; line-height: inherit; background-position: 0 60%; }
+  .tally .hl b{ color: inherit; }
+  .cov{ display: flex; gap: 3px; height: 6px; margin-top: 14px; }
+  .cov i{ display: block; border-radius: 3px; background: #FFD23F; transform-origin: 0 50%; }
+  .cov i:nth-child(2){ background: rgba(244,239,227,0.7); }
+  .cov i:nth-child(3){ background: rgba(244,239,227,0.36); }
+  .covk{ margin-top: 8px; font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+  @media (max-width: 960px){
+    .hero{ grid-template-columns: 1fr; gap: 40px; min-height: 0; padding: 24px 0 64px; }
+    .desk{ margin-top: 0; }
+    .brief{ margin-right: -12px; }
+  }
+  @media (max-width: 640px){
+    .hero{ padding: 16px 0 48px; }
+    .page{ padding: 18px 16px 56px; }
+    .mast{ flex-direction: column; gap: 2px; }
+    .mast b{ font-size: 20px; }
+    .lines li{ grid-template-columns: 1fr; gap: 2px; padding: 8px 0; }
+    .lines li:nth-child(n+9){ display: none; }
+    .lines .t{ font-size: 16px; }
+    .fly{ font-size: 16px; }
+    .page{ padding-bottom: 56px; }
+    .brief{ margin-right: -8px; width: calc(100% - 8px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .live{ animation: none; }
+  }
   .lede{
     font-size: 18px;
     line-height: 1.6;
@@ -413,35 +613,22 @@
 
   .grid{ position: relative; }
   .grid .rule{ position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--ink); opacity: 0.5; transform-origin: 0 50%; }
-  .steps{ position: relative; }
-  .steps .read{ position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--banana); transform: scaleX(0); transform-origin: 0 50%; }
-  .seal{ display: inline-block; width: 40px; height: 40px; margin-right: 12px; vertical-align: middle; color: var(--ink-3); }
-  /* How it works: the why as a lede, the how as three steps on a hairline row */
   .how .lede{ margin-top: 24px; max-width: 50ch; }
-  .steps{
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: 48px;
+  .tally{
+    margin-top: 56px;
+    padding-top: 32px;
     border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .step{ padding: 32px 32px 40px; }
-  .step:first-child{ padding-left: 0; }
-  .step:last-child{ padding-right: 0; }
-  .step + .step{ border-left: 1px solid var(--line); }
-  .step h3{
-    font-size: 30px;
-    line-height: 1.2;
-    font-weight: 600;
+    max-width: 28ch;
+    font-family: var(--serif);
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.3;
     letter-spacing: -0.01em;
-  }
-  .step p{
-    margin-top: 12px;
-    font-size: 18px;
-    line-height: 1.55;
     color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
   }
-  .step strong{ font-weight: 600; color: var(--ink); }
+  .tally b{ color: var(--ink); font-weight: 600; }
+  .makes{ margin-top: 24px; max-width: 52ch; font-size: 18px; line-height: 1.55; color: var(--ink-2); }
+  .makes strong{ font-weight: 600; color: var(--ink); }
 
   /* Studio note and contact: one column */
   .studio{ padding: 128px 0; }
@@ -479,9 +666,6 @@
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
     .grid{ grid-template-columns: 1fr; }
-    .steps{ grid-template-columns: 1fr; }
-    .step, .step:first-child, .step:last-child{ padding: 24px 0; }
-    .step + .step{ border-left: 0; border-top: 1px solid var(--line); }
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
     .cell.lead + .cell{ border-top: 0; }
     .cell, .cell.lead{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
@@ -500,8 +684,6 @@
   @media (max-width: 640px){
     .wrap{ padding: 0 16px; }
     .top{ height: 64px; }
-    .hero{ padding-top: 24px; min-height: clamp(560px, calc(100svh - 120px), 700px); }
-    .sunrise{ top: -64px; height: calc(100% + 64px + 96px); }
     .lede{ font-size: 16px; }
     .asks{ margin-top: 24px; }
     .grid{ --inset: 24px; }
@@ -515,7 +697,7 @@
     h2{ font-size: 32px; }
     .grid{ margin-top: 32px; }
     .how{ padding-top: 96px; }
-    .steps{ margin-top: 32px; }
+    .tally{ margin-top: 40px; padding-top: 24px; }
     .studio{ padding: 96px 0; }
     .letter{ margin-top: 24px; }
     .letter p{ font-size: 16px; }
@@ -526,11 +708,11 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .steps .read{ transform: none; }
     .u, .btn, .ext{ transition: none; }
     .btn:active{ transform: none; }
   }
 </style>
+<script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { document.documentElement.classList.add('m'); setTimeout(function(){ document.documentElement.classList.remove('m'); }, 3000); }</script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -548,12 +730,27 @@
 
     <main>
       <section class="hero" aria-labelledby="hero-title">
-        <canvas class="sunrise" aria-hidden="true"></canvas>
         <div class="hero-copy">
-          <h1 id="hero-title"><span class="ln">We read it all.</span> <span class="ln"><em>You get the morning.</em></span></h1>
-          <p class="lede">A five-minute morning show, a personal ballot, and the day’s news in one piece. From Nate Peace’s studio.</p>
+          <h1 id="hero-title"><span class="ln">Read for you,</span> <span class="ln"><em>every morning.</em></span></h1>
+          <p class="lede">We read the front pages, left, center and right, and mark the few stories that matter. You get them in five minutes. From Nate Peace’s studio.</p>
           <div class="asks">
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
+          </div>
+          <p class="proof"><span class="live" aria-hidden="true"></span><span>This morning we read <b data-k="items">218</b> front-page headlines from <b data-k="feeds">19</b> outlets.</span></p>
+        </div>
+        <div class="desk" aria-hidden="true">
+          <div class="page">
+            <div class="mast"><b>The front pages</b><span data-k="when">This morning</span></div>
+            <ol class="lines"></ol>
+            <div class="marks"></div>
+          </div>
+          <div class="brief">
+            <div class="bh">
+              <span class="play"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none" stroke="rgba(244,239,227,0.16)" stroke-width="2"/><circle class="arc" cx="26" cy="26" r="24" fill="none" stroke="#FFD23F" stroke-width="2" stroke-linecap="round" transform="rotate(-90 26 26)" stroke-dasharray="150.8" stroke-dashoffset="150.8"/><circle cx="26" cy="26" r="19" fill="#FFD23F"/><path class="tri" d="M22.5 19.5 32 26l-9.5 6.5z" fill="#1A1407" stroke="#1A1407" stroke-width="1.5" stroke-linejoin="round"/><path class="pz" d="M21.5 20h3.2v12h-3.2zM27.3 20h3.2v12h-3.2z" fill="#1A1407"/></svg></span>
+              <div><b>Your morning</b><span>DayStart · 5 min</span></div>
+              <span class="wave"><i></i><i></i><i></i><i></i><i></i></span>
+            </div>
+            <ol class="items"></ol>
           </div>
         </div>
       </section>
@@ -568,12 +765,14 @@
               </picture>
             </div>
             <div class="body">
+              <div class="src" data-src="daystart"><span class="o"></span><span class="hl"></span></div>
               <h3>DayStart</h3>
               <p>My personal briefing. A five-minute morning show built around your calendar, your weather, and the news.</p>
               <div class="foot"><a class="go u" href="https://daystartai.app/?ct=site-banana" target="_blank" rel="noopener">daystartai.app<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a><span>iPhone</span></div>
             </div>
           </article>
           <article class="cell">
+            <div class="src" data-src="ballot"><span class="o"></span><span class="hl"></span></div>
             <div class="shot shot-ballot">
               <picture>
                                 <img src="/media/plain-ballot-row-dark.webp" width="624" height="348" alt="A State Senate race on a Plain Ballot sample ballot: two fictional candidates side by side on taxes and services, in their own words." loading="lazy" decoding="async" />
@@ -587,6 +786,7 @@
             </div>
           </article>
           <article class="cell">
+            <div class="src" data-src="artifact"><span class="o"></span><span class="hl"></span><span class="cov" aria-hidden="true"><i></i><i></i><i></i></span><span class="covk" data-k="cov"></span></div>
             <div class="shot shot-artifact">
               <picture>
                                 <img src="/media/artifact-news-headline-dark.webp" width="684" height="182" alt="The headline of Artifact News No. 3, Nov. 3, 2026: Democrats need a net gain of four Senate seats, and Republicans need 50." loading="lazy" decoding="async" />
@@ -608,27 +808,15 @@
       <section class="how" id="how" aria-labelledby="how-title">
         <h2 id="how-title">Someone who read it all first</h2>
         <p class="lede">The powerful have always had an assistant who reads everything first and tells them what matters. Now everyone gets one, built to the same standard.</p>
-        <div class="steps"><span class="read" aria-hidden="true"></span>
-          <div class="step">
-            <h3>Read once</h3>
-            <p>One shared newsroom reads the day’s news, once, for every product.</p>
-          </div>
-          <div class="step">
-            <h3>Checked once</h3>
-            <p>It checks what it reads. Every claim keeps its source.</p>
-          </div>
-          <div class="step">
-            <h3>Made for one</h3>
-            <p><strong>DayStart</strong> reads it to you. <strong>Plain Ballot</strong> covers your ballot. <strong>Artifact News</strong> draws it.</p>
-          </div>
-        </div>
+        <p class="tally">This morning it read <b data-k="items">218</b> front-page headlines from <b data-k="feeds">19</b> outlets, <b data-k="lean">5 left, 9 center and 5 right</b>. <span class="hl"><b data-k="picks">3</b> stories made the cut.</span></p>
+        <p class="makes"><strong>DayStart</strong> reads them to you. <strong>Plain Ballot</strong> puts them on your ballot. <strong>Artifact News</strong> draws one.</p>
       </section>
 
       <section class="studio" id="contact" aria-labelledby="studio">
         <h2 id="studio">Nate Peace’s studio</h2>
         <div class="letter">
           <p>I started Banana Intelligence to build the tools I wanted for my own family. Each product does one job, calmly, and treats your time like it matters.</p>
-          <p class="sign"><svg class="seal" viewBox="0 0 64 64" aria-hidden="true"><g stroke="currentColor" stroke-width="0.6"><line x1="32" y1="14" x2="32" y2="2" transform="rotate(0 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(10 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(20 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(30 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(40 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(50 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(60 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(70 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(80 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(90 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(100 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(110 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(120 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(130 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(140 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(150 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(160 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(170 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(180 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(190 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(200 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(210 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(220 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(230 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(240 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(250 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(260 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(270 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(280 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(290 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(300 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(310 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(320 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(330 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(340 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(350 32 32)"/></g><circle cx="32" cy="32" r="12" fill="#FFD23F"/><path d="M29 26.5 37 32l-8 5.5z" fill="#1A1407" stroke="#1A1407" stroke-width="1.6" stroke-linejoin="round"/></svg>Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
+          <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
           <p class="write">Something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
         </div>
       </section>
@@ -641,267 +829,269 @@
     </footer>
   </div>
 
+<script type="application/json" id="feed">{"date":"2026-11-11","generated_at":"2026-11-11T07:30:10+00:00","topics":[{"topic":"Hegseth escapes impeachment — for now","outlet_count":11,"coverage":{"left":4,"center":4,"right":3},"core":["gop","hegseth","house","impeachment"],"keywords":["impeachment","gop","pete","massie","effort","push"],"outlets":[{"outlet":"Vox","headline":"Hegseth escapes impeachment — for now"},{"outlet":"CBS News","headline":"GOP picks leaders, blocks Hegseth impeachment"},{"outlet":"PBS NewsHour","headline":"House rejects Hegseth impeachment as GOP selects Jordan and Thune as leaders"},{"outlet":"The Daily Caller","headline":"House GOP Blocks Thomas Massie’s Attempt To Impeach Pete Hegseth"},{"outlet":"NPR","headline":"House votes to effectively end the impeachment effort against Pete Hegseth"},{"outlet":"Washington Examiner","headline":"Pelosi one of 11 Democrats who failed to vote in Hegseth impeachment bid"},{"outlet":"The New York Times","headline":"On the Defense: Takeaways From Hegseth’s Remarks on Articles of Impeachment"},{"outlet":"Mother Jones","headline":"Hegseth Lashes Out at Impeachment Push, Accuses Critics of “Sabotage”"},{"outlet":"The Atlantic","headline":"Why Pete Hegseth Faces Impeachment"},{"outlet":"The Washington Times","headline":"House shelves Hegseth impeachment resolution -- but Massie's push likely won't be the last"},{"outlet":"CNBC","headline":"Hegseth impeachment effort torpedoed in House"}]},{"topic":"House Republicans block effort to impeach Pentagon chief Pete Hegseth","outlet_count":5,"coverage":{"left":3,"center":2,"right":0},"core":["effort","hegseth","impeach","pete"],"keywords":["impeach","pete","effort","block","secretary"],"outlets":[{"outlet":"The New York Times","headline":"Republicans Turn Back Effort to Impeach Hegseth"},{"outlet":"Vox","headline":"What to know about the Republican-led effort to impeach Pete Hegseth"},{"outlet":"NBC News","headline":"House votes to block motion to impeach Secretary of Defense Pete Hegseth"},{"outlet":"The Guardian","headline":"House Republicans block effort to impeach Pentagon chief Pete Hegseth"},{"outlet":"BBC","headline":"US House blocks bid to impeach Defence Secretary Pete Hegseth, for now"}]},{"topic":"Kennedy family members ask a judge to block Trump's Arlington memorial arch","outlet_count":5,"coverage":{"left":1,"center":2,"right":2},"core":["arch","block","kennedy","trump"],"keywords":["arch","kennedy","block","join","lawsuit","family"],"outlets":[{"outlet":"The Washington Times","headline":"Relatives of President Kennedy join lawsuit to stop Trump's triumphal arch"},{"outlet":"ABC News","headline":"Kennedy family members ask a judge to block Trump's Arlington memorial arch"},{"outlet":"CBS News","headline":"Kennedy family members join lawsuit to block Trump's arch"},{"outlet":"Washington Examiner","headline":"Kennedys sue to block Trump arch, saying it will overshadow JFK and RFK graves"},{"outlet":"The Guardian","headline":"Kennedys sue to block Trump’s gilded arch, saying it would ‘cast shadow’ over JFK grave site"}]}],"also_ran":[{"topic":"Who Is Alice Huang, the Woman in the Middle of Nvidia’s Spy Scandal?","outlet_count":4,"coverage":{"left":2,"center":2,"right":0},"keywords":["nvidia","spy","huang","scandal"]},{"topic":"At least 3 killed when SUV crashes into North Hollywood food stand","outlet_count":3,"coverage":{"left":0,"center":1,"right":2},"keywords":["hollywood","north","least","suv","crashes","food"]},{"topic":"Mississippi Senate race leans Democratic; Colom holds narrow lead","outlet_count":3,"coverage":{"left":1,"center":2,"right":0},"keywords":["mississippi","race"]},{"topic":"Republicans elect Jim Jordan as House minority leader after midterm defeats","outlet_count":3,"coverage":{"left":1,"center":0,"right":2},"keywords":["jim","jordan","minority"]},{"topic":"Bernie Sanders says he won’t support Chuck Schumer for Senate majority leader","outlet_count":3,"coverage":{"left":1,"center":2,"right":0},"keywords":["bernie","sanders","schumer","support"]},{"topic":"Federal government failed to hold Epstein accountable, Republican committee says","outlet_count":2,"coverage":{"left":1,"center":1,"right":0},"keywords":["accountable","hold"]},{"topic":"Senate Republicans reelect Thune as top leader, rejecting push to delay internal election","outlet_count":2,"coverage":{"left":0,"center":1,"right":1},"keywords":["thune","election"]}],"signals":{"items":218,"feeds_ok":["The New York Times","The Guardian","Vox","The Atlantic","Mother Jones","NPR","BBC","CBS News","NBC News","ABC News","PBS NewsHour","The Wall Street Journal","CNBC","MarketWatch","Fox News","New York Post","Washington Examiner","The Washington Times","The Daily Caller"]},"roster":{"left":["Mother Jones","The Atlantic","The Guardian","The New York Times","Vox"],"center":["ABC News","BBC","CBS News","CNBC","MarketWatch","NBC News","NPR","PBS NewsHour","The Wall Street Journal"],"right":["Fox News","New York Post","The Daily Caller","The Washington Times","Washington Examiner"]}}</script>
 <script>
-// The sunrise. Every ray is a line of microprint naming what gets read for you. The text drifts
-// in toward the sun (read, then handed to you). The sun sets on the edge of the night panel below.
-// Reduced motion: one still frame, no drift. Paused when off screen or hidden.
+// The page is set from this morning's real front pages: the shared newsroom's feed. A snapshot
+// renders at once (no layout shift); the live file replaces it if it is newer.
 (function(){
-  var hero = document.querySelector('.hero'), cv = hero && hero.querySelector('.sunrise');
-  if (!cv || !cv.getContext) return;
-  var ctx = cv.getContext('2d');
-  var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var darkQ = matchMedia('(prefers-color-scheme: dark)');
-  var READ = ['YOUR CALENDAR','YOUR WEATHER','THE SENATE RACES','THE FED','THE MARKETS','YOUR SCHOOL BOARD','CITY HALL','THE STATEHOUSE','THE COURTS','THE BALLOT MEASURES','THE WIRE','THE MORNING PAPERS','THE JOBS REPORT','YOUR COMMUTE','THE GAME LAST NIGHT','THE CANDIDATES, IN THEIR OWN WORDS','EVERY CLAIM, SOURCED','READ ONCE','CHECKED ONCE','MADE FOR ONE'];
-  var S = window.__sun = { horizon: 1, rise: 1, reveal: 1, lift: 0, flow: 1, ready: 1, label: 1 };
-  var W, H, dpr, cx, hy, R, maxR, strips, rays, mask, ink, paper, on = true, raf = 0, t0 = performance.now();
-  var phase = 0, last = 0, EXT;
+  var D = document;
+  var $$ = function(s, el){ return Array.prototype.slice.call((el || D).querySelectorAll(s)); };
+  var clean = function(s){ return String(s || '').replace(/\s*[—–]\s*|\s+--\s+/g, ', ').replace(/\s+/g, ' ').trim(); };
+  var words = function(t){ return (t.core && t.core.length ? t.core : t.keywords || []).map(function(x){ return String(x).toLowerCase(); }); };
+  function make(tag, cls, text){ var e = D.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
 
-  function strip(i, size, weight){
-    var words = READ.slice(i * 3).concat(READ.slice(0, i * 3)).join('  ·  ') + '  ·  ';
-    var font = weight + ' ' + size + 'px "Hanken Grotesk", system-ui, sans-serif';
-    ctx.font = font; ctx.letterSpacing = '0.06em';
-    var P = Math.ceil(ctx.measureText(words).width), h = Math.ceil(size * 1.6);
-    var reps = Math.ceil((maxR + P) / P) + 1, text = new Array(reps + 1).join(words);
-    var c = document.createElement('canvas'); c.width = Math.ceil(P * reps * dpr); c.height = Math.ceil(h * dpr);
-    var g = c.getContext('2d'); g.scale(dpr, dpr); g.font = font; g.letterSpacing = '0.06em';
-    g.fillStyle = ink; g.textBaseline = 'middle'; g.fillText(text, 0, h / 2);
-    return { c: c, P: P, h: h, text: text, font: font };
-  }
-
-  function build(){
-    var r = cv.getBoundingClientRect();
-    W = r.width; H = r.height; dpr = Math.min(2, window.devicePixelRatio || 1);
-    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-    var narrow = W < 760;
-    ink = darkQ.matches ? '#F4EFE3' : '#1A1407'; paper = darkQ.matches ? '#12100B' : '#FBF8F0';
-    EXT = narrow ? 96 : 150; hy = H - EXT;
-    cx = W * (narrow ? 0.64 : 0.73);
-    R = narrow ? 70 : Math.max(118, Math.min(168, W * 0.1));
-    maxR = Math.hypot(Math.max(cx, W - cx), hy + R) + 40;
-    strips = [];
-    for (var i = 0; i < 4; i++) strips.push(strip(i, narrow ? 8 : 9, 600));
-    for (i = 0; i < 4; i++) strips.push(strip(i + 3, narrow ? 9.5 : 11, 700));
-    var n = narrow ? 80 : 160; rays = [];
-    for (var k = 0; k < n; k++){
-      var tier = k % 3 === 0 ? 0 : k % 3 === 1 ? 1 : 2;
-      var a = Math.PI * 2 * (k + 0.5) / n;
-      rays.push({ a: a, c: Math.cos(a), s: Math.sin(a), tier: tier,
-        start: R * (tier === 0 ? 1.4 : tier === 1 ? 1.75 : 2.15),
-        st: strips[tier === 0 ? 4 + ((k / 3) | 0) % 4 : (k * 7) % 4],
-        alpha: tier === 0 ? 0.9 : tier === 1 ? 0.6 : 0.45,
-        v: 30 + (k % 5) * 5 });
-    }
-    buildMask();
-  }
-
-  // Clear paper behind every piece of copy, so no ray ever cuts a letter.
-  function buildMask(){
-    mask = document.createElement('canvas'); mask.width = cv.width; mask.height = cv.height;
-    var m = mask.getContext('2d'), base = cv.getBoundingClientRect();
-    m.scale(dpr, dpr); m.filter = 'blur(' + (W < 760 ? 12 : 22) + 'px)'; m.fillStyle = '#000';
-    var els = document.querySelectorAll('.top .home, .top nav a, .hero h1 .ln, .hero .lede, .hero .btn');
-    els.forEach(function(el){
-      var rects = el.getClientRects();
-      if (el.classList.contains('lede')){ var rg = document.createRange(); rg.selectNodeContents(el); rects = rg.getClientRects(); }
-      for (var i = 0; i < rects.length; i++){
-        var q = rects[i], px = 28, py = 18;
-        var x = q.left - base.left - px, y = q.top - base.top - py, w = q.width + px * 2, h = q.height + py * 2;
-        m.fillRect(x, y, w, h);
-      }
+  function model(d){
+    var topics = d.topics || [], also = d.also_ran || [], used = {}, picks = [];
+    topics.concat(also).forEach(function(t){
+      if (picks.length === 3) return;
+      var w = words(t);
+      if (w.some(function(x){ return used[x]; })) return;
+      w.forEach(function(x){ used[x] = 1; });
+      picks.push(t);
     });
-  }
-
-  function sunY(){ return hy + R * 1.3 - S.rise * R * 2.75 - S.lift * R * 0.8; }
-
-  function drawRays(g, t, sy, rev){
-    for (var i = 0; i < rays.length; i++){
-      var ry = rays[i]; if (rev <= ry.start) continue;
-      var len = Math.min(rev, maxR) - ry.start, st = ry.st;
-      var band = 0.68 + 0.32 * Math.cos(ry.a * 9 + t * 0.22);
-      g.globalAlpha = ry.alpha * band * (darkQ.matches ? 0.72 : 1);
-      // Rays on the left are turned over so every line reads upright, toward the sun.
-      var flip = ry.c < 0, k = flip ? -1 : 1, off = (phase * ry.v) % st.P;
-      // segment [a0, a0 + len] in the ray's own x; text origin x0 is fixed, so the reveal never slides the words
-      var a0 = flip ? -(ry.start + len) : ry.start, x0 = flip ? -maxR - st.P + off : ry.start - off;
-      g.setTransform(k * ry.c * dpr, k * ry.s * dpr, -k * ry.s * dpr, k * ry.c * dpr, cx * dpr, sy * dpr);
-      g.drawImage(st.c, (a0 - x0) * dpr, 0, len * dpr, st.h * dpr, a0, -st.h / 2, len, st.h);
-    }
-    g.globalAlpha = 1;
-  }
-
-  function drawSun(g, sy, t){
-    // Halo: fine engraved rings, like the ready screen's glow
-    g.strokeStyle = '#E2B200';
-    for (var i = 0; i < 9; i++){
-      g.globalAlpha = 0.5 * (1 - i / 9) * (darkQ.matches ? 0.8 : 1);
-      g.lineWidth = 0.75;
-      g.beginPath(); g.arc(cx, sy, R * (1.04 + i * 0.022), 0, Math.PI * 2); g.stroke();
-    }
-    g.globalAlpha = 1;
-    g.fillStyle = '#FFD23F'; g.beginPath(); g.arc(cx, sy, R, 0, Math.PI * 2); g.fill();
-    // Engraved disc: concentric lines that thicken toward the lower edge (the shadow side)
-    g.save(); g.beginPath(); g.arc(cx, sy, R, 0, Math.PI * 2); g.clip();
-    g.strokeStyle = '#C79400';
-    for (i = 1; i < 26; i++){
-      var rr = R * i / 26; g.lineWidth = 0.4 + 0.5 * (i / 26);
-      g.globalAlpha = 0.1 + 0.18 * (i / 26);
-      g.beginPath(); g.arc(cx, sy + R * 0.03 * (i / 26), rr, 0.15 * Math.PI, 0.85 * Math.PI); g.stroke();
-    }
-    g.restore(); g.globalAlpha = 1;
-    // The play mark, DayStart's own
-    var s = R * 0.34; g.fillStyle = '#1A1407'; g.lineJoin = 'round'; g.lineWidth = s * 0.18; g.strokeStyle = '#1A1407';
-    g.beginPath(); g.moveTo(cx - s * 0.38, sy - s * 0.58); g.lineTo(cx + s * 0.62, sy); g.lineTo(cx - s * 0.38, sy + s * 0.58); g.closePath(); g.fill(); g.stroke();
-    // The morning being made: a ring that fills as the words come in, like the app's progress
-    var rr = R * 1.1, a0 = -Math.PI / 2;
-    g.lineCap = 'round'; g.lineWidth = narrowR() ? 2.5 : 3.5;
-    g.strokeStyle = ink; g.globalAlpha = 0.12; g.beginPath(); g.arc(cx, sy, rr, 0, Math.PI * 2); g.stroke();
-    g.globalAlpha = 0.9; g.beginPath(); g.arc(cx, sy, rr, a0, a0 + Math.PI * 2 * Math.max(0.001, S.ready)); g.stroke();
-    g.globalAlpha = 1;
-    if (S.label > 0.01){
-      g.globalAlpha = S.label; g.fillStyle = ink; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-      g.font = '700 ' + (narrowR() ? 10 : 12) + 'px "Hanken Grotesk", system-ui, sans-serif'; g.letterSpacing = '0.16em';
-      g.fillText('YOUR MORNING IS READY  ·  5 MIN', cx, sy - rr - (narrowR() ? 14 : 20) + (1 - S.label) * 6);
-      g.globalAlpha = 1; g.textAlign = 'start'; g.letterSpacing = '0px';
-    }
-  }
-  function narrowR(){ return W < 760; }
-
-  function frame(now){
-    raf = 0;
-    var t = still ? 0 : (now - t0) / 1000, dt = Math.min(0.05, t - last); last = t;
-    // As you scroll the sun keeps rising and pulls the words in, faster: everything read, handed over.
-    phase += dt * (S.flow + 5 * S.lift);
-    pt.x += (pt.tx - pt.x) * 0.12; pt.y += (pt.ty - pt.y) * 0.12; pt.on += (pt.ton - pt.on) * 0.08;
-    var sy = sunY(), rev = R + (maxR - R) * S.reveal * (1 - 0.75 * S.lift);
-    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
-    ctx.save(); ctx.scale(dpr, dpr); ctx.beginPath(); ctx.rect(0, 0, W, hy); ctx.clip(); ctx.setTransform(1, 0, 0, 1, 0, 0);
-    drawRays(ctx, t, sy, rev);
-    // The text is absorbed as it reaches the sun; copy keeps clear paper.
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.globalCompositeOperation = 'destination-out';
-    var gr = ctx.createRadialGradient(cx, sy, R * 1.2, cx, sy, R * 2.1);
-    gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = gr; ctx.fillRect(0, 0, W, hy);
-    var far = ctx.createRadialGradient(cx, sy, R * 2.2, cx, sy, maxR * 0.9);
-    far.addColorStop(0, 'rgba(0,0,0,0)'); far.addColorStop(1, 'rgba(0,0,0,0.86)');
-    ctx.fillStyle = far; ctx.fillRect(0, 0, W, hy);
-    // The copy column stays clean paper; the words live on the sun's side
-    var narrowNow = W < 760, cf = narrowNow ? ctx.createLinearGradient(0, 0, 0, hy * 0.7) : ctx.createLinearGradient(0, 0, W * 0.52, 0);
-    cf.addColorStop(0, 'rgba(0,0,0,0.94)'); cf.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = cf; ctx.fillRect(0, 0, W, hy);
-    ctx.drawImage(mask, 0, 0, W, H);
-    // The one pointer light: the words under the pointer catch the sun's gold
-    if (pt.on > 0.01){
-      ctx.globalCompositeOperation = 'source-atop';
-      var pg = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 200);
-      pg.addColorStop(0, 'rgba(214,158,0,' + (0.95 * pt.on) + ')'); pg.addColorStop(1, 'rgba(214,158,0,0)');
-      ctx.fillStyle = pg; ctx.fillRect(0, 0, W, hy);
-    }
-    ctx.globalCompositeOperation = 'source-over';
-    drawSun(ctx, sy, t);
-    ctx.restore();
-    // The sun on the night panel below: a broken column of light, like dawn on water
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var vis = Math.max(0, Math.min(1, (hy - (sy - R)) / (R * 1.4))) * S.horizon;
-    for (var i = 0; i < 11; i++){
-      var y = hy + 10 + i * (EXT - 24) / 11, w = R * (1.5 - i * 0.11) * (0.82 + 0.18 * Math.sin(t * 1.3 + i * 1.7));
-      ctx.globalAlpha = vis * 0.55 * (1 - i / 12); ctx.fillStyle = '#FFD23F';
-      ctx.fillRect(cx - w / 2 + Math.sin(t * 0.9 + i) * 4, Math.round(y), w, 2);
-    }
-    ctx.globalAlpha = 1;
-    if (!still && on) raf = requestAnimationFrame(frame);
-  }
-  function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
-  window.__sunKick = kick;
-
-  var pt = { x: 0, y: 0, tx: 0, ty: 0, on: 0, ton: 0 };
-  if (!still && matchMedia('(hover: hover) and (pointer: fine)').matches){
-    hero.addEventListener('pointermove', function(e){
-      var b = cv.getBoundingClientRect(); pt.tx = e.clientX - b.left; pt.ty = e.clientY - b.top;
-      if (pt.on < 0.01){ pt.x = pt.tx; pt.y = pt.ty; } pt.ton = 1; kick();
+    // Each pick is marked on one real headline: the shortest of 40 characters or more
+    picks.forEach(function(t){
+      var hs = (t.outlets || []).map(function(o){ return { o: o.outlet, t: clean(o.headline) }; }).filter(function(h){ return h.t; });
+      var pool = hs.filter(function(h){ return h.t.length >= 40; });
+      if (!pool.length) pool = hs;
+      pool.sort(function(a, b){ return a.t.length - b.t.length; });
+      t.line = pool[0] || { o: t.outlet_count + ' outlets', t: clean(t.topic) };
     });
-    hero.addEventListener('pointerleave', function(){ pt.ton = 0; });
+    // The rest of the page: other front-page headlines, taken in turn from each story
+    var seen = {}, groups = [];
+    picks.forEach(function(t){ seen[t.line.t] = 1; });
+    topics.forEach(function(t){
+      groups.push((t.outlets || []).map(function(o){ return { o: o.outlet, t: clean(o.headline) }; }));
+    });
+    groups.push(also.filter(function(t){ return picks.indexOf(t) < 0; }).map(function(t){ return { o: t.outlet_count + ' outlets', t: clean(t.topic) }; }));
+    var rest = [];
+    for (var i = 0; rest.length < 16 && i < 20; i++){
+      groups.forEach(function(g){ var h = g[i]; if (h && h.t && !seen[h.t]){ seen[h.t] = 1; rest.push(h); } });
+    }
+    var lines = rest.slice(0, 4);
+    [0, 2, 4].forEach(function(at, k){ if (picks[k]) lines.splice(at, 0, Object.assign({ pick: k }, picks[k].line)); });
+    var vote = also.filter(function(t){ return picks.indexOf(t) < 0 && /\b(senate|governor|ballot|election|race|measure|runoff|mayor|primary)\b/i.test(t.topic); })[0];
+    var r = d.roster || {}, s = d.signals || {};
+    return {
+      picks: picks, lines: lines,
+      vote: vote ? { o: vote.outlet_count + ' outlets', t: clean(vote.topic) } : null,
+      items: s.items, feeds: (s.feeds_ok || []).length,
+      lean: [(r.left || []).length, (r.center || []).length, (r.right || []).length],
+      when: d.generated_at
+    };
   }
-  var rt = 0;
-  function rebuild(){ build(); kick(); }
-  addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(rebuild, 120); });
-  if (darkQ.addEventListener) darkQ.addEventListener('change', rebuild);
-  if ('IntersectionObserver' in window){
-    new IntersectionObserver(function(es){ on = es[0].isIntersecting; if (on) kick(); }).observe(hero);
+
+  function render(d){
+    var m = model(d);
+    if (!m.picks.length) return;
+    var set = function(k, v){ $$('[data-k="' + k + '"]').forEach(function(e){ e.textContent = v; }); };
+    set('items', m.items); set('feeds', m.feeds); set('picks', m.picks.length);
+    set('lean', m.lean[0] + ' left, ' + m.lean[1] + ' center and ' + m.lean[2] + ' right');
+    try {
+      var g = new Date(m.when), tz = { timeZone: 'America/New_York' };
+      var day = g.toLocaleDateString('en-US', Object.assign({ weekday: 'short', month: 'short', day: 'numeric' }, tz));
+      var tm = g.toLocaleTimeString('en-US', Object.assign({ hour: 'numeric', minute: '2-digit' }, tz)).replace(' AM', ' a.m.').replace(' PM', ' p.m.');
+      set('when', day + ' · read at ' + tm + ' ET');
+    } catch (_) {}
+
+    var ol = D.querySelector('.lines');
+    ol.textContent = '';
+    m.lines.forEach(function(h){
+      var li = make('li', h.pick != null ? 'pick' : '');
+      li.appendChild(make('span', 'o', h.o));
+      var t = make('span', 't');
+      if (h.pick != null){ var hl = make('span', 'hl', h.t); hl.dataset.k = h.pick; t.appendChild(hl); } else t.textContent = h.t;
+      li.appendChild(t); ol.appendChild(li);
+    });
+    var items = D.querySelector('.items');
+    items.textContent = '';
+    m.picks.forEach(function(t, i){
+      var c = t.coverage || {};
+      var li = make('li');
+      li.appendChild(make('span', 'n', String(i + 1)));
+      li.appendChild(make('span', 'it', t.line.t));
+      li.appendChild(make('span', 'im', t.outlet_count + ' outlets · ' + (c.left || 0) + ' left · ' + (c.center || 0) + ' center · ' + (c.right || 0) + ' right'));
+      items.appendChild(li);
+    });
+    // Below the fold: each product gets its own real line
+    var src = { daystart: m.picks[0].line, ballot: m.vote || (m.picks[2] || m.picks[0]).line, artifact: (m.picks[1] || m.picks[0]).line };
+    Object.keys(src).forEach(function(k){
+      var p = D.querySelector('[data-src="' + k + '"]');
+      if (!p) return;
+      p.querySelector('.o').textContent = src[k].o + ', this morning';
+      p.querySelector('.hl').textContent = src[k].t;
+    });
+    var a = m.picks[1] || m.picks[0], c = a.coverage || {}, cov = D.querySelector('.cov');
+    if (cov){
+      var n = [c.left || 0, c.center || 0, c.right || 0];
+      $$('i', cov).forEach(function(e, i){ e.style.flexGrow = n[i]; e.style.display = n[i] ? '' : 'none'; });
+      set('cov', 'On ' + (n[0] + n[1] + n[2]) + ' front pages: ' + n[0] + ' left, ' + n[1] + ' center, ' + n[2] + ' right.');
+    }
   }
-  document.addEventListener('visibilitychange', function(){ on = !document.hidden; if (on) kick(); });
-  build(); kick();
-  // Fonts change the copy's lines: rebuild the mask once they land.
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
+
+  var snap = JSON.parse(D.getElementById('feed').textContent);
+  render(snap);
+  // The live file: wait at most half a second, then play with whatever we have
+  window.__feed = new Promise(function(done){
+    var late = false, t = setTimeout(function(){ late = true; done(); }, 500);
+    fetch('https://news-factory-five.vercel.app/zeitgeist/latest.json', { cache: 'no-store' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if (!late && d && d.topics && d.topics.length && String(d.generated_at) > String(snap.generated_at)) render(d);
+      })
+      .catch(function(){})
+      .then(function(){ clearTimeout(t); done(); });
+  });
 })();
 </script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
 <script>
-// Choreography. The sun rises after the line is read, then keeps rising as you scroll.
-// Below the fold each section moves the way its idea does: headings are set line by line,
-// product screens rise like the sun, the three steps are read in order as you pass.
+// Choreography. The hero does the product's job on real lines: the highlighter marks three
+// headlines, the rest of the page dims, and the marked lines lift into a DayStart briefing
+// that then plays. Below the fold each product repeats the act: a real line is marked, then made.
 document.addEventListener('DOMContentLoaded', function(){
-  var S = window.__sun, kick = window.__sunKick || function(){};
-  if (!window.gsap || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  gsap.registerPlugin(ScrollTrigger, SplitText);
-  if (S){
-    var draw = { onUpdate: kick };
-    S.horizon = 0; S.rise = 0; S.reveal = 0; S.flow = 6; S.ready = 0; S.label = 0; kick();
-    gsap.timeline({ defaults: draw })
-      .to(S, { horizon: 1, duration: 1.2, ease: 'power2.inOut' }, 0.1)
-      .to(S, { rise: 1, duration: 1.8, ease: 'power3.out' }, 0.3)
-      .to(S, { reveal: 1, duration: 1.6, ease: 'power2.out' }, 0.6)
-      .to(S, { ready: 1, duration: 2.4, ease: 'power1.inOut' }, 0.9)
-      .to(S, { flow: 1, duration: 2.6, ease: 'power2.out' }, 1.0)
-      .to(S, { label: 1, duration: 0.6, ease: 'power2.out' }, 3.2);
-    gsap.to(S, { lift: 1, ease: 'none', onUpdate: kick, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 } });
-  }
-  var once = function(el, start){ return { trigger: el, start: start || 'top 92%', once: true }; };
+  var D = document, root = D.documentElement;
+  var $ = function(s, el){ return (el || D).querySelector(s); };
+  var $$ = function(s, el){ return Array.prototype.slice.call((el || D).querySelectorAll(s)); };
+  var still = !window.gsap || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Wait for the live feed (half a second at most) and the fonts (0.7 s at most), never longer
+  var ready = Promise.all([window.__feed, D.fonts && Promise.race([D.fonts.ready, new Promise(function(r){ setTimeout(r, 700); })])]);
 
-  // Section headings: set line by line from a baseline
-  document.querySelectorAll('main h2').forEach(function(h){
-    SplitText.create(h, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: function(sp){
-      return gsap.from(sp.lines, { yPercent: 105, duration: 0.8, ease: 'expo.out', stagger: 0.07, scrollTrigger: once(h) });
-    } });
+  // Marks: one stroke per line of each picked headline, laid under the text
+  function lay(){
+    var page = $('.page'), layer = $('.marks'), pr = page.getBoundingClientRect(), out = [], old = $$('i', layer);
+    $$('.lines .hl').forEach(function(h){
+      var k = +h.dataset.k, r = D.createRange();
+      r.selectNodeContents(h);
+      Array.prototype.forEach.call(r.getClientRects(), function(b, j){
+        if (b.width < 4) return;
+        // Reuse the strokes already laid (a late font or a resize moves them, it does not reset them)
+        var mk = old[out.length] || layer.appendChild(D.createElement('i'));
+        mk.className = 'mk k' + (((k + j) % 3) + 1);
+        var x = b.left - pr.left - 8, y = b.top - pr.top - b.height * 0.06, w = b.width * 1.05 + 18, hh = b.height * 1.1;
+        mk.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + hh + 'px';
+        out.push({ el: mk, k: k, x: x, y: y, w: w, h: hh });
+      });
+    });
+    old.slice(out.length).forEach(function(x){ x.remove(); });
+    return out;
+  }
+
+  ready.then(function(){
+    var marks = lay();
+    if (still){ root.classList.remove('m'); return; }
+    gsap.registerPlugin(ScrollTrigger, SplitText);
+    gsap.ticker.lagSmoothing(0); // keep the demo on the wall clock, even on a slow first second
+    hero(marks);
+    below();
+    var t; addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(lay, 200); });
+    if (D.fonts) D.fonts.addEventListener('loadingdone', function(){ lay(); });
   });
 
-  // Lineup: the rule is drawn, DayStart's screen rises, the other two wipe in, left to right
-  var grid = document.querySelector('.grid');
-  if (grid){
-    var tl = gsap.timeline({ scrollTrigger: once(grid, 'top 88%') });
-    tl.from('.grid .rule', { scaleX: 0, duration: 1.1, ease: 'power3.inOut' }, 0)
-      .from('.cell.lead .shot', { opacity: 0, scale: 0.94, duration: 0.9, ease: 'expo.out' }, 0.1)
-      .from('.cell.lead .shot img', { yPercent: 8, duration: 1.2, ease: 'expo.out' }, 0.1)
-      .from('.cell.lead .body > *', { y: 10, opacity: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 }, 0.35);
-    gsap.utils.toArray('.cell:not(.lead)').forEach(function(c, i){
-      gsap.timeline({ scrollTrigger: once(c, 'top 94%') })
-        .from(c.querySelector('.shot'), { opacity: 0, x: -24, duration: 0.8, ease: 'expo.out' }, i * 0.12)
-        .from(c.querySelectorAll('.body > *'), { y: 10, opacity: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 }, i * 0.12 + 0.35);
+  function hero(marks){
+    var desk = $('.desk'), brief = $('.brief'), kids = $$('.hero-copy > *');
+    if (!marks.length) { root.classList.remove('m'); return; }
+    var rows = $$('.items li'), hls = $$('.lines .hl');
+    // Hold the card's full height while its rows arrive, so nothing on the page moves
+    desk.style.minHeight = desk.offsetHeight + 'px';
+    gsap.set(marks.map(function(m){ return m.el; }), { clipPath: 'inset(0% 100% 0% 0%)' });
+    gsap.set(rows, { height: 0, paddingTop: 0, paddingBottom: 0, autoAlpha: 0, overflow: 'hidden' });
+    gsap.set(kids, { autoAlpha: 0, y: 18 });
+    gsap.set(brief, { autoAlpha: 0, y: 24 });
+    root.classList.remove('m');
+
+    gsap.to(kids, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'expo.out', stagger: 0.06, delay: 0.05 });
+    // The demo runs when the page is in view: at once on a laptop, on the first scroll on a phone
+    var tl = gsap.timeline({ paused: true, onComplete: function(){ desk.style.minHeight = ''; } }), done = {};
+    ScrollTrigger.create({ trigger: desk, start: 'top 75%', once: true, onEnter: function(){ tl.play(); } });
+    // The highlighter marks the stories that matter, one swipe per line
+    var t = 0.35;
+    marks.forEach(function(m, i){
+      var cont = i && marks[i - 1].k === m.k, swipe = 0.16 + m.w / 2400;
+      if (i && !cont) t += 0.14;
+      tl.to(m.el, { clipPath: 'inset(0% 0% 0% 0%)', duration: swipe, ease: 'power2.inOut' }, t);
+      t += swipe;
+      done[m.k] = t;
+    });
+    tl.to($$('.lines li:not(.pick)'), { opacity: 0.36, duration: 0.6, ease: 'power1.out' }, done[0] + 0.2)
+      .to(brief, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'expo.out' }, done[0] - 0.1);
+
+    // Each marked line lifts off the page and lands, word for word, as a story in the briefing
+    var dr = function(){ return desk.getBoundingClientRect(); };
+    hls.forEach(function(h){
+      var k = +h.dataset.k, row = rows[k];
+      if (!row) return;
+      var it = $('.it', row), fly = D.createElement('div'), a;
+      fly.className = 'fly';
+      fly.textContent = h.textContent;
+      desk.appendChild(fly);
+      gsap.set(fly, { autoAlpha: 0 });
+      var at = Math.max(done[k] + 0.04, done[0] + 0.3);
+      tl.call(function(){
+        var r = h.getBoundingClientRect(), d = dr();
+        a = r;
+        gsap.set(fly, { left: r.left - d.left, top: r.top - d.top, width: r.width + 8, x: 0, y: 0, fontSize: '' });
+      }, null, at)
+        .set(fly, { autoAlpha: 1 }, at)
+        .to(fly, { y: -6, boxShadow: '0 14px 24px -10px rgba(26,20,7,0.45)', duration: 0.14, ease: 'power2.out' }, at)
+        .to(row, { height: 'auto', paddingTop: 10, paddingBottom: 10, duration: 0.24, ease: 'power2.out' }, at)
+        .to(fly, {
+          x: function(){ return it.getBoundingClientRect().left - a.left; },
+          y: function(){ return it.getBoundingClientRect().top - gsap.getProperty(brief, 'y') - a.top - 1; },
+          width: function(){ return it.getBoundingClientRect().width + 8; },
+          fontSize: 16, duration: 0.55, ease: 'expo.inOut'
+        }, at + 0.24)
+        .set(row, { autoAlpha: 1, overflow: '' }, at + 0.74)
+        .fromTo(row, { backgroundColor: 'rgba(255,210,63,0.22)' }, { backgroundColor: 'rgba(255,210,63,0)', duration: 1, ease: 'power1.out' }, at + 0.74)
+        .to(fly, { autoAlpha: 0, duration: 0.2 }, at + 0.74);
+    });
+    tl.call(playing);
+
+    // Then the show plays: the ring runs, the current story is lit, the voice moves
+    function playing(){
+      var arc = $('.brief .arc'), C = 150.8, n = rows.length;
+      $('.play').classList.add('on');
+      var lp = gsap.timeline({ repeat: -1 });
+      rows.forEach(function(x, i){
+        lp.call(function(){ rows.forEach(function(y){ y.classList.toggle('now', y === x); }); }, null, i * 4)
+          .fromTo(arc, { strokeDashoffset: C * (1 - i / n) }, { strokeDashoffset: C * (1 - (i + 1) / n), duration: 4, ease: 'none' }, i * 4);
+      });
+      $$('.wave i').forEach(function(w, i){
+        gsap.to(w, { scaleY: function(){ return 0.25 + Math.random() * 0.75; }, duration: 0.16 + i * 0.03, repeat: -1, yoyo: true, repeatRefresh: true, ease: 'sine.inOut' });
+      });
+      ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top', onToggle: function(st){ lp.paused(!st.isActive); } });
+    }
+  }
+
+  function below(){
+    var once = function(el, start){ return { trigger: el, start: start || 'top 92%', once: true }; };
+    $$('main h2').forEach(function(h){
+      SplitText.create(h, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: function(sp){
+        return gsap.from(sp.lines, { yPercent: 105, duration: 0.8, ease: 'expo.out', stagger: 0.07, scrollTrigger: once(h) });
+      } });
+    });
+    gsap.from('.grid .rule', { scaleX: 0, duration: 1.1, ease: 'power3.inOut', scrollTrigger: once('.grid', 'top 88%') });
+    // Each product: its real line is marked, then the product rises from it
+    $$('.src').forEach(function(s){
+      var cell = s.closest('.cell'), hl = $('.hl', s), shot = $('.shot', cell), cov = $$('.cov i', cell);
+      var t = gsap.timeline({ scrollTrigger: once(cell, 'top 78%') });
+      t.fromTo(hl, { backgroundSize: '0% 100%' }, { backgroundSize: '100% 100%', color: '#1A1407', duration: 0.75, ease: 'power1.inOut' })
+        .from(shot, { autoAlpha: 0, y: 32, scale: 0.97, duration: 0.9, ease: 'expo.out' }, 0.2)
+        .from($$('.body > *:not(.src)', cell), { y: 10, autoAlpha: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 }, 0.45);
+      if (cov.length) t.from(cov, { scaleX: 0, duration: 0.6, ease: 'expo.out', stagger: 0.12 }, '-=0.5');
     });
     gsap.from('.soon', { opacity: 0, duration: 0.8, scrollTrigger: once('.soon', 'top 92%') });
-  }
 
-  // How it works: a banana rule reads across the three steps as you scroll; each step lights as it is reached
-  var steps = document.querySelector('.steps');
-  if (steps){
-    var st = gsap.utils.toArray('.step');
-    gsap.set(st, { opacity: 0.45 });
-    var rt = gsap.timeline({ scrollTrigger: { trigger: steps, start: 'top 85%', end: 'bottom 65%', scrub: 0.5 } });
-    rt.fromTo('.steps .read', { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 3 }, 0);
-    st.forEach(function(s, i){ rt.to(s, { opacity: 1, duration: 0.3, ease: 'none' }, i); });
-  }
-
-  // Studio note: the letter is set line by line; the seal turns once into place
-  var letter = document.querySelector('.letter');
-  if (letter){
-    letter.querySelectorAll('p').forEach(function(p){
+    // The tally: its last line is marked, the same act as the hero
+    var th = $('.tally .hl');
+    if (th) gsap.fromTo(th, { backgroundSize: '0% 100%' }, { backgroundSize: '100% 100%', color: '#1A1407', duration: 0.8, ease: 'power1.inOut', scrollTrigger: once('.tally', 'top 75%') });
+    $$('.letter p').forEach(function(p){
       SplitText.create(p, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: function(sp){
         return gsap.from(sp.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.07, scrollTrigger: once(p, 'top 94%') });
       } });
     });
-    gsap.from('.seal', { rotate: -90, scale: 0.6, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: once('.seal', 'top 92%') });
   }
 });
 </script>
