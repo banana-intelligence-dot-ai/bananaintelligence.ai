@@ -28,3 +28,13 @@ A studio's wall of finished apps. The page is the wall. Every real screen is a p
 - The Spooky Particles and Jev crops clip text at the right edge.
 - The hero follows a common layout: headline left, support and button right.
 - The newsroom line, the real point of difference, sits low and mid-weight.
+
+## The wall is touchable (2026-11-11)
+Nate: "it's not funny ... it'd be really funny if somehow there's more tape ... you could move it around."
+Three iterations, screenshots in `docs/tape-2026-11/`:
+- A. Pick up any sheet and move it (shipped). Mouse grabs anywhere; touch only by the tape, so the page still scrolls. The sheet hangs from its tape, swings while carried and settles with a wobble. Every re-stick adds one more strip, corners first, up to six. The wall label stays where the sheet was hung. "Put everything back" appears after the first move. The first time DayStart scrolls into view it stirs once, like a draft.
+- B. Over-taped wall with studio odds and ends (sticker, sticky note, release slip, coffee ring). Rejected: decoration to look at, and it crowds the work.
+- C. Tape gun: click bare wall to slap strips, the roll runs thin, the roll tidies. Rejected: the joke is about the tape, not the work, and the roll reads as a control.
+Why A: the joke comes from what you do to the real screens, and B's best idea (way too much tape) arrives as the consequence of playing.
+Critic: 7 (fix), then 9 (ship), no high or medium open. Rules: no saved positions; Reduce Motion keeps it movable with no swing; dragging is a bonus, every sheet stays a focusable link.
+Open lows: the reset link sits under the wall, a screen below the top sheets; dropped sheets can cover other labels until reset.
