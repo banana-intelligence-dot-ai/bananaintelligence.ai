@@ -80,7 +80,7 @@
   }
 
   *{ box-sizing: border-box; }
-  html{ -webkit-text-size-adjust: 100%; }
+  html{ -webkit-text-size-adjust: 100%; overflow-x: clip; }
   body{
     margin: 0;
     background: var(--paper);
@@ -170,30 +170,67 @@
   .top nav{ display: flex; gap: 32px; }
   .top nav a:hover{ color: var(--ink); }
 
-  /* Hero: the line on the left, the subline and one action set on its baseline at right.
-     No ornament: the first thing below it is the real product. */
+  /* Hero: one engraved plate, the morning briefing set out on a valet's tray.
+     The plate runs under the header and off the right edge of the viewport; the
+     line and the one action sit in its empty paper. */
+  .top{ position: relative; z-index: 2; }
   .hero{
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: 64px;
-    align-items: end;
+    --pw: min(91vw, 1440px);
+    position: relative;
+    height: clamp(720px, calc(100svh - 96px), 1000px);
     padding: 64px 0 0;
+    /* The plate runs off the right edge and under the fold: clip only at the foot */
+    clip-path: inset(-96px -100vw 0 -100vw);
+  }
+  .hero .intro{ position: relative; z-index: 1; }
+  /* A full-width hairline where the fold crops the plate, so the cut reads as a plate edge */
+  .hero::after{
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: calc(50% - 50vw);
+    bottom: 0;
+    width: 100vw;
+    height: 1px;
+    background: var(--line);
+  }
+  .plate{
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    right: calc(50% - 50vw);
+    width: var(--pw);
+    aspect-ratio: 3 / 2;
+    /* Fade only the paper's left edge into the page */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%);
+    mask-image: linear-gradient(to right, transparent, #000 12%);
+  }
+  .plate img{ display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* The one reactive light: low morning sun that follows the pointer across the tray */
+  .sun{
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(420px circle at var(--mx, 60%) var(--my, 50%), rgba(255,196,64,0.16), rgba(255,196,64,0) 70%);
+    mix-blend-mode: multiply;
+    opacity: var(--light, 0);
+    transition: opacity 400ms var(--ease);
+    pointer-events: none;
   }
   .hero h1{
-    font-size: 88px;
-    line-height: 1.02;
+    font-size: clamp(72px, 6.4vw, 96px);
+    line-height: 0.98;
     font-weight: 600;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   .hero h1 span{ display: block; }
-  .intro{ padding-bottom: 12px; }
   .lede{
     font-size: 18px;
     line-height: 1.6;
     color: var(--ink-2);
     max-width: 46ch;
   }
-  .asks{ margin-top: 32px; }
+  .hero .lede{ margin-top: 32px; max-width: 21em; }
+  .asks{ margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; }
   .btn{
     display: inline-flex;
     align-items: center;
@@ -201,13 +238,13 @@
     min-height: 48px;
     padding: 0 24px;
     border-radius: 999px;
-    /* Ink, so DayStart’s play button stays the only banana mass up top */
-    background: var(--ink);
-    color: var(--paper);
+    /* Banana: the same yellow as the play button on the tray, so the one action and the product match */
+    background: var(--banana);
+    color: #1A1407;
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 1px 2px rgba(26,20,7,0.16);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), inset 0 0 0 1px rgba(143,106,0,0.35), 0 1px 2px rgba(26,20,7,0.16);
     transition: opacity 150ms var(--ease), transform 150ms var(--ease);
   }
   .btn:hover{ opacity: 0.88; }
@@ -216,6 +253,8 @@
 
   /* Sections: 128 px apart on desktop, a hairline between */
   .lineup{ padding-top: 128px; }
+  /* The plate's faded lower edge already opens the space below the hero */
+  .hero + .lineup{ padding-top: 96px; }
   h2{
     font-size: 48px;
     line-height: 1.1;
@@ -332,18 +371,7 @@
   }
   /* The two smaller screens: a wide crop, one focal moment each */
   .cell:not(.lead) .shot{ aspect-ratio: 2 / 1; }
-  .shot-daystart{ background: #FFFDF1; --mx: 50%; --my: 40%; --light: 0; }
-  /* The one reactive light on the page: a banana glow that follows the pointer across DayStart's ready screen */
-  .glint{
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.24), rgba(255,210,63,0) 70%);
-    mix-blend-mode: multiply;
-    opacity: var(--light);
-    transition: opacity 200ms var(--ease);
-    pointer-events: none;
-  }
+  .shot-daystart{ background: #FFFDF1; }
   .shot-daystart img{ object-fit: contain; padding: 32px 32px 0; }
   /* Plain Ballot: the race and one complete issue row, the note below it */
   .shot-ballot{ background: #FFFDF1; }
@@ -361,7 +389,7 @@
   .shot-artifact img{ object-fit: contain; object-position: left center; padding: 32px; }
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
-    .glint{ mix-blend-mode: screen; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.12), rgba(255,210,63,0) 70%); }
+    .sun{ mix-blend-mode: screen; background: radial-gradient(420px circle at var(--mx, 60%) var(--my, 50%), rgba(255,210,63,0.10), rgba(255,210,63,0) 70%); }
     .shot-ballot{ background: #131313; }
     .shot-artifact{ background: #111111; }
     .shot-ballot img{ mix-blend-mode: normal; }
@@ -394,6 +422,8 @@
     border-bottom: 1px solid var(--line);
   }
   .step{ padding: 32px 32px 40px; }
+  /* Echo of the hero plate: one small engraving per step, same plate, same light */
+  .spot{ display: block; width: 160px; height: 160px; margin: 0 0 16px -16px; }
   .step:first-child{ padding-left: 0; }
   .step:last-child{ padding-right: 0; }
   .step + .step{ border-left: 1px solid var(--line); }
@@ -446,12 +476,23 @@
   /* Tablet */
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
-    .hero{ grid-template-columns: 1fr; gap: 24px; align-items: start; }
-    .hero h1{ font-size: 64px; }
-    .intro{ padding-bottom: 0; }
+    .hero{ height: auto; padding-top: 48px; clip-path: none; }
+    .hero::after{ display: none; }
+    .hero h1{ font-size: 72px; }
+    .plate{
+      position: relative;
+      top: auto; right: auto;
+      width: 100vw;
+      margin: 24px 0 0 calc(50% - 50vw);
+      -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent);
+      mask-image: linear-gradient(to bottom, #000 84%, transparent);
+    }
     .grid{ grid-template-columns: 1fr; }
     .steps{ grid-template-columns: 1fr; }
-    .step, .step:first-child, .step:last-child{ padding: 24px 0; }
+    .step, .step:first-child, .step:last-child{ padding: 24px 0; display: grid; grid-template-columns: 112px minmax(0, 1fr); column-gap: 16px; align-items: center; }
+    .step picture{ grid-row: span 2; }
+    .spot{ width: 112px; height: 112px; margin: 0; }
+    .step p{ grid-column: 2; }
     .step + .step{ border-left: 0; border-top: 1px solid var(--line); }
     .cell + .cell{ border-left: 0; border-top: 1px solid var(--line); }
     .cell.lead + .cell{ border-top: 0; }
@@ -469,10 +510,14 @@
 
   /* Phone */
   @media (max-width: 640px){
+    .top nav .wide{ display: none; }
     .wrap{ padding: 0 16px; }
     .top{ height: 64px; }
-    .hero{ padding-top: 48px; }
-    .hero h1{ font-size: 48px; }
+    .hero{ padding-top: 40px; }
+    .hero h1{ font-size: 52px; }
+    .hero .lede{ margin-top: 20px; }
+    .plate{ aspect-ratio: 1 / 1; margin-top: 8px; }
+    .plate img{ object-position: 74% 100%; }
     .lede{ font-size: 16px; }
     .asks{ margin-top: 24px; }
     .grid{ --inset: 24px; }
@@ -497,7 +542,7 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .glint{ display: none; }
+    .sun{ display: none; }
     .u, .btn, .ext{ transition: none; }
     .btn:active{ transform: none; }
   }
@@ -514,17 +559,24 @@
         <img class="tile" src="/icon.svg" width="32" height="32" alt="" />
         <span>Banana Intelligence</span>
       </a>
-      <nav aria-label="Primary"><a href="#make">Products</a><a href="#contact">Contact</a></nav>
+      <nav aria-label="Primary"><a href="#make">Products</a><a class="wide" href="#how">How it works</a><a href="#contact">Contact</a></nav>
     </header>
 
     <main>
       <section class="hero">
-        <h1><span>Excellence.</span> <span>For everyone.</span></h1>
         <div class="intro">
-          <p class="lede">A morning briefing, a personal ballot, and the day’s news in one piece, from Nate Peace’s studio.</p>
+          <h1><span>Excellence.</span> <span>For everyone.</span></h1>
+          <p class="lede">We read everything first and set out what matters: a morning briefing, your ballot explained, and the day’s news in one piece.</p>
           <div class="asks">
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
           </div>
+        </div>
+        <div class="plate">
+          <picture>
+            <source media="(prefers-color-scheme: dark)" type="image/webp" sizes="(max-width: 960px) 100vw, min(91vw, 1440px)" srcset="/media/tray-dark-1200.webp 1200w, /media/tray-dark-1800.webp 1800w, /media/tray-dark-2400.webp 2400w" />
+            <img src="/media/tray-light-1800.webp" sizes="(max-width: 960px) 100vw, min(91vw, 1440px)" srcset="/media/tray-light-1200.webp 1200w, /media/tray-light-1800.webp 1800w, /media/tray-light-2400.webp 2400w" width="2400" height="1600" fetchpriority="high" decoding="async" alt="An engraving of a silver valet’s tray set out at dawn: a phone playing DayStart’s morning briefing, a folded newspaper with a chart on its front page, a ballot card with one box ticked, and a cup of coffee." />
+          </picture>
+          <span class="sun" aria-hidden="true"></span>
         </div>
       </section>
 
@@ -532,7 +584,7 @@
         <h2 id="make-title">What we make</h2>
         <div class="grid">
           <article class="cell lead">
-            <div class="shot shot-daystart"><span class="glint" aria-hidden="true"></span>
+            <div class="shot shot-daystart">
               <picture>
                 <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
                 <img src="/media/daystart-ready-light.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
@@ -583,14 +635,17 @@
         <p class="lede">The powerful have always had an assistant who reads everything first and tells them what matters. Now everyone gets one, built to the same standard.</p>
         <div class="steps">
           <div class="step">
+            <picture><source srcset="/media/spot-read-dark.webp" media="(prefers-color-scheme: dark)" /><img class="spot" src="/media/spot-read-light.webp" width="160" height="160" alt="" loading="lazy" decoding="async" /></picture>
             <h3>Read once</h3>
             <p>One shared newsroom reads the day’s news, once, for every product.</p>
           </div>
           <div class="step">
+            <picture><source srcset="/media/spot-checked-dark.webp" media="(prefers-color-scheme: dark)" /><img class="spot" src="/media/spot-checked-light.webp" width="160" height="160" alt="" loading="lazy" decoding="async" /></picture>
             <h3>Checked once</h3>
             <p>It checks what it reads. Every claim keeps its source.</p>
           </div>
           <div class="step">
+            <picture><source srcset="/media/spot-made-dark.webp" media="(prefers-color-scheme: dark)" /><img class="spot" src="/media/spot-made-light.webp" width="160" height="160" alt="" loading="lazy" decoding="async" /></picture>
             <h3>Made for one</h3>
             <p><strong>DayStart</strong> reads it to you. <strong>Plain Ballot</strong> covers your ballot. <strong>Artifact News</strong> draws it.</p>
           </div>
@@ -615,32 +670,32 @@
   </div>
 
 <script>
-// Pointer light on DayStart's screen: lerped so it glides, fine pointers only, off under Reduce Motion.
+// Morning light on the hero plate: follows the pointer with a little mass, fine pointers only, off under Reduce Motion.
 (function(){
-  var cell = document.querySelector('.cell.lead');
-  var shot = cell && cell.querySelector('.shot-daystart');
-  if (!shot) return;
+  var hero = document.querySelector('.hero');
+  var plate = hero && hero.querySelector('.plate');
+  if (!plate) return;
   if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var pos = null, target = { x: 0, y: 0 }, raf = 0;
   function tick(){
-    pos.x += (target.x - pos.x) * 0.15;
-    pos.y += (target.y - pos.y) * 0.15;
-    shot.style.setProperty('--mx', pos.x.toFixed(1) + 'px');
-    shot.style.setProperty('--my', pos.y.toFixed(1) + 'px');
+    pos.x += (target.x - pos.x) * 0.12;
+    pos.y += (target.y - pos.y) * 0.12;
+    plate.style.setProperty('--mx', pos.x.toFixed(1) + 'px');
+    plate.style.setProperty('--my', pos.y.toFixed(1) + 'px');
     if (Math.abs(target.x - pos.x) > 0.5 || Math.abs(target.y - pos.y) > 0.5) raf = requestAnimationFrame(tick);
     else raf = 0;
   }
-  cell.addEventListener('pointermove', function(e){
-    var r = shot.getBoundingClientRect();
+  hero.addEventListener('pointermove', function(e){
+    var r = plate.getBoundingClientRect();
     target.x = e.clientX - r.left;
     target.y = e.clientY - r.top;
     if (!pos) pos = { x: target.x, y: target.y };
-    shot.style.setProperty('--light', '1');
+    plate.style.setProperty('--light', '1');
     if (!raf) raf = requestAnimationFrame(tick);
   });
-  cell.addEventListener('pointerleave', function(){ shot.style.setProperty('--light', '0'); });
+  hero.addEventListener('pointerleave', function(){ plate.style.setProperty('--light', '0'); });
 })();
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
