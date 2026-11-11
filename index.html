@@ -430,14 +430,14 @@
   .step:last-child{ padding-right: 0; }
   .step + .step{ border-left: 1px solid var(--line); }
   .step h3{
-    font-size: 24px;
+    font-size: 30px;
     line-height: 1.2;
     font-weight: 600;
     letter-spacing: -0.01em;
   }
   .step p{
-    margin-top: 8px;
-    font-size: 16px;
+    margin-top: 12px;
+    font-size: 18px;
     line-height: 1.55;
     color: var(--ink-2);
   }
@@ -446,7 +446,7 @@
   /* Studio note and contact: one column */
   .studio{ padding: 128px 0; }
   .letter{ max-width: 60ch; margin-top: 32px; }
-  .letter p{ font-size: 20px; line-height: 1.6; }
+  .letter p{ font-size: 24px; line-height: 1.5; }
   .letter p + p{ margin-top: 24px; }
   .letter .sign{ font-size: 16px; color: var(--ink-3); }
   .letter .write{
@@ -652,7 +652,7 @@
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var darkQ = matchMedia('(prefers-color-scheme: dark)');
   var READ = ['YOUR CALENDAR','YOUR WEATHER','THE SENATE RACES','THE FED','THE MARKETS','YOUR SCHOOL BOARD','CITY HALL','THE STATEHOUSE','THE COURTS','THE BALLOT MEASURES','THE WIRE','THE MORNING PAPERS','THE JOBS REPORT','YOUR COMMUTE','THE GAME LAST NIGHT','THE CANDIDATES, IN THEIR OWN WORDS','EVERY CLAIM, SOURCED','READ ONCE','CHECKED ONCE','MADE FOR ONE'];
-  var S = window.__sun = { horizon: 1, rise: 1, reveal: 1, lift: 0 };
+  var S = window.__sun = { horizon: 1, rise: 1, reveal: 1, lift: 0, flow: 1, ready: 1, label: 1 };
   var W, H, dpr, cx, hy, R, maxR, strips, rays, mask, ink, paper, on = true, raf = 0, t0 = performance.now();
   var phase = 0, last = 0, EXT;
 
@@ -679,17 +679,17 @@
     R = narrow ? 70 : Math.max(118, Math.min(168, W * 0.1));
     maxR = Math.hypot(Math.max(cx, W - cx), hy + R) + 40;
     strips = [];
-    for (var i = 0; i < 4; i++) strips.push(strip(i, 6.5, 600));
-    for (i = 0; i < 4; i++) strips.push(strip(i + 3, 8, 700));
-    var n = narrow ? 96 : 168; rays = [];
+    for (var i = 0; i < 4; i++) strips.push(strip(i, narrow ? 8 : 9, 600));
+    for (i = 0; i < 4; i++) strips.push(strip(i + 3, narrow ? 9.5 : 11, 700));
+    var n = narrow ? 80 : 160; rays = [];
     for (var k = 0; k < n; k++){
-      var tier = k % 4 === 0 ? 0 : k % 2 === 0 ? 1 : 2;
-      var a = Math.PI + Math.PI * (k + 0.5) / n;
+      var tier = k % 3 === 0 ? 0 : k % 3 === 1 ? 1 : 2;
+      var a = Math.PI * 2 * (k + 0.5) / n;
       rays.push({ a: a, c: Math.cos(a), s: Math.sin(a), tier: tier,
-        start: R * (tier === 0 ? 1.22 : tier === 1 ? 1.5 : 1.95),
-        st: strips[tier === 0 ? 4 + ((k / 4) | 0) % 4 : (k * 7) % 4],
-        alpha: tier === 0 ? 0.82 : tier === 1 ? 0.5 : 0.36,
-        v: 7 + (k % 5) * 1.6 });
+        start: R * (tier === 0 ? 1.4 : tier === 1 ? 1.75 : 2.15),
+        st: strips[tier === 0 ? 4 + ((k / 3) | 0) % 4 : (k * 7) % 4],
+        alpha: tier === 0 ? 0.9 : tier === 1 ? 0.6 : 0.45,
+        v: 30 + (k % 5) * 5 });
     }
     buildMask();
   }
@@ -711,7 +711,7 @@
     });
   }
 
-  function sunY(){ return hy + R * 1.3 - S.rise * R * 1.85 - S.lift * R * 0.9; }
+  function sunY(){ return hy + R * 1.3 - S.rise * R * 2.75 - S.lift * R * 0.8; }
 
   function drawRays(g, t, sy, rev){
     for (var i = 0; i < rays.length; i++){
@@ -729,7 +729,7 @@
     g.globalAlpha = 1;
   }
 
-  function drawSun(g, sy){
+  function drawSun(g, sy, t){
     // Halo: fine engraved rings, like the ready screen's glow
     g.strokeStyle = '#E2B200';
     for (var i = 0; i < 9; i++){
@@ -751,13 +751,27 @@
     // The play mark, DayStart's own
     var s = R * 0.34; g.fillStyle = '#1A1407'; g.lineJoin = 'round'; g.lineWidth = s * 0.18; g.strokeStyle = '#1A1407';
     g.beginPath(); g.moveTo(cx - s * 0.38, sy - s * 0.58); g.lineTo(cx + s * 0.62, sy); g.lineTo(cx - s * 0.38, sy + s * 0.58); g.closePath(); g.fill(); g.stroke();
+    // The morning being made: a ring that fills as the words come in, like the app's progress
+    var rr = R * 1.1, a0 = -Math.PI / 2;
+    g.lineCap = 'round'; g.lineWidth = narrowR() ? 2.5 : 3.5;
+    g.strokeStyle = ink; g.globalAlpha = 0.12; g.beginPath(); g.arc(cx, sy, rr, 0, Math.PI * 2); g.stroke();
+    g.globalAlpha = 0.9; g.beginPath(); g.arc(cx, sy, rr, a0, a0 + Math.PI * 2 * Math.max(0.001, S.ready)); g.stroke();
+    g.globalAlpha = 1;
+    if (S.label > 0.01){
+      g.globalAlpha = S.label; g.fillStyle = ink; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+      g.font = '700 ' + (narrowR() ? 10 : 12) + 'px "Hanken Grotesk", system-ui, sans-serif'; g.letterSpacing = '0.16em';
+      g.fillText('YOUR MORNING IS READY  ·  5 MIN', cx, sy - rr - (narrowR() ? 14 : 20) + (1 - S.label) * 6);
+      g.globalAlpha = 1; g.textAlign = 'start'; g.letterSpacing = '0px';
+    }
   }
+  function narrowR(){ return W < 760; }
 
   function frame(now){
     raf = 0;
     var t = still ? 0 : (now - t0) / 1000, dt = Math.min(0.05, t - last); last = t;
     // As you scroll the sun keeps rising and pulls the words in, faster: everything read, handed over.
-    phase += dt * (1 + 6 * S.lift);
+    phase += dt * (S.flow + 5 * S.lift);
+    pt.x += (pt.tx - pt.x) * 0.12; pt.y += (pt.ty - pt.y) * 0.12; pt.on += (pt.ton - pt.on) * 0.08;
     var sy = sunY(), rev = R + (maxR - R) * S.reveal * (1 - 0.75 * S.lift);
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
     ctx.save(); ctx.scale(dpr, dpr); ctx.beginPath(); ctx.rect(0, 0, W, hy); ctx.clip(); ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -765,15 +779,26 @@
     // The text is absorbed as it reaches the sun; copy keeps clear paper.
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.globalCompositeOperation = 'destination-out';
-    var gr = ctx.createRadialGradient(cx, sy, R * 1.05, cx, sy, R * 1.9);
+    var gr = ctx.createRadialGradient(cx, sy, R * 1.2, cx, sy, R * 2.1);
     gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = gr; ctx.fillRect(0, 0, W, hy);
     var far = ctx.createRadialGradient(cx, sy, R * 2.2, cx, sy, maxR * 0.9);
     far.addColorStop(0, 'rgba(0,0,0,0)'); far.addColorStop(1, 'rgba(0,0,0,0.86)');
     ctx.fillStyle = far; ctx.fillRect(0, 0, W, hy);
+    // The copy column stays clean paper; the words live on the sun's side
+    var narrowNow = W < 760, cf = narrowNow ? ctx.createLinearGradient(0, 0, 0, hy * 0.7) : ctx.createLinearGradient(0, 0, W * 0.52, 0);
+    cf.addColorStop(0, 'rgba(0,0,0,0.94)'); cf.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = cf; ctx.fillRect(0, 0, W, hy);
     ctx.drawImage(mask, 0, 0, W, H);
+    // The one pointer light: the words under the pointer catch the sun's gold
+    if (pt.on > 0.01){
+      ctx.globalCompositeOperation = 'source-atop';
+      var pg = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 200);
+      pg.addColorStop(0, 'rgba(214,158,0,' + (0.95 * pt.on) + ')'); pg.addColorStop(1, 'rgba(214,158,0,0)');
+      ctx.fillStyle = pg; ctx.fillRect(0, 0, W, hy);
+    }
     ctx.globalCompositeOperation = 'source-over';
-    drawSun(ctx, sy);
+    drawSun(ctx, sy, t);
     ctx.restore();
     // The sun on the night panel below: a broken column of light, like dawn on water
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -789,6 +814,14 @@
   function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
   window.__sunKick = kick;
 
+  var pt = { x: 0, y: 0, tx: 0, ty: 0, on: 0, ton: 0 };
+  if (!still && matchMedia('(hover: hover) and (pointer: fine)').matches){
+    hero.addEventListener('pointermove', function(e){
+      var b = cv.getBoundingClientRect(); pt.tx = e.clientX - b.left; pt.ty = e.clientY - b.top;
+      if (pt.on < 0.01){ pt.x = pt.tx; pt.y = pt.ty; } pt.ton = 1; kick();
+    });
+    hero.addEventListener('pointerleave', function(){ pt.ton = 0; });
+  }
   var rt = 0;
   function rebuild(){ build(); kick(); }
   addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(rebuild, 120); });
@@ -815,11 +848,14 @@ document.addEventListener('DOMContentLoaded', function(){
   gsap.registerPlugin(ScrollTrigger, SplitText);
   if (S){
     var draw = { onUpdate: kick };
-    S.horizon = 0; S.rise = 0; S.reveal = 0; kick();
+    S.horizon = 0; S.rise = 0; S.reveal = 0; S.flow = 6; S.ready = 0; S.label = 0; kick();
     gsap.timeline({ defaults: draw })
-      .to(S, { horizon: 1, duration: 1.4, ease: 'power2.inOut' }, 0.2)
-      .to(S, { rise: 1, duration: 2.0, ease: 'power3.out' }, 0.6)
-      .to(S, { reveal: 1, duration: 2.6, ease: 'power2.out' }, 1.1);
+      .to(S, { horizon: 1, duration: 1.2, ease: 'power2.inOut' }, 0.1)
+      .to(S, { rise: 1, duration: 1.8, ease: 'power3.out' }, 0.3)
+      .to(S, { reveal: 1, duration: 1.6, ease: 'power2.out' }, 0.6)
+      .to(S, { ready: 1, duration: 2.4, ease: 'power1.inOut' }, 0.9)
+      .to(S, { flow: 1, duration: 2.6, ease: 'power2.out' }, 1.0)
+      .to(S, { label: 1, duration: 0.6, ease: 'power2.out' }, 3.2);
     gsap.to(S, { lift: 1, ease: 'none', onUpdate: kick, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 } });
   }
   var once = function(el, start){ return { trigger: el, start: start || 'top 92%', once: true }; };
@@ -836,12 +872,12 @@ document.addEventListener('DOMContentLoaded', function(){
   if (grid){
     var tl = gsap.timeline({ scrollTrigger: once(grid, 'top 88%') });
     tl.from('.grid .rule', { scaleX: 0, duration: 1.1, ease: 'power3.inOut' }, 0)
-      .from('.cell.lead .shot', { clipPath: 'inset(100% 0% 0% 0% round 8px)', duration: 1.2, ease: 'expo.out' }, 0.2)
-      .from('.cell.lead .shot img', { yPercent: 12, duration: 1.4, ease: 'expo.out' }, 0.2)
+      .from('.cell.lead .shot', { opacity: 0, scale: 0.94, duration: 0.9, ease: 'expo.out' }, 0.1)
+      .from('.cell.lead .shot img', { yPercent: 8, duration: 1.2, ease: 'expo.out' }, 0.1)
       .from('.cell.lead .body > *', { y: 10, opacity: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 }, 0.35);
     gsap.utils.toArray('.cell:not(.lead)').forEach(function(c, i){
       gsap.timeline({ scrollTrigger: once(c, 'top 94%') })
-        .from(c.querySelector('.shot'), { clipPath: 'inset(0% 100% 0% 0% round 8px)', duration: 1.1, ease: 'expo.inOut' }, i * 0.12)
+        .from(c.querySelector('.shot'), { opacity: 0, x: -24, duration: 0.8, ease: 'expo.out' }, i * 0.12)
         .from(c.querySelectorAll('.body > *'), { y: 10, opacity: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 }, i * 0.12 + 0.35);
     });
     gsap.from('.soon', { opacity: 0, duration: 0.8, scrollTrigger: once('.soon', 'top 92%') });
