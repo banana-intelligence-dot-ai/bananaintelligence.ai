@@ -27,7 +27,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Hanken+Grotesk:wght@400..600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=Hanken+Grotesk:wght@400..600&display=swap" rel="stylesheet" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -81,6 +81,7 @@
 
   *{ box-sizing: border-box; }
   html{ -webkit-text-size-adjust: 100%; }
+  html, body{ overflow-x: clip; }
   body{
     margin: 0;
     background: var(--paper);
@@ -170,23 +171,34 @@
   .top nav{ display: flex; gap: 32px; }
   .top nav a:hover{ color: var(--ink); }
 
-  /* Hero: the line on the left, the subline and one action set on its baseline at right.
-     No ornament: the first thing below it is the real product. */
+  /* Hero: the sunrise. A banknote sunburst whose rays are microprint (what we read for you),
+     rising behind the line as a banana sun that is DayStart's play button. Full bleed: the canvas
+     runs under the header to the viewport edges; the copy sits in cleared paper. */
+  .top{ position: relative; z-index: 2; }
   .hero{
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: 64px;
-    align-items: end;
-    padding: 64px 0 0;
+    position: relative;
+    min-height: clamp(640px, calc(100svh - 96px), 880px);
+    padding: 40px 0 0;
   }
+  .sunrise{
+    position: absolute;
+    z-index: 0;
+    top: -96px;
+    left: calc(50% - 50vw);
+    width: 100vw;
+    height: calc(100% + 96px);
+    pointer-events: none;
+  }
+  .hero-copy{ position: relative; z-index: 1; }
   .hero h1{
-    font-size: 88px;
-    line-height: 1.02;
+    font-size: clamp(52px, 8.3vw, 120px);
+    line-height: 0.98;
     font-weight: 600;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
-  .hero h1 span{ display: block; }
-  .intro{ padding-bottom: 12px; }
+  .hero h1 .ln{ display: block; }
+  .hero h1 em{ font-style: italic; font-weight: 400; letter-spacing: -0.015em; }
+  .hero .lede{ margin-top: 32px; max-width: 40ch; }
   .lede{
     font-size: 18px;
     line-height: 1.6;
@@ -332,18 +344,7 @@
   }
   /* The two smaller screens: a wide crop, one focal moment each */
   .cell:not(.lead) .shot{ aspect-ratio: 2 / 1; }
-  .shot-daystart{ background: #FFFDF1; --mx: 50%; --my: 40%; --light: 0; }
-  /* The one reactive light on the page: a banana glow that follows the pointer across DayStart's ready screen */
-  .glint{
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.24), rgba(255,210,63,0) 70%);
-    mix-blend-mode: multiply;
-    opacity: var(--light);
-    transition: opacity 200ms var(--ease);
-    pointer-events: none;
-  }
+  .shot-daystart{ background: #FFFDF1; }
   .shot-daystart img{ object-fit: contain; padding: 32px 32px 0; }
   /* Plain Ballot: the race and one complete issue row, the note below it */
   .shot-ballot{ background: #FFFDF1; }
@@ -361,7 +362,6 @@
   .shot-artifact img{ object-fit: contain; object-position: left center; padding: 32px; }
   @media (prefers-color-scheme: dark){
     .shot-daystart{ background: #15110D; }
-    .glint{ mix-blend-mode: screen; background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255,210,63,0.12), rgba(255,210,63,0) 70%); }
     .shot-ballot{ background: #131313; }
     .shot-artifact{ background: #111111; }
     .shot-ballot img{ mix-blend-mode: normal; }
@@ -383,6 +383,11 @@
   .soon strong{ font-weight: 600; color: var(--ink); }
   .soon .u{ display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; }
 
+  .grid{ position: relative; }
+  .grid .rule{ position: absolute; left: 0; right: 0; top: -1px; height: 1px; background: var(--ink); opacity: 0.5; transform-origin: 0 50%; }
+  .steps{ position: relative; }
+  .steps .read{ position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: var(--banana); transform: scaleX(0); transform-origin: 0 50%; }
+  .seal{ display: inline-block; width: 40px; height: 40px; margin-right: 12px; vertical-align: middle; color: var(--ink-3); }
   /* How it works: the why as a lede, the how as three steps on a hairline row */
   .how{ padding-top: 128px; }
   .how .lede{ margin-top: 24px; max-width: 50ch; }
@@ -446,9 +451,6 @@
   /* Tablet */
   @media (max-width: 960px){
     .wrap{ padding: 0 32px; }
-    .hero{ grid-template-columns: 1fr; gap: 24px; align-items: start; }
-    .hero h1{ font-size: 64px; }
-    .intro{ padding-bottom: 0; }
     .grid{ grid-template-columns: 1fr; }
     .steps{ grid-template-columns: 1fr; }
     .step, .step:first-child, .step:last-child{ padding: 24px 0; }
@@ -471,8 +473,8 @@
   @media (max-width: 640px){
     .wrap{ padding: 0 16px; }
     .top{ height: 64px; }
-    .hero{ padding-top: 48px; }
-    .hero h1{ font-size: 48px; }
+    .hero{ padding-top: 24px; min-height: clamp(600px, calc(100svh - 64px), 760px); }
+    .sunrise{ top: -64px; height: calc(100% + 64px); }
     .lede{ font-size: 16px; }
     .asks{ margin-top: 24px; }
     .grid{ --inset: 24px; }
@@ -497,7 +499,7 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .glint{ display: none; }
+    .steps .read{ transform: none; }
     .u, .btn, .ext{ transition: none; }
     .btn:active{ transform: none; }
   }
@@ -518,10 +520,11 @@
     </header>
 
     <main>
-      <section class="hero">
-        <h1><span>Excellence.</span> <span>For everyone.</span></h1>
-        <div class="intro">
-          <p class="lede">A morning briefing, a personal ballot, and the day’s news in one piece, from Nate Peace’s studio.</p>
+      <section class="hero" aria-labelledby="hero-title">
+        <canvas class="sunrise" aria-hidden="true"></canvas>
+        <div class="hero-copy">
+          <h1 id="hero-title"><span class="ln">We read it all.</span> <span class="ln"><em>You get the morning.</em></span></h1>
+          <p class="lede">A five-minute morning show, a personal ballot, and the day’s news in one piece. From Nate Peace’s studio.</p>
           <div class="asks">
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
           </div>
@@ -530,9 +533,9 @@
 
       <section class="lineup" id="make" aria-labelledby="make-title">
         <h2 id="make-title">What we make</h2>
-        <div class="grid">
+        <div class="grid"><span class="rule" aria-hidden="true"></span>
           <article class="cell lead">
-            <div class="shot shot-daystart"><span class="glint" aria-hidden="true"></span>
+            <div class="shot shot-daystart">
               <picture>
                 <source srcset="/media/daystart-ready-dark.webp" media="(prefers-color-scheme: dark)" />
                 <img src="/media/daystart-ready-light.webp" width="720" height="740" alt="The DayStart app’s ready screen: a play button over a five-minute briefing, with the day’s top story below." loading="lazy" decoding="async" />
@@ -581,7 +584,7 @@
       <section class="how" id="how" aria-labelledby="how-title">
         <h2 id="how-title">Someone who read it all first</h2>
         <p class="lede">The powerful have always had an assistant who reads everything first and tells them what matters. Now everyone gets one, built to the same standard.</p>
-        <div class="steps">
+        <div class="steps"><span class="read" aria-hidden="true"></span>
           <div class="step">
             <h3>Read once</h3>
             <p>One shared newsroom reads the day’s news, once, for every product.</p>
@@ -601,7 +604,7 @@
         <h2 id="studio">Nate Peace’s studio</h2>
         <div class="letter">
           <p>I started Banana Intelligence to build the tools I wanted for my own family. Each product does one job, calmly, and treats your time like it matters.</p>
-          <p class="sign">Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
+          <p class="sign"><svg class="seal" viewBox="0 0 64 64" aria-hidden="true"><g stroke="currentColor" stroke-width="0.6"><line x1="32" y1="14" x2="32" y2="2" transform="rotate(0 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(10 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(20 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(30 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(40 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(50 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(60 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(70 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(80 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(90 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(100 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(110 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(120 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(130 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(140 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(150 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(160 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(170 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(180 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(190 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(200 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(210 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(220 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(230 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(240 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(250 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(260 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(270 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(280 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(290 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(300 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(310 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(320 32 32)"/><line x1="32" y1="14" x2="32" y2="2" transform="rotate(330 32 32)" stroke-width="1.1"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(340 32 32)"/><line x1="32" y1="16" x2="32" y2="6" transform="rotate(350 32 32)"/></g><circle cx="32" cy="32" r="12" fill="#FFD23F"/><path d="M29 26.5 37 32l-8 5.5z" fill="#1A1407" stroke="#1A1407" stroke-width="1.6" stroke-linejoin="round"/></svg>Nate Peace, founder. More at <a class="u" href="https://natepeace.com" target="_blank" rel="noopener">natepeace.com<span class="sr"> (opens in a new tab)</span></a></p>
           <p class="write">Something you wish existed? Write to me at <a class="mail u" href="mailto:nate@bananaintelligence.ai">nate@bananaintelligence.ai</a>. I read every note.</p>
         </div>
       </section>
@@ -615,33 +618,285 @@
   </div>
 
 <script>
-// Pointer light on DayStart's screen: lerped so it glides, fine pointers only, off under Reduce Motion.
+// The sunrise. Every ray is a line of microprint naming what gets read for you. The text drifts
+// in toward the sun (read, then handed to you); a loupe on fine pointers makes it legible.
+// Reduced motion: one still frame, no drift, no loupe. Paused when off screen or hidden.
 (function(){
-  var cell = document.querySelector('.cell.lead');
-  var shot = cell && cell.querySelector('.shot-daystart');
-  if (!shot) return;
-  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var hero = document.querySelector('.hero'), cv = hero && hero.querySelector('.sunrise');
+  if (!cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d');
+  var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var darkQ = matchMedia('(prefers-color-scheme: dark)');
+  var READ = ['YOUR CALENDAR','YOUR WEATHER','THE SENATE RACES','THE FED','THE MARKETS','YOUR SCHOOL BOARD','CITY HALL','THE STATEHOUSE','THE COURTS','THE BALLOT MEASURES','THE WIRE','THE MORNING PAPERS','THE JOBS REPORT','YOUR COMMUTE','THE GAME LAST NIGHT','THE CANDIDATES, IN THEIR OWN WORDS','EVERY CLAIM, SOURCED','READ ONCE','CHECKED ONCE','MADE FOR ONE'];
+  var S = window.__sun = { horizon: 1, rise: 1, reveal: 1, lift: 0 };
+  var W, H, dpr, cx, hy, R, maxR, strips, rays, mask, ink, paper, on = true, raf = 0, t0 = performance.now();
+  var lp = { x: 0, y: 0, tx: 0, ty: 0, r: 0, tr: 0 }, copyRects = [];
 
-  var pos = null, target = { x: 0, y: 0 }, raf = 0;
-  function tick(){
-    pos.x += (target.x - pos.x) * 0.15;
-    pos.y += (target.y - pos.y) * 0.15;
-    shot.style.setProperty('--mx', pos.x.toFixed(1) + 'px');
-    shot.style.setProperty('--my', pos.y.toFixed(1) + 'px');
-    if (Math.abs(target.x - pos.x) > 0.5 || Math.abs(target.y - pos.y) > 0.5) raf = requestAnimationFrame(tick);
-    else raf = 0;
+  function strip(i, size, weight){
+    var words = READ.slice(i * 3).concat(READ.slice(0, i * 3)).join('  ·  ') + '  ·  ';
+    var font = weight + ' ' + size + 'px "Hanken Grotesk", system-ui, sans-serif';
+    ctx.font = font; ctx.letterSpacing = '0.06em';
+    var P = Math.ceil(ctx.measureText(words).width), h = Math.ceil(size * 1.6);
+    var reps = Math.ceil((maxR + P) / P) + 1, text = new Array(reps + 1).join(words);
+    var c = document.createElement('canvas'); c.width = Math.ceil(P * reps * dpr); c.height = Math.ceil(h * dpr);
+    var g = c.getContext('2d'); g.scale(dpr, dpr); g.font = font; g.letterSpacing = '0.06em';
+    g.fillStyle = ink; g.textBaseline = 'middle'; g.fillText(text, 0, h / 2);
+    return { c: c, P: P, h: h, text: text, font: font };
   }
-  cell.addEventListener('pointermove', function(e){
-    var r = shot.getBoundingClientRect();
-    target.x = e.clientX - r.left;
-    target.y = e.clientY - r.top;
-    if (!pos) pos = { x: target.x, y: target.y };
-    shot.style.setProperty('--light', '1');
-    if (!raf) raf = requestAnimationFrame(tick);
-  });
-  cell.addEventListener('pointerleave', function(){ shot.style.setProperty('--light', '0'); });
+
+  function build(){
+    var r = cv.getBoundingClientRect();
+    W = r.width; H = r.height; dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    var narrow = W < 760;
+    ink = darkQ.matches ? '#F4EFE3' : '#1A1407'; paper = darkQ.matches ? '#12100B' : '#FBF8F0';
+    hy = H * (narrow ? 0.9 : 0.85);
+    cx = W * (narrow ? 0.64 : 0.73);
+    R = narrow ? 70 : Math.max(118, Math.min(168, W * 0.1));
+    maxR = Math.hypot(Math.max(cx, W - cx), hy + R) + 40;
+    strips = [];
+    for (var i = 0; i < 4; i++) strips.push(strip(i, 6.5, 600));
+    for (i = 0; i < 4; i++) strips.push(strip(i + 3, 8, 700));
+    var n = narrow ? 96 : 168; rays = [];
+    for (var k = 0; k < n; k++){
+      var tier = k % 4 === 0 ? 0 : k % 2 === 0 ? 1 : 2;
+      var a = Math.PI + Math.PI * (k + 0.5) / n;
+      rays.push({ a: a, c: Math.cos(a), s: Math.sin(a), tier: tier,
+        start: R * (tier === 0 ? 1.22 : tier === 1 ? 1.5 : 1.95),
+        st: strips[tier === 0 ? 4 + ((k / 4) | 0) % 4 : (k * 7) % 4],
+        alpha: tier === 0 ? 0.82 : tier === 1 ? 0.5 : 0.36,
+        v: 7 + (k % 5) * 1.6 });
+    }
+    buildMask();
+  }
+
+  // Clear paper behind every piece of copy, so no ray ever cuts a letter.
+  function buildMask(){
+    mask = document.createElement('canvas'); mask.width = cv.width; mask.height = cv.height;
+    var m = mask.getContext('2d'), base = cv.getBoundingClientRect();
+    m.scale(dpr, dpr); m.filter = 'blur(' + (W < 760 ? 10 : 16) + 'px)'; m.fillStyle = '#000';
+    copyRects = [];
+    var els = document.querySelectorAll('.top .home, .top nav a, .hero h1 .ln, .hero .lede, .hero .btn');
+    els.forEach(function(el){
+      var rects = el.getClientRects();
+      if (el.classList.contains('lede')){ var rg = document.createRange(); rg.selectNodeContents(el); rects = rg.getClientRects(); }
+      for (var i = 0; i < rects.length; i++){
+        var q = rects[i], px = 18, py = 10;
+        var x = q.left - base.left - px, y = q.top - base.top - py, w = q.width + px * 2, h = q.height + py * 2;
+        m.fillRect(x, y, w, h); copyRects.push([x, y, w, h]);
+      }
+    });
+  }
+
+  function sunY(){ return hy + R * 1.3 - S.rise * R * 1.85 - S.lift * R * 0.9; }
+
+  function drawRays(g, t, sy, rev, loupe){
+    for (var i = 0; i < rays.length; i++){
+      var ry = rays[i]; if (rev <= ry.start) continue;
+      var len = Math.min(rev, maxR) - ry.start, st = ry.st;
+      var band = 0.68 + 0.32 * Math.cos(ry.a * 9 + t * 0.22);
+      g.globalAlpha = ry.alpha * band * (darkQ.matches ? 0.72 : 1);
+      // Rays on the left are turned over so every line reads upright, toward the sun.
+      var flip = ry.c < 0, k = flip ? -1 : 1, off = (t * ry.v) % st.P;
+      // segment [a0, a0 + len] in the ray's own x; text origin x0 is fixed, so the reveal never slides the words
+      var a0 = flip ? -(ry.start + len) : ry.start, x0 = flip ? -maxR - st.P + off : ry.start - off;
+      if (loupe){
+        // distance from the loupe centre to this ray, in canvas px
+        var dx = lp.x - cx, dy = lp.y - sy, along = dx * ry.c + dy * ry.s, across = -dx * ry.s + dy * ry.c;
+        if (Math.abs(across) > loupe + 8 || along < ry.start - loupe || along > ry.start + len + loupe) continue;
+        g.save(); g.translate(cx, sy); g.rotate(flip ? ry.a + Math.PI : ry.a);
+        g.beginPath(); g.rect(a0, -st.h, len, st.h * 2); g.clip();
+        g.font = st.font; g.letterSpacing = '0.06em'; g.textBaseline = 'middle'; g.fillStyle = ink;
+        var u = k * along - loupe, from = Math.floor((u - x0) / st.P) * st.P;
+        g.fillText(st.text.slice(0, Math.ceil((loupe * 2 + st.P * 2) / 3)), x0 + from, 0);
+        g.restore();
+      } else {
+        g.setTransform(k * ry.c * dpr, k * ry.s * dpr, -k * ry.s * dpr, k * ry.c * dpr, cx * dpr, sy * dpr);
+        g.drawImage(st.c, (a0 - x0) * dpr, 0, len * dpr, st.h * dpr, a0, -st.h / 2, len, st.h);
+      }
+    }
+    g.globalAlpha = 1;
+  }
+
+  function drawSun(g, sy){
+    // Halo: fine engraved rings, like the ready screen's glow
+    g.strokeStyle = '#E2B200';
+    for (var i = 0; i < 9; i++){
+      g.globalAlpha = 0.5 * (1 - i / 9) * (darkQ.matches ? 0.8 : 1);
+      g.lineWidth = 0.75;
+      g.beginPath(); g.arc(cx, sy, R * (1.04 + i * 0.022), 0, Math.PI * 2); g.stroke();
+    }
+    g.globalAlpha = 1;
+    g.fillStyle = '#FFD23F'; g.beginPath(); g.arc(cx, sy, R, 0, Math.PI * 2); g.fill();
+    // Engraved disc: concentric lines that thicken toward the lower edge (the shadow side)
+    g.save(); g.beginPath(); g.arc(cx, sy, R, 0, Math.PI * 2); g.clip();
+    g.strokeStyle = '#C79400';
+    for (i = 1; i < 26; i++){
+      var rr = R * i / 26; g.lineWidth = 0.4 + 0.5 * (i / 26);
+      g.globalAlpha = 0.1 + 0.18 * (i / 26);
+      g.beginPath(); g.arc(cx, sy + R * 0.03 * (i / 26), rr, 0.15 * Math.PI, 0.85 * Math.PI); g.stroke();
+    }
+    g.restore(); g.globalAlpha = 1;
+    // The play mark, DayStart's own
+    var s = R * 0.34; g.fillStyle = '#1A1407'; g.lineJoin = 'round'; g.lineWidth = s * 0.18; g.strokeStyle = '#1A1407';
+    g.beginPath(); g.moveTo(cx - s * 0.38, sy - s * 0.58); g.lineTo(cx + s * 0.62, sy); g.lineTo(cx - s * 0.38, sy + s * 0.58); g.closePath(); g.fill(); g.stroke();
+  }
+
+  function frame(now){
+    raf = 0;
+    var t = still ? 0 : (now - t0) / 1000, sy = sunY(), rev = R + (maxR - R) * S.reveal;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.save(); ctx.scale(dpr, dpr); ctx.beginPath(); ctx.rect(0, 0, W, hy); ctx.clip(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+    drawRays(ctx, t, sy, rev, 0);
+    // The text is absorbed as it reaches the sun; copy keeps clear paper.
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.globalCompositeOperation = 'destination-out';
+    var gr = ctx.createRadialGradient(cx, sy, R * 1.05, cx, sy, R * 1.9);
+    gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = gr; ctx.fillRect(0, 0, W, hy);
+    var far = ctx.createRadialGradient(cx, sy, R * 2.6, cx, sy, maxR);
+    far.addColorStop(0, 'rgba(0,0,0,0)'); far.addColorStop(1, 'rgba(0,0,0,0.78)');
+    ctx.fillStyle = far; ctx.fillRect(0, 0, W, hy);
+    ctx.drawImage(mask, 0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+    drawSun(ctx, sy);
+    ctx.restore();
+    // Horizon and the ruled ground below it
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var half = Math.max(cx, W - cx) * S.horizon;
+    ctx.strokeStyle = ink; ctx.lineWidth = 1; ctx.globalAlpha = 0.6;
+    ctx.beginPath(); ctx.moveTo(cx - half, hy + 0.5); ctx.lineTo(cx + half, hy + 0.5); ctx.stroke();
+    for (var i = 1; i < 7; i++){
+      ctx.globalAlpha = 0.16 * (1 - i / 8) * S.horizon;
+      var y = Math.round(hy + 4 * Math.pow(1.55, i)) + 0.5; if (y > H) break;
+      ctx.beginPath(); ctx.moveTo(cx - half, y); ctx.lineTo(cx + half, y); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    // The loupe: magnifies the microprint under the pointer so you can read what was read
+    lp.x += (lp.tx - lp.x) * 0.2; lp.y += (lp.ty - lp.y) * 0.2; lp.r += (lp.tr - lp.r) * 0.2;
+    if (lp.r > 1 && lp.y < hy){
+      var Z = 2.4, L = lp.r;
+      ctx.save();
+      ctx.shadowColor = 'rgba(26,20,7,0.18)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 10;
+      ctx.fillStyle = paper; ctx.beginPath(); ctx.arc(lp.x, lp.y, L, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+      ctx.save(); ctx.beginPath(); ctx.arc(lp.x, lp.y, L, 0, Math.PI * 2); ctx.clip();
+      ctx.beginPath(); ctx.rect(0, 0, W, hy); ctx.clip();
+      ctx.translate(lp.x, lp.y); ctx.scale(Z, Z); ctx.translate(-lp.x, -lp.y);
+      drawRays(ctx, t, sy, rev, L / Z);
+      ctx.globalCompositeOperation = 'destination-out';
+      var g2 = ctx.createRadialGradient(cx, sy, R * 1.05, cx, sy, R * 1.6);
+      g2.addColorStop(0, 'rgba(0,0,0,1)'); g2.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g2; ctx.fillRect(0, 0, W, hy);
+      ctx.globalCompositeOperation = 'source-over';
+      if (Math.hypot(lp.x - cx, lp.y - sy) < R * 1.4 + L) drawSun(ctx, sy);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalCompositeOperation = 'destination-out';
+      ctx.drawImage(mask, 0, 0, W, H); ctx.globalCompositeOperation = 'source-over';
+      ctx.restore();
+      ctx.strokeStyle = ink; ctx.globalAlpha = 0.85; ctx.lineWidth = 1.25;
+      ctx.beginPath(); ctx.arc(lp.x, lp.y, L, 0, Math.PI * 2); ctx.stroke();
+      ctx.globalAlpha = 0.35; ctx.lineWidth = 0.75;
+      ctx.beginPath(); ctx.arc(lp.x, lp.y, L + 5, 0, Math.PI * 2); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    if (!still && on) raf = requestAnimationFrame(frame);
+  }
+  function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
+  window.__sunKick = kick;
+
+  function overCopy(x, y){
+    for (var i = 0; i < copyRects.length; i++){ var q = copyRects[i], m = 40; if (x > q[0] - m && x < q[0] + q[2] + m && y > q[1] - m && y < q[1] + q[3] + m) return true; }
+    return false;
+  }
+  if (fine && !still){
+    hero.addEventListener('pointermove', function(e){
+      var b = cv.getBoundingClientRect(), x = e.clientX - b.left, y = e.clientY - b.top;
+      if (lp.r < 1){ lp.x = x; lp.y = y; }
+      lp.tx = x; lp.ty = y; lp.tr = overCopy(x, y) || y > hy ? 0 : (W < 1100 ? 70 : 84);
+    });
+    hero.addEventListener('pointerleave', function(){ lp.tr = 0; });
+  }
+
+  var rt = 0;
+  function rebuild(){ build(); kick(); }
+  addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(rebuild, 120); });
+  if (darkQ.addEventListener) darkQ.addEventListener('change', rebuild);
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){ on = es[0].isIntersecting; if (on) kick(); }).observe(hero);
+  }
+  document.addEventListener('visibilitychange', function(){ on = !document.hidden; if (on) kick(); });
+  build(); kick();
+  // Fonts change the copy's lines: rebuild the mask once they land.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
 })();
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script>
+// Choreography. The sun rises after the line is read, then keeps rising as you scroll.
+// Below the fold each section moves the way its idea does: headings are set line by line,
+// product screens rise like the sun, the three steps are read in order as you pass.
+document.addEventListener('DOMContentLoaded', function(){
+  var S = window.__sun, kick = window.__sunKick || function(){};
+  if (!window.gsap || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+  if (S){
+    var draw = { onUpdate: kick };
+    S.horizon = 0; S.rise = 0; S.reveal = 0; kick();
+    gsap.timeline({ defaults: draw })
+      .to(S, { horizon: 1, duration: 1.4, ease: 'power2.inOut' }, 0.2)
+      .to(S, { rise: 1, duration: 2.0, ease: 'power3.out' }, 0.6)
+      .to(S, { reveal: 1, duration: 2.6, ease: 'power2.out' }, 1.1);
+    gsap.to(S, { lift: 1, ease: 'none', onUpdate: kick, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.6 } });
+  }
+  var once = function(el, start){ return { trigger: el, start: start || 'top 82%', once: true }; };
+
+  // Section headings: set line by line from a baseline
+  document.querySelectorAll('main h2').forEach(function(h){
+    SplitText.create(h, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: function(sp){
+      return gsap.from(sp.lines, { yPercent: 105, duration: 1.0, ease: 'expo.out', stagger: 0.08, scrollTrigger: once(h) });
+    } });
+  });
+
+  // Lineup: the rule is drawn, DayStart's screen rises, the other two wipe in, left to right
+  var grid = document.querySelector('.grid');
+  if (grid){
+    var tl = gsap.timeline({ scrollTrigger: once(grid, 'top 78%') });
+    tl.from('.grid .rule', { scaleX: 0, duration: 1.1, ease: 'power3.inOut' }, 0)
+      .from('.cell.lead .shot', { clipPath: 'inset(100% 0% 0% 0% round 8px)', duration: 1.2, ease: 'expo.out' }, 0.2)
+      .from('.cell.lead .shot img', { yPercent: 12, duration: 1.4, ease: 'expo.out' }, 0.2)
+      .from('.cell.lead .body > *', { y: 16, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.06 }, 0.55);
+    gsap.utils.toArray('.cell:not(.lead)').forEach(function(c, i){
+      gsap.timeline({ scrollTrigger: once(c, 'top 85%') })
+        .from(c.querySelector('.shot'), { clipPath: 'inset(0% 100% 0% 0% round 8px)', duration: 1.1, ease: 'expo.inOut' }, i * 0.12)
+        .from(c.querySelectorAll('.body > *'), { y: 12, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.05 }, i * 0.12 + 0.5);
+    });
+    gsap.from('.soon', { opacity: 0, duration: 0.8, scrollTrigger: once('.soon', 'top 92%') });
+  }
+
+  // How it works: a banana rule reads across the three steps as you scroll; each step lights as it is reached
+  var steps = document.querySelector('.steps');
+  if (steps){
+    var st = gsap.utils.toArray('.step');
+    gsap.set(st, { opacity: 0.28 });
+    var rt = gsap.timeline({ scrollTrigger: { trigger: steps, start: 'top 75%', end: 'bottom 50%', scrub: 0.5 } });
+    rt.fromTo('.steps .read', { scaleX: 0 }, { scaleX: 1, ease: 'none', duration: 3 }, 0);
+    st.forEach(function(s, i){ rt.to(s, { opacity: 1, duration: 0.35, ease: 'none' }, i * (window.innerWidth > 960 ? 1 : 1) + 0.05); });
+  }
+
+  // Studio note: the letter is set line by line; the seal turns once into place
+  var letter = document.querySelector('.letter');
+  if (letter){
+    letter.querySelectorAll('p').forEach(function(p){
+      SplitText.create(p, { type: 'lines', mask: 'lines', autoSplit: true, onSplit: function(sp){
+        return gsap.from(sp.lines, { yPercent: 105, duration: 0.9, ease: 'expo.out', stagger: 0.07, scrollTrigger: once(p, 'top 88%') });
+      } });
+    });
+    gsap.from('.seal', { rotate: -90, scale: 0.6, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: once('.seal', 'top 92%') });
+  }
+});
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script>
