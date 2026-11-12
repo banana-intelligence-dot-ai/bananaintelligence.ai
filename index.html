@@ -195,17 +195,18 @@
   .btn:hover{ opacity: 0.88; }
   .btn:active{ transform: scale(0.97); }
   a.btn:focus-visible{ border-radius: 999px; }
-  /* Desktop, on 8 columns: the lead takes 4, DayStart and Plain Ballot 2 each beside it. Under them
-     Spooky Particles at the middle size (3) and two tight crops at 2. Three sizes; reading order
-     matches the numbers. */
+  /* Desktop, on 8 columns: the lead takes 4, DayStart and My Happenings 2 each beside it. Under them
+     Louie at 2, Spooky Particles at the middle size (3) and Plain Ballot at 2, and Politicians by Jev
+     tucked under Spooky. Three sizes; reading order matches the numbers. */
   .wall{ display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 64px 40px; align-items: start; margin-top: 88px; }
   @media (min-width: 641px){
     .wall > .lead{ grid-column: 1 / 5; }
     .wall > :nth-child(2){ grid-column: 5 / 7; margin-top: 40px; }
     .wall > :nth-child(3){ grid-column: 7 / 9; margin-top: 88px; }
-    .wall > .mid{ grid-column: 1 / 4; }
-    .wall > :nth-child(5){ grid-column: 5 / 7; margin-top: 32px; }
-    .wall > :nth-child(6){ grid-column: 7 / 9; margin-top: -24px; }
+    .wall > :nth-child(4){ grid-column: 1 / 3; margin-top: 8px; }
+    .wall > .mid{ grid-column: 3 / 6; margin-top: 56px; }
+    .wall > :nth-child(6){ grid-column: 7 / 9; margin-top: -16px; }
+    .wall > :nth-child(7){ grid-column: 4 / 6; margin-top: -40px; }
   }
   /* Every sheet can be taken down and moved: by its tape on touch, from anywhere with a mouse.
      Only the paper moves; its wall label stays where it was hung. The sheet hangs from its tape,
@@ -310,6 +311,7 @@
     .lede{ font-size: 16px; }
     .wall{ grid-template-columns: 1fr 1fr; gap: 40px 16px; margin-top: 48px; }
     .wall > .lead, .wall > .mid{ grid-column: 1 / -1; }
+    .wall > :nth-child(4){ grid-column: 1 / -1; justify-self: end; width: 72%; }
     .pc .tag{ gap: 8px; }
     .pc .tag b{ font-size: 14px; line-height: 20px; }
     .board{ padding-bottom: 96px; }
@@ -349,19 +351,20 @@
         <section class="head" aria-labelledby="hero-title">
           <h1 id="hero-title">We build small apps that make your day easier.</h1>
           <div>
-            <p class="lede">An app studio. DayStart, Plain Ballot, Artifact News and more. <strong>6 apps live.</strong></p>
+            <p class="lede">An app studio. DayStart, Plain Ballot, Artifact News and more. <strong>7 apps live.</strong></p>
             <a class="btn" href="https://apps.apple.com/app/apple-store/id6751055528?pt=128010523&amp;ct=bananaintelligence.ai&amp;mt=8" target="_blank" rel="noopener">Get DayStart for iPhone<svg class="ext" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10 10 4M5.5 4H10v4.5"/></svg><span class="sr"> (opens in a new tab)</span></a>
           </div>
         </section>
-        <!-- The pinned work, numbered in reading order. The news apps hang together in the top row. Every image is a real screen from the live
+        <!-- The pinned work, numbered in reading order. The four news apps hang together first. Every image is a real screen from the live
              app: one lead, one mid-size screen, and the rest at half the lead. -->
         <div class="wall">
           <a class="pc lead" href="https://artifactnews.ai/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1deg" aria-hidden="true"></span><img src="/media/wall/w-an-lead.webp" width="1200" height="813" alt="" decoding="async" /></span><span class="tag"><span class="no">1</span><span><b>Artifact News</b><span class="sr"> (opens in a new tab)</span><span class="line">The day’s news as one interactive piece. Every number has a source.</span></span></span></a>
           <a class="pc" href="https://daystartai.app/?ct=site-banana&amp;ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:2deg" aria-hidden="true"></span><img src="/media/wall/w-ds-m.webp" width="560" height="582" alt="" decoding="async" /></span><span class="tag"><span class="no">2</span><span><b>DayStart</b><span class="sr"> (opens in a new tab)</span><span class="line">A five-minute morning show, ready by 7. On the App Store.</span></span></span></a>
           <a class="pc" href="https://myhappenings.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-2.5deg" aria-hidden="true"></span><img src="/media/wall/w-mh.webp" width="560" height="467" alt="" decoding="async" /></span><span class="tag"><span class="no">3</span><span><b>My Happenings</b><span class="sr"> (opens in a new tab)</span><span class="line">The news as a short show to hear or read. In beta.</span></span></span></a>
-          <a class="pc mid" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:1.5deg" aria-hidden="true"></span><img src="/media/wall/w-sp.webp" width="880" height="528" alt="" decoding="async" /></span><span class="tag"><span class="no">4</span><span><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span><span class="line">Tells your coding agent when an app you shipped breaks.</span></span></span></a>
-          <a class="pc" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-pb-m.webp" width="560" height="718" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>Plain Ballot</b><span class="sr"> (opens in a new tab)</span><span class="line">Every candidate quoted exactly, with a link to the source.</span></span></span></a>
-          <a class="pc" style="--tl:70%" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="682" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Politicians by Jev</b><span class="sr"> (opens in a new tab)</span><span class="line">Ask about 100 famous politicians.</span></span></span></a>
+          <a class="pc" href="https://louietheemail.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1deg" aria-hidden="true"></span><img src="/media/wall/w-louie.webp" width="560" height="640" alt="" decoding="async" /></span><span class="tag"><span class="no">4</span><span><b>Louie</b><span class="sr"> (opens in a new tab)</span><span class="line">A morning paper written for you, in your inbox at 7. Free.</span></span></span></a>
+          <a class="pc mid" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:1.5deg" aria-hidden="true"></span><img src="/media/wall/w-sp.webp" width="880" height="528" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span><span class="line">Tells your coding agent when an app you shipped breaks.</span></span></span></a>
+          <a class="pc" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-pb-m.webp" width="560" height="718" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Plain Ballot</b><span class="sr"> (opens in a new tab)</span><span class="line">Every candidate quoted exactly, with a link to the source.</span></span></span></a>
+          <a class="pc" style="--tl:70%" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="682" alt="" decoding="async" /></span><span class="tag"><span class="no">7</span><span><b>Politicians by Jev</b><span class="sr"> (opens in a new tab)</span><span class="line">Ask about 100 famous politicians.</span></span></span></a>
         </div>
         <p class="tidy"><button class="u" type="button" hidden>Put everything back</button></p>
       </div>
@@ -369,7 +372,7 @@
 
     <div class="wrap">
       <section class="after" id="contact" aria-labelledby="studio">
-        <p class="run"><b>One shared newsroom reads the day’s news once and checks every claim against its source.</b> Then Artifact News, DayStart and My Happenings each make it for one person.</p>
+        <p class="run"><b>One shared newsroom reads the day’s news once and checks every claim against its source.</b> Then Artifact News, DayStart, My Happenings and Louie each make it for one person.</p>
         <div class="note">
           <h2 id="studio" class="sr">Nate Peace’s studio</h2>
           <p>I started Banana Intelligence to build the tools I wanted for my own family. Each app does one job, calmly, and treats your time like it matters.</p>
@@ -589,7 +592,7 @@ document.addEventListener('click', function (e) {
     // Match by host, not by tag: DayStart links carry ?ct= (its own tag system), not ?ref=.
     var a = e.target.closest && e.target.closest('a[href^="http"]');
     if (!a) return;
-    var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News', 'myhappenings.com': 'My Happenings', 'spookyparticles.com': 'Spooky Particles', 'politiciansbyjev.vercel.app': 'Politicians by Jev', 'natepeace.com': 'Nate Peace' };
+    var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News', 'myhappenings.com': 'My Happenings', 'louietheemail.com': 'Louie', 'spookyparticles.com': 'Spooky Particles', 'politiciansbyjev.vercel.app': 'Politicians by Jev', 'natepeace.com': 'Nate Peace' };
     var product = names[new URL(a.href).hostname.replace(/^www\./, '')];
     if (product) window.va && window.va('event', { name: 'outbound_click', data: { product: product } });
   } catch (_) {}
