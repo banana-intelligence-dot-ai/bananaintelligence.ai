@@ -8,7 +8,7 @@
 - [Plain Ballot](https://plainballot.com): a free, open source ballot guide. Every position is quoted exactly with its source; party labels stay hidden until asked; it never says how to vote. Agents can use its read-only MCP server at https://plainballot.com/mcp.
 - [Artifact News](https://artifactnews.ai): one interactive piece a day, made from the news. A new piece goes up every morning at 9 a.m. Eastern, made from that morning's news, and every number in it comes with its source. Free on the web.
 - [My Happenings](https://myhappenings.com) (beta): the news as a short show to hear or read, with new editions four times a day and every source listed.
-- [Spooky Particles](https://spookyparticles.com): read-only alerts when an app you run on Vercel breaks. Checks every live site every 5 minutes.
+- [Spooky Particles](https://spookyparticles.com): when an app you shipped on Vercel quietly stops, your coding agent gets the evidence and your phone gets an alert. Checks every live site every 5 minutes.
 - [Politicians by Jev](https://politiciansbyjev.vercel.app): ask a question and watch 100 famous politicians float or sink. Open source.
 
 ## Studio
