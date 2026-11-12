@@ -176,7 +176,7 @@
   /* The wall. The headline is pinned up first. Under it hangs the work: one lead sheet (today's
      Artifact News, two columns wide), then every other app once, half its size, in loose
      columns. Two sizes of screen, one strip of tape each, every screen hung whole. */
-  .board{ position: relative; overflow: hidden; padding: 24px 0 128px; scroll-margin-top: 0; }
+  .board{ position: relative; overflow: clip; padding: 24px 0 128px; scroll-margin-top: 0; }
   .hang{ position: relative; z-index: 1; max-width: 1216px; margin: 0 auto; padding: 0 48px; }
   /* The headline is painted on the wall itself; only the work is pinned up */
   .head{
@@ -232,8 +232,9 @@
   @keyframes peel{ to{ transform: rotate(var(--tilt)) translateY(-12px) scale(0.9); opacity: 0; } }
   /* Hanging everything back after a rearrange */
   .pc.home .sheet{ transition: transform 480ms var(--ease), box-shadow 200ms var(--ease); }
-  .tidy{ display: flex; justify-content: flex-end; margin-top: 40px; }
-  .tidy button{ min-height: 44px; padding: 0; border: 0; background: none; font: inherit; font-size: 16px; cursor: pointer; }
+  /* Rides the bottom of the screen while the wall is in view, so it is always near the sheet you moved */
+  .tidy{ position: sticky; bottom: 16px; z-index: 30; display: flex; justify-content: flex-end; margin-top: 40px; pointer-events: none; }
+  .tidy button{ pointer-events: auto; min-height: 44px; padding: 0 16px; border: 0; border-radius: 22px; background: var(--paper); box-shadow: var(--edge), 0 8px 20px -10px var(--shade); font: inherit; font-size: 16px; cursor: pointer; }
   .tidy button[hidden]{ display: none; }
   @keyframes slap{
     from{ transform: rotate(var(--tilt)) scale(1.35); opacity: 0; }
@@ -435,7 +436,13 @@
     'left:0;top:auto;bottom:-6px;--tilt:36deg', 'left:100%;top:auto;bottom:-6px;--tilt:-36deg',
     'left:24%;--tilt:-7deg', 'left:76%;--tilt:6deg'
   ];
-  var z = 10, held = null, raf = 0;
+  var held = null, raf = 0;
+  // Bring a sheet to the front, keeping the others' order. Stays 11 to 16, under the reset button (30).
+  var stack = [];
+  function raise(pc){
+    stack = stack.filter(function(p){ return p !== pc; }).concat(pc);
+    stack.forEach(function(p, i){ p.querySelector('.sheet').style.zIndex = 11 + i; });
+  }
   function place(pc){
     pc.style.setProperty('--x', pc.x.toFixed(1) + 'px');
     pc.style.setProperty('--y', pc.y.toFixed(1) + 'px');
@@ -527,7 +534,7 @@
       pc.classList.remove('home');
       try { pc.setPointerCapture(held.id); } catch (_) {}
       back.hidden = false;
-      pc.querySelector('.sheet').style.zIndex = ++z;
+      raise(pc);
     }
     e.preventDefault();
     pc.x = held.x0 + clamp(dx, held.lo.x, held.hi.x);
