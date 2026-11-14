@@ -263,6 +263,35 @@
   .pc:focus-visible{ outline: none; }
   .pc:focus-visible .sheet{ outline: 2px solid var(--ring); outline-offset: 3px; }
 
+  /* A playable scrap from Politicians by Jev, hung beside its screen. */
+  .jev-game{ grid-column: 6 / 9; align-self: start; margin-top: -40px; padding: 24px 22px 18px; }
+  .jev-game > summary{
+    display: none; align-items: center; gap: 12px; min-height: 52px; padding: 0 18px 0 10px;
+    border: 1px solid var(--line); border-radius: 999px; font-weight: 600; cursor: pointer; list-style: none;
+  }
+  .jev-game > summary::-webkit-details-marker{ display: none; }
+  .jev-faces{ display: flex; }
+  .jev-faces img{ width: 32px; height: 32px; margin-left: -10px; border: 2px solid var(--wall); border-radius: 50%; object-fit: cover; }
+  .jev-faces img:first-child{ margin-left: 0; }
+  .jev-game h2{ font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; }
+  .jev-qs{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .jev-qs button{
+    min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px;
+    background: transparent; color: var(--ink); font: 500 14px/1 var(--sans); cursor: pointer;
+    transition: background 150ms var(--ease), color 150ms var(--ease);
+  }
+  .jev-qs button[aria-pressed="true"]{ border-color: var(--ink); background: var(--ink); color: var(--paper); }
+  .jev-tank{ position: relative; height: 220px; margin-top: 12px; overflow: hidden; border-bottom: 1px solid var(--ink-3); }
+  .jev-face{ position: absolute; top: 0; left: 0; width: var(--d, 34px); height: var(--d, 34px); margin: calc(var(--d, 34px) / -2) 0 0 calc(var(--d, 34px) / -2); will-change: transform; }
+  .jev-face img{ width: 100%; height: 100%; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1.5px var(--paper), 0 4px 8px -3px var(--shade); transform: scale(var(--k, 1)); transition: transform 500ms var(--ease), filter 500ms var(--ease); -webkit-user-drag: none; }
+  .jev-face.down img{ filter: grayscale(1) opacity(0.58); }
+  .jev-face i{ position: absolute; left: 50%; top: calc(100% + 3px + (var(--k, 1) - 1) * 17px); transform: translateX(-50%); color: var(--ink-2); font: 600 11px/1 var(--sans); font-style: normal; font-variant-numeric: tabular-nums; opacity: 0; transition: opacity 400ms var(--ease); }
+  .jev-face.up i{ opacity: 1; }
+  .jev-verdict{ min-height: 1.35em; margin-top: 12px; font-size: 16px; line-height: 1.35; font-weight: 600; }
+  .jev-foot{ display: flex; flex-direction: column; gap: 0; margin-top: 6px; color: var(--ink-3); font-size: 13px; line-height: 1.5; }
+  .jev-foot > a{ display: inline-flex; align-items: center; min-height: 44px; width: max-content; color: var(--ink); font-size: 15px; font-weight: 600; }
+  .jev-foot span a{ display: inline-flex; align-items: center; min-height: 44px; }
+
   @media (max-width: 1199px){
     .head h1{ font-size: 48px; }
     .head{ grid-template-columns: minmax(0, 1fr) 280px; }
@@ -300,6 +329,14 @@
     .after{ grid-template-columns: 1fr; gap: 48px; }
   }
 
+  @media (max-width: 759px){
+    .jev-game{ grid-column: 1 / -1; justify-self: center; width: min(100%, 400px); margin: 8px 0 0; padding: 0; background: transparent; box-shadow: none; }
+    .jev-game > .tape{ display: none; }
+    .jev-game > summary{ display: inline-flex; }
+    .jev-game[open]{ padding: 18px 16px 14px; background: var(--paper); box-shadow: var(--edge), 0 16px 24px -14px var(--shade); }
+    .jev-game[open] > summary{ margin-bottom: 16px; }
+  }
+
   /* Phone: the lead hangs full width, everything else two across */
   @media (max-width: 640px){
     .wrap{ padding: 0 16px; }
@@ -326,7 +363,7 @@
   }
 
   @media (prefers-reduced-motion: reduce){
-    .pc, .pc .sheet, .u, .btn, .ext{ transition: none; }
+    .pc, .pc .sheet, .u, .btn, .ext, .jev-qs button, .jev-face img, .jev-face i{ transition: none; }
     .pc:hover{ --hy: 0px; }
     .tape.more, .tape.more.off{ animation: none; }
     .pc.held .sheet, .pc.live .sheet, .pc.home .sheet{ transition: none; }
@@ -365,6 +402,17 @@
           <a class="pc mid" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:1.5deg" aria-hidden="true"></span><img src="/media/wall/w-sp.webp" width="880" height="528" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span><span class="line">Tells your coding agent when an app you shipped breaks.</span></span></span></a>
           <a class="pc" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-pb-m.webp" width="560" height="718" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Plain Ballot</b><span class="sr"> (opens in a new tab)</span><span class="line">Every candidate quoted exactly, with a link to the source.</span></span></span></a>
           <a class="pc" style="--tl:70%" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="682" alt="" decoding="async" /></span><span class="tag"><span class="no">7</span><span><b>Politicians by Jev</b><span class="sr"> (opens in a new tab)</span><span class="line">Ask about 100 famous politicians.</span></span></span></a>
+          <details class="jev-game sheet" id="jev-game" open>
+            <summary><span class="jev-faces" aria-hidden="true"><img src="/media/jev-faces/abraham-lincoln.jpg" alt="" /><img src="/media/jev-faces/theodore-roosevelt.jpg" alt="" /><img src="/media/jev-faces/george-washington.jpg" alt="" /></span>Play the Jev gravity game</summary>
+            <span class="tape" style="--tilt:-1.5deg" aria-hidden="true"></span>
+            <div class="jev-body">
+              <h2>Ask Jev. Watch them float or sink.</h2>
+              <div class="jev-qs" role="group" aria-label="Pick a question"></div>
+              <div class="jev-tank" aria-hidden="true"></div>
+              <p class="jev-verdict" aria-live="polite"></p>
+              <p class="jev-foot"><a class="u" href="https://politiciansbyjev.vercel.app" target="_blank" rel="noopener">Play the full game, all 100<span class="sr"> (opens in a new tab)</span></a><span>Jev is an AI. Opinion, not fact. <a class="u" href="https://politiciansbyjev.vercel.app/credits" target="_blank" rel="noopener">Portrait credits<span class="sr"> (opens in a new tab)</span></a></span></p>
+            </div>
+          </details>
         </div>
         <p class="tidy"><button class="u" type="button" hidden>Put everything back</button></p>
       </div>
@@ -583,6 +631,92 @@
     }
     measure();
   });
+})();
+</script>
+<script>
+// A small taste of Politicians by Jev. Scores came from the live game's public API on Nov 13, 2026.
+(function(){
+  var game = document.getElementById('jev-game');
+  if (!game) return;
+  var tank = game.querySelector('.jev-tank'), verdict = game.querySelector('.jev-verdict');
+  var still = matchMedia('(prefers-reduced-motion: reduce)').matches, wide = matchMedia('(min-width: 760px)');
+  var names = { 'abraham-lincoln':'Abraham Lincoln','george-washington':'George Washington','franklin-d-roosevelt':'Franklin D. Roosevelt','thomas-jefferson':'Thomas Jefferson','ronald-reagan':'Ronald Reagan','theodore-roosevelt':'Theodore Roosevelt','john-f-kennedy':'John F. Kennedy','barack-obama':'Barack Obama','andrew-jackson':'Andrew Jackson','chris-christie':'Chris Christie','hillary-clinton':'Hillary Clinton','ted-cruz':'Ted Cruz','joe-biden':'Joe Biden' };
+  var questions = [
+    { q:'Best president ever', label:'Jev is sure', s:{ 'abraham-lincoln':93,'george-washington':91,'franklin-d-roosevelt':88,'thomas-jefferson':84,'ronald-reagan':84,'theodore-roosevelt':82,'john-f-kennedy':82,'barack-obama':81,'andrew-jackson':67 } },
+    { q:'Who would win a fistfight?', label:'Jev thinks so', s:{ 'theodore-roosevelt':66,'chris-christie':61,'hillary-clinton':56,'andrew-jackson':56,'ted-cruz':55,'joe-biden':55 } }
+  ];
+  var ids = Object.keys(names), faces = [], order = [6,1,10,3,12,0,8,5,11,2,9,4,7];
+  var W = 0, H = 0, R = 17, raf = 0, current = -1, made = false;
+
+  function build(){
+    made = true;
+    questions.forEach(function(o, i){
+      var button = document.createElement('button');
+      button.type = 'button'; button.textContent = o.q; button.setAttribute('aria-pressed', 'false');
+      button.addEventListener('click', function(){ ask(i); }); game.querySelector('.jev-qs').appendChild(button);
+    });
+    W = tank.clientWidth; H = tank.clientHeight; R = W < 330 ? 15 : 17; tank.style.setProperty('--d', R * 2 + 'px');
+    ids.forEach(function(id, i){
+      var el = document.createElement('div'); el.className = 'jev-face down';
+      el.innerHTML = '<img src="/media/jev-faces/' + id + '.jpg" alt="" draggable="false"><i></i>';
+      tank.appendChild(el);
+      faces.push({ id: id, el: el, score: el.querySelector('i'), r: R, x: (order[i] + 0.5) / ids.length * W, y: H - R - 2 - (i % 3) * 30, vx: 0, vy: 0, ty: null, hx: 0 });
+    });
+    ask(0);
+  }
+  function ask(i){
+    current = i;
+    var question = questions[i], picks = Object.keys(question.s).sort(function(a, b){ return question.s[b] - question.s[a]; });
+    var high = question.s[picks[0]], low = question.s[picks[picks.length - 1]], span = Math.max(8, high - low);
+    [].forEach.call(game.querySelectorAll('.jev-qs button'), function(button, k){ button.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    var slots = picks.map(function(_, k){ var middle = Math.floor(picks.length / 2); return k === 0 ? middle : (k % 2 ? middle - Math.ceil(k / 2) : middle + k / 2); });
+    faces.forEach(function(face){
+      var k = picks.indexOf(face.id), up = k > -1;
+      face.ty = up ? 34 + (high - question.s[face.id]) / span * (H * 0.4) : null;
+      face.hx = up ? (slots[k] + 0.5) / picks.length * (W - 24) + 12 : face.x;
+      face.r = k === 0 ? R * 1.3 : R;
+      face.el.style.setProperty('--k', k === 0 ? 1.3 : 1);
+      face.el.classList.toggle('up', up); face.el.classList.toggle('down', !up); face.el.style.zIndex = up ? 2 : 1;
+      face.score.textContent = up ? question.s[face.id] + '%' : '';
+    });
+    verdict.textContent = names[picks[0]] + ', ' + high + '%. ' + question.label + '.';
+    if (still){ for (var n = 0; n < 900; n++) step(); draw(); } else go();
+  }
+  function step(){
+    var energy = 0;
+    faces.forEach(function(face){
+      if (face.ty !== null){ face.vy += (face.ty - face.y) * 0.012; face.vx += (face.hx - face.x) * 0.006; }
+      else face.vy += 0.32;
+      face.vx *= 0.93; face.vy *= 0.93; face.x += face.vx; face.y += face.vy;
+      if (face.x < face.r){ face.x = face.r; face.vx *= -0.4; } if (face.x > W - face.r){ face.x = W - face.r; face.vx *= -0.4; }
+      if (face.y > H - face.r - 2){ face.y = H - face.r - 2; face.vy *= -0.3; } if (face.y < face.r){ face.y = face.r; face.vy *= -0.3; }
+      energy += Math.abs(face.vx) + Math.abs(face.vy);
+    });
+    for (var i = 0; i < faces.length; i++) for (var j = i + 1; j < faces.length; j++){
+      var a = faces[i], b = faces[j], dx = b.x - a.x, dy = b.y - a.y, d = Math.sqrt(dx * dx + dy * dy) || 0.01, min = a.r + b.r + 4;
+      if ((a.ty === null) !== (b.ty === null) || d >= min) continue;
+      var push = (min - d) / 2, nx = dx / d, ny = dy / d;
+      a.x -= nx * push; a.y -= ny * push; b.x += nx * push; b.y += ny * push;
+      a.vx -= nx * push * 0.08; a.vy -= ny * push * 0.08; b.vx += nx * push * 0.08; b.vy += ny * push * 0.08;
+    }
+    return energy;
+  }
+  function draw(){ faces.forEach(function(face){ face.el.style.transform = 'translate(' + face.x.toFixed(1) + 'px,' + face.y.toFixed(1) + 'px)'; }); }
+  function frame(){ raf = step() > 0.25 ? requestAnimationFrame(frame) : 0; draw(); }
+  function go(){ if (!raf) raf = requestAnimationFrame(frame); }
+
+  build();
+  game.open = wide.matches;
+  wide.addEventListener('change', function(){ game.open = wide.matches; });
+  // Re-measure only while visible: a closed details element reports 0px.
+  function measure(){
+    var w = tank.clientWidth; if (!made || !game.open || !w || (w === W && tank.clientHeight === H)) return;
+    var first = !W; W = w; H = tank.clientHeight; R = W < 330 ? 15 : 17; tank.style.setProperty('--d', R * 2 + 'px');
+    if (first) faces.forEach(function(face, i){ face.r = R; face.x = (order[i] + 0.5) / ids.length * W; face.y = H - R - 2 - (i % 3) * 30; });
+    ask(current > -1 ? current : 0);
+  }
+  addEventListener('resize', measure);
+  game.addEventListener('toggle', measure);
 })();
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
