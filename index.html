@@ -304,7 +304,7 @@
     border: 1.5px solid var(--ink); border-radius: 50% 50% 35% 35%; background: var(--paper); transform: rotate(-28deg);
   }
   .new-earth-copy{ margin-top: 6px; color: var(--ink-2); font-size: 14px; line-height: 1.45; }
-  .new-earth-field{ display: block; width: 100%; aspect-ratio: 36 / 25; margin-top: 14px; background: #050505; touch-action: none; }
+  .new-earth-field{ display: block; width: 100%; aspect-ratio: 36 / 25; margin-top: 14px; background: #050505; }
   .new-earth-field:focus-visible{ outline: 2px solid var(--ring); outline-offset: 3px; }
   .new-earth-meta{ display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; font-size: 14px; color: var(--ink-2); }
   .new-earth-meta b{ color: var(--ink); font-variant-numeric: tabular-nums; }
@@ -447,9 +447,10 @@
             <div class="new-earth-body">
               <h2>New Earth</h2>
               <p class="new-earth-copy">Sling a rocket past the moons to a new Earth.</p>
-              <canvas class="new-earth-field" width="360" height="250" tabindex="0" aria-label="New Earth gravity slingshot game. Press on the rocket and drag back to aim, or use the arrow keys. Release or press space to launch." aria-describedby="new-earth-status"></canvas>
+              <canvas class="new-earth-field" width="360" height="250" tabindex="0" role="application" aria-label="New Earth gravity slingshot game. Arrow keys aim, Enter launches. You can also drag back from the rocket and release." aria-describedby="new-earth-status"></canvas>
               <p class="new-earth-meta"><span>Tries <b class="new-earth-tries">0</b></span><button class="new-earth-reset" type="button" hidden>Reset</button></p>
               <p class="new-earth-status" id="new-earth-status" aria-live="polite">Drag the rocket back, then release.</p>
+              <p class="sr new-earth-aim-status" aria-live="polite" aria-atomic="true"></p>
               <p class="jev-foot"><a class="u" href="https://new-earth-omega.vercel.app" target="_blank" rel="noopener">Play the full game, all 100 bodies<span class="sr"> (opens in a new tab)</span></a></p>
             </div>
           </details>
@@ -683,7 +684,10 @@ window.watchPlayableCard = function(game, measure, onVisibility){
     if (game.open) measure();
     if (onVisibility) onVisibility(game.open && inView);
   }
-  function sync(){ game.open = wide.matches; update(); }
+  function sync(){
+    if (!wide.matches && game.open && game.contains(document.activeElement)) game.querySelector('summary').focus();
+    game.open = wide.matches; update();
+  }
   wide.addEventListener('change', sync);
   addEventListener('resize', update);
   game.addEventListener('toggle', update);
@@ -784,7 +788,7 @@ window.watchPlayableCard = function(game, measure, onVisibility){
   var game = document.getElementById('new-earth-game');
   if (!game) return;
   var canvas = game.querySelector('.new-earth-field'), ctx = canvas.getContext('2d');
-  var triesEl = game.querySelector('.new-earth-tries'), status = game.querySelector('.new-earth-status'), resetButton = game.querySelector('.new-earth-reset');
+  var triesEl = game.querySelector('.new-earth-tries'), status = game.querySelector('.new-earth-status'), aimStatus = game.querySelector('.new-earth-aim-status'), resetButton = game.querySelector('.new-earth-reset');
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var W = 360, H = 250, STEP = 1 / 120, ROCKET_R = 4;
   var start = { x:54, y:205 }, target = { x:328, y:38, r:23 };
@@ -796,7 +800,7 @@ window.watchPlayableCard = function(game, measure, onVisibility){
     { x:270, y:80, r:20, mu:34000, type:'sun' }
   ];
   var rocket, trail, aim = { vx:110, vy:-60 }, priorAim, pull = 0, tries = 0, phase = 'ready', dragging = false, keyboardAim = false;
-  var raf = 0, active = false, last = 0, accumulator = 0, resetAt = 0, flightSteps = 0;
+  var raf = 0, active = false, last = 0, accumulator = 0, resetAt = 0, flightSteps = 0, aimAnnouncementTimer = 0;
 
   function fresh(){
     rocket = { x:start.x, y:start.y, vx:0, vy:0 };
@@ -895,12 +899,13 @@ window.watchPlayableCard = function(game, measure, onVisibility){
       phase = 'won'; status.textContent = 'You reached New Earth in ' + tries + (tries === 1 ? ' try.' : ' tries.'); resetButton.hidden = false;
     } else {
       phase = 'crash'; status.textContent = 'Crashed. Try another angle.';
-      if (still){ fresh(); status.textContent = 'Crashed. Aim again.'; }
+      if (still) fresh();
       else resetAt = performance.now() + 650;
     }
   }
   function launch(){
     if (phase !== 'ready') return;
+    clearTimeout(aimAnnouncementTimer);
     tries++; triesEl.textContent = tries; rocket.vx = aim.vx; rocket.vy = aim.vy; phase = 'flight'; trail = []; flightSteps = 0; accumulator = 0;
     status.textContent = 'Rocket away.';
     if (still){
@@ -914,16 +919,30 @@ window.watchPlayableCard = function(game, measure, onVisibility){
       accumulator += Math.min(.05, (now - last) / 1000); last = now;
       var result = ''; while (accumulator >= STEP && !result){ accumulator -= STEP; result = step(); }
       if (result) finish(result);
-    } else if (phase === 'crash' && now >= resetAt){ fresh(); status.textContent = 'Drag the rocket back, then release.'; }
+    } else if (phase === 'crash' && now >= resetAt) fresh();
     draw();
     if (phase === 'flight' || phase === 'crash') raf = requestAnimationFrame(frame); else last = 0;
   }
   function kick(){ if (!raf && active && !still) raf = requestAnimationFrame(frame); }
   function point(e){ var r = canvas.getBoundingClientRect(); return { x:(e.clientX - r.left) * W / r.width, y:(e.clientY - r.top) * H / r.height }; }
+  function nearRocket(clientX, clientY){
+    var r = canvas.getBoundingClientRect(), x = r.left + rocket.x * r.width / W, y = r.top + rocket.y * r.height / H;
+    return Math.hypot(clientX - x, clientY - y) <= 44;
+  }
+  function announceAim(){
+    clearTimeout(aimAnnouncementTimer);
+    aimAnnouncementTimer = setTimeout(function(){
+      var angle = Math.round(Math.atan2(-aim.vy, aim.vx) * 180 / Math.PI), power = Math.round(Math.min(1, Math.hypot(aim.vx, aim.vy) / 145) * 100);
+      aimStatus.textContent = 'Aim angle ' + angle + ' degrees, power ' + power + ' percent.';
+    }, 300);
+  }
+  canvas.addEventListener('touchstart', function(e){
+    var touch = e.changedTouches[0];
+    if (phase === 'ready' && touch && nearRocket(touch.clientX, touch.clientY)) e.preventDefault();
+  }, { passive:false });
   canvas.addEventListener('pointerdown', function(e){
-    if (phase !== 'ready') return;
-    var p = point(e), dx = p.x - start.x, dy = p.y - start.y; if (dx * dx + dy * dy > 22 * 22) return;
-    e.preventDefault(); canvas.focus(); dragging = true; keyboardAim = false; pull = 0; priorAim = { vx:aim.vx, vy:aim.vy }; canvas.setPointerCapture(e.pointerId); draw();
+    if (phase !== 'ready' || !nearRocket(e.clientX, e.clientY)) return;
+    e.preventDefault(); canvas.focus(); dragging = true; keyboardAim = false; pull = 0; priorAim = { vx:aim.vx, vy:aim.vy }; status.textContent = 'Release to launch.'; canvas.setPointerCapture(e.pointerId); draw();
   });
   canvas.addEventListener('pointermove', function(e){
     if (!dragging) return; e.preventDefault(); var p = point(e), vx = (start.x - p.x) * 3, vy = (start.y - p.y) * 3, speed = Math.hypot(vx, vy);
@@ -935,8 +954,8 @@ window.watchPlayableCard = function(game, measure, onVisibility){
   canvas.addEventListener('keydown', function(e){
     if (phase !== 'ready' || ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' ','Enter'].indexOf(e.key) < 0) return;
     e.preventDefault(); keyboardAim = true;
-    if (e.key === 'ArrowLeft') aim.vx -= 4; else if (e.key === 'ArrowRight') aim.vx += 4; else if (e.key === 'ArrowUp') aim.vy -= 4; else if (e.key === 'ArrowDown') aim.vy += 4; else launch();
-    aim.vx = Math.max(36, Math.min(140, aim.vx)); aim.vy = Math.max(-120, Math.min(80, aim.vy)); draw();
+    if (e.key === 'ArrowLeft') aim.vx -= 4; else if (e.key === 'ArrowRight') aim.vx += 4; else if (e.key === 'ArrowUp') aim.vy -= 4; else if (e.key === 'ArrowDown') aim.vy += 4; else { launch(); draw(); return; }
+    aim.vx = Math.max(36, Math.min(140, aim.vx)); aim.vy = Math.max(-120, Math.min(80, aim.vy)); announceAim(); draw();
   });
   canvas.addEventListener('focus', draw); canvas.addEventListener('blur', function(){ keyboardAim = false; draw(); });
   resetButton.addEventListener('click', function(){ tries = 0; triesEl.textContent = '0'; fresh(); status.textContent = 'Drag the rocket back, then release.'; draw(); canvas.focus(); });
@@ -952,7 +971,7 @@ document.addEventListener('click', function (e) {
     // Match by host, not by tag: DayStart links carry ?ct= (its own tag system), not ?ref=.
     var a = e.target.closest && e.target.closest('a[href^="http"]');
     if (!a) return;
-    var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News', 'myhappenings.com': 'My Happenings', 'louietheemail.com': 'Louie', 'spookyparticles.com': 'Spooky Particles', 'politiciansbyjev.vercel.app': 'Politicians by Jev', 'natepeace.com': 'Nate Peace' };
+    var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News', 'myhappenings.com': 'My Happenings', 'louietheemail.com': 'Louie', 'spookyparticles.com': 'Spooky Particles', 'politiciansbyjev.vercel.app': 'Politicians by Jev', 'new-earth-omega.vercel.app': 'New Earth', 'natepeace.com': 'Nate Peace' };
     var product = names[new URL(a.href).hostname.replace(/^www\./, '')];
     if (product) window.va && window.va('event', { name: 'outbound_click', data: { product: product } });
   } catch (_) {}
