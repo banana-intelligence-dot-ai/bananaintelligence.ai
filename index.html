@@ -263,17 +263,19 @@
   .pc:focus-visible{ outline: none; }
   .pc:focus-visible .sheet{ outline: 2px solid var(--ring); outline-offset: 3px; }
 
-  /* A playable scrap from Politicians by Jev, hung beside its screen. */
-  .jev-game{ grid-column: 6 / 9; align-self: start; margin-top: -40px; padding: 24px 22px 18px; }
-  .jev-game > summary{
+  /* Two playable scraps from the apps, hung in the gaps beside the final screen. */
+  .play-game{ align-self: start; padding: 24px 22px 18px; }
+  .jev-game{ grid-column: 6 / 9; grid-row: 3; margin-top: -40px; }
+  .new-earth-game{ grid-column: 1 / 4; grid-row: 3; margin-top: 8px; }
+  .play-game > summary{
     display: none; align-items: center; gap: 12px; min-height: 52px; padding: 0 18px 0 10px;
     border: 1px solid var(--line); border-radius: 999px; font-weight: 600; cursor: pointer; list-style: none;
   }
-  .jev-game > summary::-webkit-details-marker{ display: none; }
+  .play-game > summary::-webkit-details-marker{ display: none; }
   .jev-faces{ display: flex; }
   .jev-faces img{ width: 32px; height: 32px; margin-left: -10px; border: 2px solid var(--wall); border-radius: 50%; object-fit: cover; }
   .jev-faces img:first-child{ margin-left: 0; }
-  .jev-game h2{ font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; }
+  .play-game h2{ font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; }
   .jev-qs{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
   .jev-qs button{
     min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px;
@@ -291,6 +293,25 @@
   .jev-foot{ display: flex; flex-direction: column; gap: 0; margin-top: 6px; color: var(--ink-3); font-size: 13px; line-height: 1.5; }
   .jev-foot > a{ display: inline-flex; align-items: center; min-height: 44px; width: max-content; color: var(--ink); font-size: 15px; font-weight: 600; }
   .jev-foot span a{ display: inline-flex; align-items: center; min-height: 44px; }
+  .new-earth-mark{ position: relative; flex: none; width: 42px; height: 32px; }
+  .new-earth-mark::before{
+    content: ""; position: absolute; right: 0; top: 2px; width: 28px; height: 28px; border-radius: 50%;
+    background: radial-gradient(circle at 68% 32%, #78B98A 0 17%, transparent 18%), #6FA8FF;
+    box-shadow: inset -5px -4px 0 rgba(26,20,7,0.15);
+  }
+  .new-earth-mark::after{
+    content: ""; position: absolute; left: 1px; bottom: 3px; width: 15px; height: 8px;
+    border: 1.5px solid var(--ink); border-radius: 50% 50% 35% 35%; background: var(--paper); transform: rotate(-28deg);
+  }
+  .new-earth-copy{ margin-top: 6px; color: var(--ink-2); font-size: 14px; line-height: 1.45; }
+  .new-earth-field{ display: block; width: 100%; aspect-ratio: 36 / 25; margin-top: 14px; background: #050505; touch-action: none; }
+  .new-earth-field:focus-visible{ outline: 2px solid var(--ring); outline-offset: 3px; }
+  .new-earth-meta{ display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; font-size: 14px; color: var(--ink-2); }
+  .new-earth-meta b{ color: var(--ink); font-variant-numeric: tabular-nums; }
+  .new-earth-reset{ min-height: 36px; padding: 0; border: 0; background: transparent; color: var(--ink); font: 600 14px/1 var(--sans); cursor: pointer; text-decoration: underline; text-decoration-color: var(--banana); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+  .new-earth-reset[hidden]{ display: none; }
+  .new-earth-status{ min-height: 2.7em; color: var(--ink); font-size: 14px; line-height: 1.35; }
+  .new-earth-game .jev-foot{ margin-top: 4px; }
 
   @media (max-width: 1199px){
     .head h1{ font-size: 48px; }
@@ -330,11 +351,11 @@
   }
 
   @media (max-width: 759px){
-    .jev-game{ grid-column: 1 / -1; justify-self: center; width: min(100%, 400px); margin: 8px 0 0; padding: 0; background: transparent; box-shadow: none; }
-    .jev-game > .tape{ display: none; }
-    .jev-game > summary{ display: inline-flex; }
-    .jev-game[open]{ padding: 18px 16px 14px; background: var(--paper); box-shadow: var(--edge), 0 16px 24px -14px var(--shade); }
-    .jev-game[open] > summary{ margin-bottom: 16px; }
+    .play-game{ grid-column: 1 / -1; grid-row: auto; justify-self: center; width: min(100%, 400px); margin: 8px 0 0; padding: 0; background: transparent; box-shadow: none; }
+    .play-game > .tape{ display: none; }
+    .play-game > summary{ display: inline-flex; }
+    .play-game[open]{ padding: 18px 16px 14px; background: var(--paper); box-shadow: var(--edge), 0 16px 24px -14px var(--shade); }
+    .play-game[open] > summary{ margin-bottom: 16px; }
   }
 
   /* Phone: the lead hangs full width, everything else two across */
@@ -349,6 +370,13 @@
     .wall{ grid-template-columns: 1fr 1fr; gap: 40px 16px; margin-top: 48px; }
     .wall > .lead, .wall > .mid{ grid-column: 1 / -1; }
     .wall > :nth-child(4){ grid-column: 1 / -1; justify-self: end; width: 72%; }
+    .wall > .play-game:not([open]){ width: 100%; }
+    .wall > .play-game:not([open]) > summary{ width: 100%; padding: 0 10px; gap: 8px; font-size: 14px; line-height: 1.15; }
+    .wall > .play-game:not([open]) .jev-faces img{ width: 24px; height: 24px; margin-left: -8px; }
+    .wall > .play-game:not([open]) .new-earth-mark{ width: 34px; transform: scale(.8); transform-origin: left center; }
+    .wall > .jev-game:not([open]){ grid-column: 1; }
+    .wall > .new-earth-game:not([open]){ grid-column: 2; }
+    .wall > .play-game[open]{ grid-column: 1 / -1; }
     .pc .tag{ gap: 8px; }
     .pc .tag b{ font-size: 14px; line-height: 20px; }
     .board{ padding-bottom: 96px; }
@@ -402,7 +430,7 @@
           <a class="pc mid" href="https://spookyparticles.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:1.5deg" aria-hidden="true"></span><img src="/media/wall/w-sp.webp" width="880" height="528" alt="" decoding="async" /></span><span class="tag"><span class="no">5</span><span><b>Spooky Particles</b><span class="sr"> (opens in a new tab)</span><span class="line">Tells your coding agent when an app you shipped breaks.</span></span></span></a>
           <a class="pc" href="https://plainballot.com/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:-1.5deg" aria-hidden="true"></span><img src="/media/wall/w-pb-m.webp" width="560" height="718" alt="" decoding="async" /></span><span class="tag"><span class="no">6</span><span><b>Plain Ballot</b><span class="sr"> (opens in a new tab)</span><span class="line">Every candidate quoted exactly, with a link to the source.</span></span></span></a>
           <a class="pc" style="--tl:70%" href="https://politiciansbyjev.vercel.app/?ref=bananaintelligence" target="_blank" rel="noopener"><span class="sheet"><span class="tape grip" style="--tilt:2.5deg" aria-hidden="true"></span><img src="/media/wall/w-jev.webp" width="560" height="682" alt="" decoding="async" /></span><span class="tag"><span class="no">7</span><span><b>Politicians by Jev</b><span class="sr"> (opens in a new tab)</span><span class="line">Ask about 100 famous politicians.</span></span></span></a>
-          <details class="jev-game sheet" id="jev-game" open>
+          <details class="jev-game play-game sheet" id="jev-game" open>
             <summary><span class="jev-faces" aria-hidden="true"><img src="/media/jev-faces/abraham-lincoln.jpg" alt="" /><img src="/media/jev-faces/theodore-roosevelt.jpg" alt="" /><img src="/media/jev-faces/george-washington.jpg" alt="" /></span>Play the Jev gravity game</summary>
             <span class="tape" style="--tilt:-1.5deg" aria-hidden="true"></span>
             <div class="jev-body">
@@ -411,6 +439,18 @@
               <div class="jev-tank" aria-hidden="true"></div>
               <p class="jev-verdict" aria-live="polite"></p>
               <p class="jev-foot"><a class="u" href="https://politiciansbyjev.vercel.app" target="_blank" rel="noopener">Play the full game, all 100<span class="sr"> (opens in a new tab)</span></a><span>Jev is an AI. Opinion, not fact. <a class="u" href="https://politiciansbyjev.vercel.app/credits" target="_blank" rel="noopener">Portrait credits<span class="sr"> (opens in a new tab)</span></a></span></p>
+            </div>
+          </details>
+          <details class="new-earth-game play-game sheet" id="new-earth-game" open>
+            <summary><span class="new-earth-mark" aria-hidden="true"></span>Play the New Earth game</summary>
+            <span class="tape" style="--tilt:1.5deg" aria-hidden="true"></span>
+            <div class="new-earth-body">
+              <h2>New Earth</h2>
+              <p class="new-earth-copy">Sling a rocket past the moons to a new Earth.</p>
+              <canvas class="new-earth-field" width="360" height="250" tabindex="0" aria-label="New Earth gravity slingshot game. Press on the rocket and drag back to aim, or use the arrow keys. Release or press space to launch." aria-describedby="new-earth-status"></canvas>
+              <p class="new-earth-meta"><span>Tries <b class="new-earth-tries">0</b></span><button class="new-earth-reset" type="button" hidden>Reset</button></p>
+              <p class="new-earth-status" id="new-earth-status" aria-live="polite">Drag the rocket back, then release.</p>
+              <p class="jev-foot"><a class="u" href="https://new-earth-omega.vercel.app" target="_blank" rel="noopener">Play the full game, all 100 bodies<span class="sr"> (opens in a new tab)</span></a></p>
             </div>
           </details>
         </div>
@@ -634,12 +674,34 @@
 })();
 </script>
 <script>
+// Playable cards share their desktop-open state and only measure when their details are open.
+// A card can also pause its animation when it leaves the viewport.
+window.watchPlayableCard = function(game, measure, onVisibility){
+  var wide = matchMedia('(min-width: 760px)');
+  var inView = !('IntersectionObserver' in window), observer;
+  function update(){
+    if (game.open) measure();
+    if (onVisibility) onVisibility(game.open && inView);
+  }
+  function sync(){ game.open = wide.matches; update(); }
+  wide.addEventListener('change', sync);
+  addEventListener('resize', update);
+  game.addEventListener('toggle', update);
+  if ('IntersectionObserver' in window && onVisibility){
+    observer = new IntersectionObserver(function(entries){ inView = entries[0].isIntersecting; update(); });
+    observer.observe(game);
+  }
+  sync();
+  return { isVisible: function(){ return game.open && inView; } };
+};
+</script>
+<script>
 // A small taste of Politicians by Jev. Scores came from the live game's public API on Nov 13, 2026.
 (function(){
   var game = document.getElementById('jev-game');
   if (!game) return;
   var tank = game.querySelector('.jev-tank'), verdict = game.querySelector('.jev-verdict');
-  var still = matchMedia('(prefers-reduced-motion: reduce)').matches, wide = matchMedia('(min-width: 760px)');
+  var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var names = { 'abraham-lincoln':'Abraham Lincoln','george-washington':'George Washington','franklin-d-roosevelt':'Franklin D. Roosevelt','thomas-jefferson':'Thomas Jefferson','ronald-reagan':'Ronald Reagan','theodore-roosevelt':'Theodore Roosevelt','john-f-kennedy':'John F. Kennedy','barack-obama':'Barack Obama','andrew-jackson':'Andrew Jackson','chris-christie':'Chris Christie','hillary-clinton':'Hillary Clinton','ted-cruz':'Ted Cruz','joe-biden':'Joe Biden' };
   var questions = [
     { q:'Best president ever', label:'Jev is sure', s:{ 'abraham-lincoln':93,'george-washington':91,'franklin-d-roosevelt':88,'thomas-jefferson':84,'ronald-reagan':84,'theodore-roosevelt':82,'john-f-kennedy':82,'barack-obama':81,'andrew-jackson':67 } },
@@ -706,8 +768,6 @@
   function go(){ if (!raf) raf = requestAnimationFrame(frame); }
 
   build();
-  game.open = wide.matches;
-  wide.addEventListener('change', function(){ game.open = wide.matches; });
   // Re-measure only while visible: a closed details element reports 0px.
   function measure(){
     var w = tank.clientWidth; if (!made || !game.open || !w || (w === W && tank.clientHeight === H)) return;
@@ -715,8 +775,174 @@
     if (first) faces.forEach(function(face, i){ face.r = R; face.x = (order[i] + 0.5) / ids.length * W; face.y = H - R - 2 - (i % 3) * 30; });
     ask(current > -1 ? current : 0);
   }
-  addEventListener('resize', measure);
-  game.addEventListener('toggle', measure);
+  watchPlayableCard(game, measure);
+})();
+</script>
+<script>
+// A fixed, pocket-size course from Earth to New Earth.
+(function(){
+  var game = document.getElementById('new-earth-game');
+  if (!game) return;
+  var canvas = game.querySelector('.new-earth-field'), ctx = canvas.getContext('2d');
+  var triesEl = game.querySelector('.new-earth-tries'), status = game.querySelector('.new-earth-status'), resetButton = game.querySelector('.new-earth-reset');
+  var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W = 360, H = 250, STEP = 1 / 120, ROCKET_R = 4;
+  var start = { x:54, y:205 }, target = { x:328, y:38, r:23 };
+  var bodies = [
+    { x:30, y:218, r:22, mu:22000, type:'earth' },
+    { x:100, y:160, r:10, mu:10000, type:'moon' },
+    { x:165, y:88, r:17, mu:26000, type:'planet' },
+    { x:225, y:168, r:11, mu:13000, type:'moon' },
+    { x:270, y:80, r:20, mu:34000, type:'sun' }
+  ];
+  var rocket, trail, aim = { vx:110, vy:-60 }, priorAim, pull = 0, tries = 0, phase = 'ready', dragging = false, keyboardAim = false;
+  var raf = 0, active = false, last = 0, accumulator = 0, resetAt = 0, flightSteps = 0;
+
+  function fresh(){
+    rocket = { x:start.x, y:start.y, vx:0, vy:0 };
+    trail = []; phase = 'ready'; flightSteps = 0; accumulator = 0;
+    resetButton.hidden = true;
+  }
+  function measure(){
+    if (!game.open || !canvas.clientWidth) return;
+    var dpr = Math.min(devicePixelRatio || 1, 2.5), width = canvas.clientWidth, height = width * H / W;
+    var pixelWidth = Math.round(width * dpr), pixelHeight = Math.round(height * dpr);
+    if (canvas.width !== pixelWidth || canvas.height !== pixelHeight){ canvas.width = pixelWidth; canvas.height = pixelHeight; }
+    draw();
+  }
+  function circle(x, y, r){ ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); }
+  function body(b){
+    ctx.save();
+    ctx.strokeStyle = b.type === 'sun' ? '#FFD23F' : 'rgba(242,242,242,.78)'; ctx.lineWidth = 1.2;
+    if (b.type === 'sun'){
+      ctx.fillStyle = '#FFD23F'; circle(b.x, b.y, b.r); ctx.fill();
+      ctx.setLineDash([1, 5]); circle(b.x, b.y, b.r + 5); ctx.stroke(); ctx.setLineDash([]);
+    } else {
+      ctx.fillStyle = b.type === 'earth' ? '#172436' : '#101114'; circle(b.x, b.y, b.r); ctx.fill(); ctx.stroke();
+      ctx.save(); circle(b.x, b.y, b.r); ctx.clip();
+      if (b.type === 'earth'){
+        ctx.fillStyle = '#6FA8FF'; ctx.fillRect(b.x - b.r, b.y - 2, b.r * 2, b.r + 4);
+        ctx.fillStyle = '#78B98A'; circle(b.x - 5, b.y + 1, 7); ctx.fill(); circle(b.x + 8, b.y + 8, 6); ctx.fill();
+      } else if (b.type === 'planet'){
+        ctx.strokeStyle = 'rgba(242,242,242,.35)';
+        [-7, 0, 7].forEach(function(y){ ctx.beginPath(); ctx.ellipse(b.x, b.y + y, b.r * 1.1, 3, 0, 0, Math.PI); ctx.stroke(); });
+      } else {
+        ctx.strokeStyle = 'rgba(242,242,242,.3)'; circle(b.x - 3, b.y - 2, 2.5); ctx.stroke(); circle(b.x + 4, b.y + 3, 2); ctx.stroke();
+      }
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+  function drawTarget(){
+    var glow = ctx.createRadialGradient(target.x, target.y, target.r * .5, target.x, target.y, target.r * 1.65);
+    glow.addColorStop(0, 'rgba(111,168,255,.28)'); glow.addColorStop(1, 'rgba(111,168,255,0)');
+    ctx.fillStyle = glow; circle(target.x, target.y, target.r * 1.65); ctx.fill();
+    ctx.fillStyle = '#6FA8FF'; circle(target.x, target.y, target.r); ctx.fill();
+    ctx.save(); circle(target.x, target.y, target.r); ctx.clip(); ctx.fillStyle = '#78B98A';
+    circle(target.x - 7, target.y - 3, 8); ctx.fill(); circle(target.x + 9, target.y + 8, 7); ctx.fill(); circle(target.x + 8, target.y - 11, 4); ctx.fill(); ctx.restore();
+    ctx.strokeStyle = '#A9C9FF'; ctx.lineWidth = 1.2; circle(target.x, target.y, target.r); ctx.stroke();
+    ctx.fillStyle = '#A9C9FF'; ctx.font = '600 8px "Hanken Grotesk", sans-serif'; ctx.textAlign = 'center'; ctx.fillText('NEW EARTH', target.x, target.y - target.r - 8);
+  }
+  function drawRocket(){
+    var vx = phase === 'ready' ? aim.vx : rocket.vx, vy = phase === 'ready' ? aim.vy : rocket.vy;
+    var angle = Math.atan2(vy, vx) + Math.PI / 2;
+    ctx.save(); ctx.translate(rocket.x, rocket.y); ctx.rotate(angle);
+    ctx.beginPath(); ctx.moveTo(0, -9); ctx.lineTo(5, 6); ctx.lineTo(0, 3); ctx.lineTo(-5, 6); ctx.closePath();
+    ctx.fillStyle = '#050505'; ctx.fill(); ctx.strokeStyle = '#F2F2F2'; ctx.lineWidth = 1.4; ctx.lineJoin = 'round'; ctx.stroke(); ctx.restore();
+  }
+  function draw(){
+    if (!ctx || !canvas.width) return;
+    ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
+    ctx.fillStyle = '#050505'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(242,242,242,.45)';
+    [[15,33],[58,42],[91,20],[132,52],[206,30],[246,37],[298,21],[346,91],[318,145],[75,115],[143,210],[284,215],[340,226]].forEach(function(s){ ctx.fillRect(s[0], s[1], 1, 1); });
+    ctx.strokeStyle = 'rgba(242,242,242,.08)'; ctx.setLineDash([2, 7]);
+    bodies.slice(1).forEach(function(b){ circle(b.x, b.y, b.r * 2.4); ctx.stroke(); }); ctx.setLineDash([]);
+    bodies.forEach(body); drawTarget();
+    ctx.fillStyle = '#F2F2F2'; trail.forEach(function(p, i){ ctx.globalAlpha = .08 + .35 * i / Math.max(1, trail.length); circle(p.x, p.y, 1.15); ctx.fill(); }); ctx.globalAlpha = 1;
+    if (phase === 'ready' && (dragging || keyboardAim || document.activeElement === canvas)){
+      ctx.strokeStyle = 'rgba(242,242,242,.6)'; ctx.lineWidth = 1; ctx.setLineDash([2, 5]);
+      ctx.beginPath(); ctx.moveTo(start.x, start.y); ctx.lineTo(start.x + aim.vx * .55, start.y + aim.vy * .55); ctx.stroke(); ctx.setLineDash([]);
+    }
+    if (phase === 'crash'){
+      ctx.strokeStyle = '#F2F2F2'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(rocket.x - 5, rocket.y - 5); ctx.lineTo(rocket.x + 5, rocket.y + 5); ctx.moveTo(rocket.x + 5, rocket.y - 5); ctx.lineTo(rocket.x - 5, rocket.y + 5); ctx.stroke();
+    } else drawRocket();
+    ctx.fillStyle = 'rgba(242,242,242,.7)'; ctx.font = '600 8px "Hanken Grotesk", sans-serif'; ctx.textAlign = 'center'; ctx.fillText('EARTH', 30, 247);
+  }
+  function gravity(){
+    var ax = 0, ay = 0;
+    bodies.forEach(function(b){
+      var dx = b.x - rocket.x, dy = b.y - rocket.y, d2 = dx * dx + dy * dy, d = Math.sqrt(d2), pull = b.mu / Math.max(d2, 100);
+      ax += pull * dx / d; ay += pull * dy / d;
+    });
+    return { x:ax, y:ay };
+  }
+  function step(){
+    var g = gravity(); rocket.vx += g.x * STEP; rocket.vy += g.y * STEP; rocket.x += rocket.vx * STEP; rocket.y += rocket.vy * STEP; flightSteps++;
+    if (flightSteps % 3 === 0){ trail.push({ x:rocket.x, y:rocket.y }); if (trail.length > 54) trail.shift(); }
+    var dx = rocket.x - target.x, dy = rocket.y - target.y;
+    if (dx * dx + dy * dy < Math.pow(target.r + ROCKET_R, 2)) return 'win';
+    for (var i = 0; i < bodies.length; i++){
+      if (i === 0 && flightSteps < 20) continue;
+      dx = rocket.x - bodies[i].x; dy = rocket.y - bodies[i].y;
+      if (dx * dx + dy * dy < Math.pow(bodies[i].r + ROCKET_R, 2)) return 'crash';
+    }
+    if (rocket.x < -10 || rocket.x > W + 10 || rocket.y < -10 || rocket.y > H + 10 || flightSteps > 1200) return 'crash';
+    return '';
+  }
+  function finish(result){
+    if (result === 'win'){
+      phase = 'won'; status.textContent = 'You reached New Earth in ' + tries + (tries === 1 ? ' try.' : ' tries.'); resetButton.hidden = false;
+    } else {
+      phase = 'crash'; status.textContent = 'Crashed. Try another angle.';
+      if (still){ fresh(); status.textContent = 'Crashed. Aim again.'; }
+      else resetAt = performance.now() + 650;
+    }
+  }
+  function launch(){
+    if (phase !== 'ready') return;
+    tries++; triesEl.textContent = tries; rocket.vx = aim.vx; rocket.vy = aim.vy; phase = 'flight'; trail = []; flightSteps = 0; accumulator = 0;
+    status.textContent = 'Rocket away.';
+    if (still){
+      var result = ''; while (!result && flightSteps <= 1200) result = step(); finish(result || 'crash'); draw();
+    } else kick();
+  }
+  function frame(now){
+    raf = 0; if (!active) return;
+    if (phase === 'flight'){
+      if (!last) last = now;
+      accumulator += Math.min(.05, (now - last) / 1000); last = now;
+      var result = ''; while (accumulator >= STEP && !result){ accumulator -= STEP; result = step(); }
+      if (result) finish(result);
+    } else if (phase === 'crash' && now >= resetAt){ fresh(); status.textContent = 'Drag the rocket back, then release.'; }
+    draw();
+    if (phase === 'flight' || phase === 'crash') raf = requestAnimationFrame(frame); else last = 0;
+  }
+  function kick(){ if (!raf && active && !still) raf = requestAnimationFrame(frame); }
+  function point(e){ var r = canvas.getBoundingClientRect(); return { x:(e.clientX - r.left) * W / r.width, y:(e.clientY - r.top) * H / r.height }; }
+  canvas.addEventListener('pointerdown', function(e){
+    if (phase !== 'ready') return;
+    var p = point(e), dx = p.x - start.x, dy = p.y - start.y; if (dx * dx + dy * dy > 22 * 22) return;
+    e.preventDefault(); canvas.focus(); dragging = true; keyboardAim = false; pull = 0; priorAim = { vx:aim.vx, vy:aim.vy }; canvas.setPointerCapture(e.pointerId); draw();
+  });
+  canvas.addEventListener('pointermove', function(e){
+    if (!dragging) return; e.preventDefault(); var p = point(e), vx = (start.x - p.x) * 3, vy = (start.y - p.y) * 3, speed = Math.hypot(vx, vy);
+    pull = Math.min(speed, 145); if (speed > 145){ vx *= 145 / speed; vy *= 145 / speed; }
+    aim.vx = vx; aim.vy = vy; draw();
+  });
+  canvas.addEventListener('pointerup', function(e){ if (!dragging) return; e.preventDefault(); dragging = false; if (pull >= 36) launch(); else { aim = priorAim; status.textContent = 'Pull farther back to launch.'; draw(); } });
+  canvas.addEventListener('pointercancel', function(){ if (!dragging) return; dragging = false; aim = priorAim; draw(); });
+  canvas.addEventListener('keydown', function(e){
+    if (phase !== 'ready' || ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' ','Enter'].indexOf(e.key) < 0) return;
+    e.preventDefault(); keyboardAim = true;
+    if (e.key === 'ArrowLeft') aim.vx -= 4; else if (e.key === 'ArrowRight') aim.vx += 4; else if (e.key === 'ArrowUp') aim.vy -= 4; else if (e.key === 'ArrowDown') aim.vy += 4; else launch();
+    aim.vx = Math.max(36, Math.min(140, aim.vx)); aim.vy = Math.max(-120, Math.min(80, aim.vy)); draw();
+  });
+  canvas.addEventListener('focus', draw); canvas.addEventListener('blur', function(){ keyboardAim = false; draw(); });
+  resetButton.addEventListener('click', function(){ tries = 0; triesEl.textContent = '0'; fresh(); status.textContent = 'Drag the rocket back, then release.'; draw(); canvas.focus(); });
+
+  fresh();
+  watchPlayableCard(game, measure, function(visible){ active = visible; if (!active && raf){ cancelAnimationFrame(raf); raf = 0; last = 0; } else if (active && (phase === 'flight' || phase === 'crash')) kick(); });
 })();
 </script>
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
