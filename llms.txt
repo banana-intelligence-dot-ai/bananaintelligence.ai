@@ -14,6 +14,7 @@
 
 ## Studio
 
+- [What we make](https://bananaintelligence.ai/what-we-make/): all seven Banana Intelligence products, each with a plain one-line description.
 - [How we build](https://bananaintelligence.ai/how-we-build/): one person and AI agents in parallel, a capped daily work block with a check that can fail, independent review, and a person's yes on anything public, any spend, and any account change.
 - [Releases](https://bananaintelligence.ai/releases/): every public launch and major release of DayStart, Plain Ballot, and Artifact News, newest first, with the date, what shipped, and why.
 

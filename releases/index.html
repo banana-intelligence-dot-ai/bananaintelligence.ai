@@ -318,7 +318,7 @@
           <p class="when"><time datetime="2026-11-04">Nov 4, 2026</time><span class="prod">Artifact News</span></p>
           <div class="body">
             <h2>Artifact News</h2>
-            <p>A new site at <a class="u" href="https://artifactnews.ai?ref=bananaintelligence">artifactnews.ai</a>: one interactive piece a day, made from the news. A new piece goes up every morning at <span class="nw">9 a.m.</span> Eastern, and every number in it comes with its source. Free on the web.</p>
+            <p>A new site at <a class="u" href="https://artifactnews.ai?ct=banana">artifactnews.ai</a>: one interactive piece a day, made from the news. A new piece goes up every morning at <span class="nw">9 a.m.</span> Eastern, and every number in it comes with its source. Free on the web.</p>
             <p class="why"><b>Why.</b> One thing worth opening every morning, the way people used to check the daily comic.</p>
           </div>
         </li>
@@ -367,7 +367,7 @@
           <p class="when"><time datetime="2026-10-25">Oct 25, 2026</time><span class="prod">Plain Ballot</span></p>
           <div class="body">
             <h2>Send your agent</h2>
-            <p>A read-only MCP server at <a class="u" href="https://plainballot.com/mcp">plainballot.com/mcp</a>. Agents can list the issues, pull a ballot with quoted positions and sources, and score fit with the site’s own arithmetic. No model calls, no stored addresses.</p>
+            <p>A read-only MCP server at <a class="u" href="https://plainballot.com/mcp?ct=banana">plainballot.com/mcp</a>. Agents can list the issues, pull a ballot with quoted positions and sources, and score fit with the site’s own arithmetic. No model calls, no stored addresses.</p>
             <p class="why"><b>Why.</b> People ask AI assistants about their ballot. Now the assistant can give the same quoted, sourced answer the site gives, under the same neutrality rules.</p>
           </div>
         </li>
@@ -418,9 +418,10 @@
 <script>
 document.addEventListener('click', function (e) {
   try {
-    var a = e.target.closest && e.target.closest('a[href*="ref=bananaintelligence"]');
+    // Match by host, so the count does not depend on how a link is tagged.
+    var a = e.target.closest && e.target.closest('a[href^="http"]');
     if (!a) return;
-    var names = { 'daystartai.app': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News' };
+    var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News', 'myhappenings.com': 'My Happenings', 'louietheemail.com': 'Louie', 'spookyparticles.com': 'Spooky Particles', 'politiciansbyjev.vercel.app': 'Politicians by Jev', 'new-earth-omega.vercel.app': 'New Earth', 'natepeace.com': 'Nate Peace' };
     var product = names[new URL(a.href).hostname.replace(/^www\./, '')];
     if (product) window.va && window.va('event', { name: 'outbound_click', data: { product: product } });
   } catch (_) {}
