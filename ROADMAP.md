@@ -1,14 +1,12 @@
 # bananaintelligence.ai Roadmap
 
 ## Up next
-Last refreshed: 2026-11-01
+Last refreshed: 2026-11-14
 
 <!-- roadmap:matrix:start -->
 | # | Item | Value / use case | Depends on | Owner | Status |
 |---|---|---|---|---|---|
-| 3 | Update the share image and its alt text to "Excellence. For everyone." | Link previews still show the old "exclusive to the elites" line and would contradict the site | none | Agent | next |
-| 4 | Run the code review on the motto branch and show Nate the findings | CLAUDE.md requires a review before anything ships to the live site | #3 | Agent | blocked: #3 |
-| 5 | OK to merge the motto branch to main, which deploys the live site (default: yes if the review is clean) | Visitors see the new motto, share image, and page text together | #4 | Nate | blocked: #4 |
+| 6 | Keep the sitemap dates and the share image in step with the homepage after each change | Search engines see the page changed; link previews match the page | none | Agent | ongoing |
 <!-- roadmap:matrix:end -->
 
 ## Later
@@ -18,5 +16,8 @@ Last refreshed: 2026-11-01
 ## Shipped
 | # | Item | Value / use case | Depends on | Owner | Status |
 |---|---|---|---|---|---|
+| 5 | Motto branch merged to main | Visitors see "Excellence. For everyone." with the new text | #4 | Agent | done (live, checked 2026-11-14) |
+| 4 | Code review on the motto branch | Review before shipping to the live site | #3 | Agent | done |
+| 3 | Share image and alt text match the motto | Link previews match the site (og-2026-11b.png, 200 live) | none | Agent | done 2026-11-14 |
 | 2 | Add cookieless page view counts (Vercel Web Analytics) | Shows how many visitors click through to a product | none | Agent | done 2026-10-27 |
 | 1 | Real asks, a real contact section, and 44px tap targets | Visitors can get DayStart or the ballot guide, or reach Nate, in one tap | none | Agent | done 2026-10-27 |
