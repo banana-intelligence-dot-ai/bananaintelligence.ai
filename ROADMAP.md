@@ -1,7 +1,7 @@
 # bananaintelligence.ai Roadmap
 
 ## Up next
-Last refreshed: 2026-11-14
+Last refreshed: 2026-11-15
 
 <!-- roadmap:matrix:start -->
 | # | Item | Value / use case | Depends on | Owner | Status |
@@ -10,12 +10,12 @@ Last refreshed: 2026-11-14
 <!-- roadmap:matrix:end -->
 
 ## Later
-- Revisit the Plain Ballot line on the site after the Nov 3 election (PORTFOLIO: rethink after Nov 3)
 - Refresh the DayStart line and App Store link when the next release ships (PORTFOLIO: about Nov 9)
 
 ## Shipped
 | # | Item | Value / use case | Depends on | Owner | Status |
 |---|---|---|---|---|---|
+| 7 | Sitemap dates for How we build and Releases match their last change; Plain Ballot line is election-neutral | Search engines see the pages changed on 2026-11-14 | none | Agent | done 2026-11-15 |
 | 5 | Motto branch merged to main | Visitors see "Excellence. For everyone." with the new text | #4 | Agent | done (live, checked 2026-11-14) |
 | 4 | Code review on the motto branch | Review before shipping to the live site | #3 | Agent | done |
 | 3 | Share image and alt text match the motto | Link previews match the site (og-2026-11b.png, 200 live) | none | Agent | done 2026-11-14 |
