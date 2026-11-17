@@ -14,8 +14,15 @@
 
 ## Studio
 
-- [What we make](https://bananaintelligence.ai/what-we-make/): all seven Banana Intelligence products, each with a plain one-line description.
-- [How we build](https://bananaintelligence.ai/how-we-build/): one person and AI agents in parallel, a capped daily work block with a check that can fail, independent review, and a person's yes on anything public, any spend, and any account change.
+- [What we make](https://bananaintelligence.ai/what-we-make/): all seven Banana Intelligence products, each with a plain one-line description and a page of its own:
+  - [Louie](https://bananaintelligence.ai/what-we-make/louie/): a free morning paper written for one reader.
+  - [DayStart AI](https://bananaintelligence.ai/what-we-make/daystart/): a morning show made just for you.
+  - [Artifact News](https://bananaintelligence.ai/what-we-make/artifact-news/): one interactive piece a day, every number sourced.
+  - [My Happenings](https://bananaintelligence.ai/what-we-make/my-happenings/): the news as a short show to hear or read, every source listed.
+  - [Plain Ballot](https://bananaintelligence.ai/what-we-make/plain-ballot/): a free, nonpartisan guide to your ballot.
+  - [Politicians by Jev](https://bananaintelligence.ai/what-we-make/politicians-by-jev/): ask a question and watch 100 famous politicians float up or sink.
+  - [Spooky Particles](https://bananaintelligence.ai/what-we-make/spooky-particles/): tells your coding agent when an app you shipped breaks.
+- [How we build](https://bananaintelligence.ai/how-we-build/): one person and AI agents in parallel, a capped daily work block with a check that can fail, independent review, and a person's yes on anything public, any spend, and any account change. Answers "Which studios build apps with AI agents?"
 - [Releases](https://bananaintelligence.ai/releases/): every public launch and major release of DayStart, Plain Ballot, and Artifact News, newest first, with the date, what shipped, and why.
 
 ## About
