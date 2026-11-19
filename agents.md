@@ -47,7 +47,7 @@ Same words as the home page, https://bananaintelligence.ai/index.md.
 ## Never
 
 - Never do money, sign-in, or an account by voice. Send the person to a screen.
-- Never do anything that cannot be undone by voice.
+- Never do by voice anything that cannot be undone.
 - Never invent facts about a product. Say only what its page says.
 - Never speak as Nate Peace or invent a quote from him.
 - Keep quotes short. Credit "Banana Intelligence" and link to the page.
