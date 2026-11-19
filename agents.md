@@ -27,7 +27,7 @@ Same words as the home page, https://bananaintelligence.ai/index.md.
 - Louie: A morning paper written for one reader, by 7. https://louietheemail.com/
 - Spooky Particles: Tells your coding agent when an app you shipped breaks. https://spookyparticles.com/
 - Plain Ballot: Every candidate quoted exactly, with a link to the source. https://plainballot.com/
-- Politicians by Jev: Ask about 100 famous politicians. https://politiciansbyjev.vercel.app/
+- Politicians by Jev: Ask about 100 famous politicians. https://www.natepeace.com/games/politicians-by-jev/
 
 ## Do
 

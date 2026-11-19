@@ -30,7 +30,7 @@ An app studio. DayStart, Plain Ballot, Artifact News and more. **7 apps live.**
   Every candidate quoted exactly, with a link to the source.
   ![where two candidates for Governor of California stand on two issues](https://bananaintelligence.ai/media/wall/card-plainballot.webp)
 
-- [**Politicians by Jev**](https://politiciansbyjev.vercel.app/?ct=banana)
+- [**Politicians by Jev**](https://www.natepeace.com/games/politicians-by-jev/?ct=banana)
   Ask about 100 famous politicians.
 
 **One shared newsroom reads the day’s news once and checks every claim against its source.** Then Artifact News, DayStart, My Happenings and Louie each make it for one person.

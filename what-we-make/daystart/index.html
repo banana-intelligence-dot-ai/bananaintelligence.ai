@@ -438,7 +438,8 @@ document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href^="http"]');
     if (!a) return;
     var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News', 'myhappenings.com': 'My Happenings', 'louietheemail.com': 'Louie', 'spookyparticles.com': 'Spooky Particles', 'politiciansbyjev.vercel.app': 'Politicians by Jev', 'new-earth-omega.vercel.app': 'New Earth', 'natepeace.com': 'Nate Peace' };
-    var product = names[new URL(a.href).hostname.replace(/^www\./, '')];
+    var u = new URL(a.href), h = u.hostname.replace(/^www\./, '');
+    var product = h === 'natepeace.com' && u.pathname.indexOf('/games/politicians-by-jev') === 0 ? 'Politicians by Jev' : h === 'natepeace.com' && u.pathname.indexOf('/games/new-earth') === 0 ? 'New Earth' : names[h];
     if (product) window.va && window.va('event', { name: 'outbound_click', data: { product: product } });
   } catch (_) {}
 });
