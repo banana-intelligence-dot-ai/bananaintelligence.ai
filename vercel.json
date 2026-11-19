@@ -1,5 +1,6 @@
 {
   "buildCommand": "npx -y seolint@1.1.1",
+  "outputDirectory": ".",
   "redirects": [
     {
       "source": "/",
