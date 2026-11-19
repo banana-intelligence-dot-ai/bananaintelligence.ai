@@ -86,5 +86,11 @@ for rel in bm.PAGES:
             bad += 1
             print("BROKEN LINK [%s]: %s" % (rel or "/", url))
     print("ok %-40s %d sentences" % (rel or "/", n))
+# The routing file serves these pages as Markdown. Its list must match the generator's.
+mw = open(os.path.join(ROOT, "middleware.js"), encoding="utf-8").read()
+mw_pages = re.findall(r'^  "(/[^"]*)",$', mw, flags=re.M)
+if mw_pages != ["/" + rel for rel in bm.PAGES]:
+    bad += 1
+    print("PAGE LISTS DIFFER: middleware.js", mw_pages, "vs build-markdown.py", bm.PAGES)
 print("misses:", bad)
 sys.exit(1 if bad else 0)
