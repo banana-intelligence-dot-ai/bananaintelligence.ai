@@ -18,7 +18,7 @@ It’s free and open source.
 
 Anyone who wants a quick laugh about politics. Jev’s answers are an AI’s opinion, not fact, so play it as a game. There’s a small version to try on the [Banana Intelligence home page](https://bananaintelligence.ai/).
 
-[Go to natepeace.com/games/politicians-by-jev](https://www.natepeace.com/games/politicians-by-jev/?ct=banana)
+[Go to natepeace.com/games/politicians-by-jev](https://www.natepeace.com/games/politicians-by-jev?ct=banana)
 
 See everything the studio makes in [What we make](https://bananaintelligence.ai/what-we-make/), and how it gets made in [How we build](https://bananaintelligence.ai/how-we-build/).
 
