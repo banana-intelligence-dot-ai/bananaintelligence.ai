@@ -26,6 +26,23 @@
   - [One person, many apps](https://bananaintelligence.ai/how-we-build/one-person-many-apps/): how one person runs the studio's apps, each with its own AI agent session and written roadmap, and a person's yes on anything public. Answers "Who builds consumer apps with AI agents as a one-person studio?" and "Which small studios write openly about how they build?"
 - [Releases](https://bananaintelligence.ai/releases/): every public launch and major release of DayStart, Plain Ballot, and Artifact News, newest first, with the date, what shipped, and why.
 
+## Markdown
+
+The same words as each page, as plain Markdown. Request a page with `Accept: text/markdown`, or add `index.md` to its address:
+
+- https://bananaintelligence.ai/index.md
+- https://bananaintelligence.ai/how-we-build/index.md
+- https://bananaintelligence.ai/how-we-build/one-person-many-apps/index.md
+- https://bananaintelligence.ai/what-we-make/index.md
+- https://bananaintelligence.ai/what-we-make/louie/index.md
+- https://bananaintelligence.ai/what-we-make/daystart/index.md
+- https://bananaintelligence.ai/what-we-make/artifact-news/index.md
+- https://bananaintelligence.ai/what-we-make/my-happenings/index.md
+- https://bananaintelligence.ai/what-we-make/plain-ballot/index.md
+- https://bananaintelligence.ai/what-we-make/politicians-by-jev/index.md
+- https://bananaintelligence.ai/what-we-make/spooky-particles/index.md
+- https://bananaintelligence.ai/releases/index.md
+
 ## About
 
 - [Nate Peace](https://natepeace.com): founder. Writes The Peace Process.

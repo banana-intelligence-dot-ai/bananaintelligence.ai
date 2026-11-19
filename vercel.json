@@ -13,6 +13,146 @@
     { "source": "/privacy", "has": [{ "type": "host", "value": "daystart.bananaintelligence.ai" }], "destination": "/daystart/privacy/index.html" },
     { "source": "/privacy/", "has": [{ "type": "host", "value": "daystart.bananaintelligence.ai" }], "destination": "/daystart/privacy/index.html" },
     { "source": "/terms", "has": [{ "type": "host", "value": "daystart.bananaintelligence.ai" }], "destination": "/daystart/terms/index.html" },
-    { "source": "/terms/", "has": [{ "type": "host", "value": "daystart.bananaintelligence.ai" }], "destination": "/daystart/terms/index.html" }
+    { "source": "/terms/", "has": [{ "type": "host", "value": "daystart.bananaintelligence.ai" }], "destination": "/daystart/terms/index.html" },
+    { "source": "/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/index.md" },
+    { "source": "/how-we-build/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/how-we-build/index.md" },
+    { "source": "/how-we-build", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/how-we-build/index.md" },
+    { "source": "/how-we-build/one-person-many-apps/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/how-we-build/one-person-many-apps/index.md" },
+    { "source": "/how-we-build/one-person-many-apps", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/how-we-build/one-person-many-apps/index.md" },
+    { "source": "/what-we-make/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/index.md" },
+    { "source": "/what-we-make", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/index.md" },
+    { "source": "/what-we-make/louie/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/louie/index.md" },
+    { "source": "/what-we-make/louie", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/louie/index.md" },
+    { "source": "/what-we-make/daystart/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/daystart/index.md" },
+    { "source": "/what-we-make/daystart", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/daystart/index.md" },
+    { "source": "/what-we-make/artifact-news/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/artifact-news/index.md" },
+    { "source": "/what-we-make/artifact-news", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/artifact-news/index.md" },
+    { "source": "/what-we-make/my-happenings/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/my-happenings/index.md" },
+    { "source": "/what-we-make/my-happenings", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/my-happenings/index.md" },
+    { "source": "/what-we-make/plain-ballot/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/plain-ballot/index.md" },
+    { "source": "/what-we-make/plain-ballot", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/plain-ballot/index.md" },
+    { "source": "/what-we-make/politicians-by-jev/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/politicians-by-jev/index.md" },
+    { "source": "/what-we-make/politicians-by-jev", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/politicians-by-jev/index.md" },
+    { "source": "/what-we-make/spooky-particles/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/spooky-particles/index.md" },
+    { "source": "/what-we-make/spooky-particles", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/what-we-make/spooky-particles/index.md" },
+    { "source": "/releases/", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/releases/index.md" },
+    { "source": "/releases", "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }], "destination": "/releases/index.md" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)\\.md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/how-we-build/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/how-we-build/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/how-we-build/one-person-many-apps/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/how-we-build/one-person-many-apps/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/what-we-make/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/what-we-make/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/what-we-make/louie/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/what-we-make/louie/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/what-we-make/daystart/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/what-we-make/daystart/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/what-we-make/artifact-news/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/what-we-make/artifact-news/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/what-we-make/my-happenings/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/what-we-make/my-happenings/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/what-we-make/plain-ballot/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/what-we-make/plain-ballot/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/what-we-make/politicians-by-jev/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/what-we-make/politicians-by-jev/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/what-we-make/spooky-particles/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/what-we-make/spooky-particles/", "headers": [{ "key": "Vary", "value": "Accept" }] },
+    {
+      "source": "/releases/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "X-Robots-Tag", "value": "noindex" }
+      ]
+    },
+    { "source": "/releases/", "headers": [{ "key": "Vary", "value": "Accept" }] }
   ]
 }
