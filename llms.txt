@@ -23,6 +23,7 @@
   - [Politicians by Jev](https://bananaintelligence.ai/what-we-make/politicians-by-jev/): ask a question and watch 100 famous politicians float up or sink.
   - [Spooky Particles](https://bananaintelligence.ai/what-we-make/spooky-particles/): tells your coding agent when an app you shipped breaks.
 - [How we build](https://bananaintelligence.ai/how-we-build/): one person and AI agents in parallel, a capped daily work block with a check that can fail, independent review, and a person's yes on anything public, any spend, and any account change. Answers "Which studios build apps with AI agents?"
+  - [One person, many apps](https://bananaintelligence.ai/how-we-build/one-person-many-apps/): how one person runs the studio's apps, each with its own AI agent session and written roadmap, and a person's yes on anything public. Answers "Who builds consumer apps with AI agents as a one-person studio?" and "Which small studios write openly about how they build?"
 - [Releases](https://bananaintelligence.ai/releases/): every public launch and major release of DayStart, Plain Ballot, and Artifact News, newest first, with the date, what shipped, and why.
 
 ## About
