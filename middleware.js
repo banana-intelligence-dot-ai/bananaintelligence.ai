@@ -28,13 +28,23 @@ export const config = {
 
 const pass = () => new Response(null, { headers: { "x-middleware-next": "1" } });
 
+// True when the Accept header lists text/markdown and does not rule it out with q=0.
+function wantsMarkdown(accept) {
+  for (const part of accept.toLowerCase().split(",")) {
+    const [type, ...params] = part.split(";").map((s) => s.trim());
+    if (type !== "text/markdown") continue;
+    const q = params.find((p) => p.startsWith("q="));
+    return !q || parseFloat(q.slice(2)) > 0;
+  }
+  return false;
+}
+
 export default function middleware(request) {
   const url = new URL(request.url);
   if (url.hostname.startsWith("daystart.")) return pass();
   const path = url.pathname.endsWith("/") ? url.pathname : url.pathname + "/";
   if (!PAGES.includes(path)) return pass();
-  const wantsMarkdown = /(^|[\s,])text\/markdown\b/i.test(request.headers.get("accept") || "");
-  if (!wantsMarkdown) {
+  if (!wantsMarkdown(request.headers.get("accept") || "")) {
     return new Response(null, { headers: { "x-middleware-next": "1", Vary: "Accept" } });
   }
   return new Response(null, {

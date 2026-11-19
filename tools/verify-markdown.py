@@ -45,6 +45,7 @@ def md_plain(md):
     md = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", md)
     md = re.sub(r"^(#+ |- |\d+\. )", "", md, flags=re.M)
     md = md.replace("**", "").replace("`", "")
+    md = re.sub(r"(?<!\\)\*([^*\n]+)\*", r"\1", md)  # single-star emphasis
     return re.sub(r"\\([\\*_\[\]<>])", r"\1", md)
 
 
