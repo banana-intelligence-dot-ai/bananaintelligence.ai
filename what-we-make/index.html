@@ -320,12 +320,12 @@
       <span>Made by <a href="https://natepeace.com" target="_blank" rel="noopener">Nate Peace<span class="sr"> (opens in a new tab)</span></a></span>
     </footer>
   </div>
+<script src="/notrack.js"></script>
 <script>
-window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 (function () {
   var ct = new URLSearchParams(window.location.search).get('ct');
   var allowed = ['louie', 'daystart', 'artifact', 'happenings', 'ballot', 'jev', 'spooky', 'natepeace', 'newearth'];
-  if (allowed.indexOf(ct) !== -1) window.va('event', { name: 'arrive', data: { ct: ct } });
+  if (allowed.indexOf(ct) !== -1) window.biAnalytics.track('arrive', { ct: ct });
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -338,7 +338,7 @@ document.addEventListener('click', function (e) {
     var names = { 'daystartai.app': 'DayStart', 'apps.apple.com': 'DayStart', 'plainballot.com': 'Plain Ballot', 'artifactnews.ai': 'Artifact News', 'myhappenings.com': 'My Happenings', 'louietheemail.com': 'Louie', 'spookyparticles.com': 'Spooky Particles', 'politiciansbyjev.vercel.app': 'Politicians by Jev', 'new-earth-omega.vercel.app': 'New Earth', 'natepeace.com': 'Nate Peace' };
     var u = new URL(a.href), h = u.hostname.replace(/^www\./, '');
     var product = h === 'natepeace.com' && u.pathname.indexOf('/games/politicians-by-jev') === 0 ? 'Politicians by Jev' : h === 'natepeace.com' && u.pathname.indexOf('/games/new-earth') === 0 ? 'New Earth' : names[h];
-    if (product) window.va && window.va('event', { name: 'outbound_click', data: { product: product } });
+    if (product) window.biAnalytics.track('outbound_click', { product: product });
   } catch (_) {}
 });
 </script>
