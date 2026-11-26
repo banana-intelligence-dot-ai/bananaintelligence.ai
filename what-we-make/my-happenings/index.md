@@ -4,13 +4,13 @@ https://bananaintelligence.ai/what-we-make/my-happenings/
 
 The news as a short show to hear or read, every source listed.
 
-On the web · In beta · Updated Nov 16, 2026
+On the web · Free · Updated Nov 26, 2026
 
 ![a story headlined Flu starts early, with a Listen button and a bar chart](https://bananaintelligence.ai/media/wall/card-myhappenings.webp)
 
 ## What it is
 
-My Happenings is an audible news summary: the news as a short show you can hear or read, with every source listed. It’s in beta.
+My Happenings is an audible news summary: the news as a short show you can hear or read, with every source listed. It’s free.
 
 One shared newsroom reads the day’s news once and checks every claim against its source. My Happenings is made from that newsroom.
 

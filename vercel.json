@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npx -y seolint@1.1.1",
+  "buildCommand": "node tools/status.mjs --check && npx -y seolint@1.1.1",
   "outputDirectory": ".",
   "redirects": [
     {

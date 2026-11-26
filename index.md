@@ -11,20 +11,20 @@ An app studio. DayStart, Plain Ballot, Artifact News and more. **7 apps live.**
   ![a line chart of church membership falling from 70% in 1999 to 45% in 2025](https://bananaintelligence.ai/media/wall/card-artifactnews.webp)
 
 - [**DayStart**](https://daystartai.app/?ct=banana)
-  A five-minute morning show, ready by 7. On the App Store.
+  A five-minute morning show, ready by 7am Eastern. On the App Store.
   ![three iPhone screens showing the Dow, gas prices and the S&P 500](https://bananaintelligence.ai/media/wall/card-daystart.webp)
 
 - [**My Happenings**](https://myhappenings.com/?ct=banana)
-  The news as a short show to hear or read. In beta.
+  The news as a short show to hear or read.
   ![a story headlined Flu starts early, with a Listen button and a bar chart](https://bananaintelligence.ai/media/wall/card-myhappenings.webp)
 
 - [**Louie**](https://louietheemail.com/?ct=banana)
-  A morning paper written for one reader, by 7.
+  A morning paper written for one reader, every weekday at 7am Eastern.
   ![the top of a morning edition that says Good morning](https://bananaintelligence.ai/media/wall/card-louie.webp)
 
 - [**Spooky Particles**](https://spookyparticles.com/?ct=banana)
   Tells your coding agent when an app you shipped breaks.
-  ![Spooky Particles home page headline, Fixed by the time you realize it’s broken, beside a line drawing of Einstein](https://bananaintelligence.ai/media/wall/card-spooky.webp)
+  ![Spooky Particles home page: the headline Fixed by the time you realize it’s broken, above a real alert card, Production deploy failed, then Fixed in d0c7f6c, live 9 min 48 s later](https://bananaintelligence.ai/media/wall/card-spooky.webp)
 
 - [**Plain Ballot**](https://plainballot.com/?ct=banana)
   Every candidate quoted exactly, with a link to the source.

@@ -1,0 +1,12 @@
+{
+  "about": "The one place each app's status and delivery time live. Edit here, run `node tools/status.mjs`, commit both. The deploy runs `node tools/status.mjs --check` and fails if a page disagrees. Status: live, beta or paused; the hero counts live and beta apps, never paused ones. Times come from each product's own send schedule.",
+  "apps": [
+    {"name": "Artifact News", "status": "live", "line": "The day’s news as one interactive piece. Every number has a source.", "url": "https://artifactnews.ai/"},
+    {"name": "DayStart", "status": "live", "time": "ready by 7am Eastern", "line": "A five-minute morning show, {time}. On the App Store.", "url": "https://daystartai.app/"},
+    {"name": "My Happenings", "status": "live", "line": "The news as a short show to hear or read.", "url": "https://myhappenings.com/"},
+    {"name": "Louie", "status": "live", "time": "every weekday at 7am Eastern", "line": "A morning paper written for one reader, {time}.", "url": "https://louietheemail.com/"},
+    {"name": "Spooky Particles", "status": "live", "line": "Tells your coding agent when an app you shipped breaks.", "url": "https://spookyparticles.com/"},
+    {"name": "Plain Ballot", "status": "live", "line": "Every candidate quoted exactly, with a link to the source.", "url": "https://plainballot.com/"},
+    {"name": "Politicians by Jev", "status": "live", "line": "Ask about 100 famous politicians.", "url": "https://www.natepeace.com/games/politicians-by-jev"}
+  ]
+}

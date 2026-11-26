@@ -33,11 +33,11 @@ Seven apps, each with a page of its own.
 - **[Artifact News](https://bananaintelligence.ai/what-we-make/artifact-news/)**
   The day’s news as one interactive piece. Every number has a source.
 - **[DayStart](https://bananaintelligence.ai/what-we-make/daystart/)**
-  A five-minute morning show, ready by 7. On the App Store.
+  A five-minute morning show, ready by 7am Eastern. On the App Store.
 - **[My Happenings](https://bananaintelligence.ai/what-we-make/my-happenings/)**
-  The news as a short show to hear or read. In beta.
+  The news as a short show to hear or read.
 - **[Louie](https://bananaintelligence.ai/what-we-make/louie/)**
-  A morning paper written for one reader, by 7.
+  A morning paper written for one reader, every weekday at 7am Eastern.
 - **[Spooky Particles](https://bananaintelligence.ai/what-we-make/spooky-particles/)**
   Tells your coding agent when an app you shipped breaks.
 - **[Plain Ballot](https://bananaintelligence.ai/what-we-make/plain-ballot/)**
@@ -51,7 +51,7 @@ Agents don’t approve their own work, and they don’t decide what goes public.
 
 A passing check isn’t proof that something is good. That’s why a separate reviewer looks too, and why a design ships only when an independent reviewer scores it 8 out of 10 or better.
 
-Not every app is finished. My Happenings is in beta. And we don’t make up numbers. If a number isn’t true yet, we show the product instead.
+We don’t make up numbers. If a number isn’t true yet, we show the product instead.
 
 Read the whole method on [How we build](https://bananaintelligence.ai/how-we-build/).
 

@@ -22,9 +22,9 @@ There is no audio on this site. DayStart is a morning show, and My Happenings is
 Same words as the home page, https://bananaintelligence.ai/index.md.
 
 - Artifact News: The day's news as one interactive piece. Every number has a source. https://artifactnews.ai/
-- DayStart: A five-minute morning show, ready by 7. On the App Store. https://daystartai.app/
-- My Happenings: The news as a short show to hear or read. In beta. https://myhappenings.com/
-- Louie: A morning paper written for one reader, by 7. https://louietheemail.com/
+- DayStart: A five-minute morning show, ready by 7am Eastern. On the App Store. https://daystartai.app/
+- My Happenings: The news as a short show to hear or read. https://myhappenings.com/
+- Louie: A morning paper written for one reader, every weekday at 7am Eastern. https://louietheemail.com/
 - Spooky Particles: Tells your coding agent when an app you shipped breaks. https://spookyparticles.com/
 - Plain Ballot: Every candidate quoted exactly, with a link to the source. https://plainballot.com/
 - Politicians by Jev: Ask about 100 famous politicians. https://www.natepeace.com/games/politicians-by-jev
