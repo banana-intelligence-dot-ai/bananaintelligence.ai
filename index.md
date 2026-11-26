@@ -33,6 +33,17 @@ An app studio. DayStart, Plain Ballot, Artifact News and more. **7 apps live.**
 - [**Politicians by Jev**](https://www.natepeace.com/games/politicians-by-jev?ct=banana)
   Ask about 100 famous politicians.
 
+## How we build
+
+[Read how it works](https://bananaintelligence.ai/how-we-build/)
+
+- **7**
+  apps live, each with a page of its own
+- **4**
+  of them made from one shared newsroom
+- **6**
+  steps in every daily build, with a check that can fail before anything ships
+
 **One shared newsroom reads the day’s news once and checks every claim against its source.** Then Artifact News, DayStart, My Happenings and Louie each make it for one person.
 
 I started Banana Intelligence to build the tools I wanted for my own family. Each app does one job, calmly, and treats your time like it matters.

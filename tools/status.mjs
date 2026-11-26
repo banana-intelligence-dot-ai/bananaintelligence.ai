@@ -2,7 +2,7 @@
 // Writes each app's status line and the hero count from data/apps.json into the pages that show them.
 // Usage: node tools/status.mjs          write the pages
 //        node tools/status.mjs --check  exit 1 if any page disagrees with the data (the deploy runs this)
-// HTML pages mark each filled spot with <!--s:KEY-->...<!--/s-->, where KEY is "count" or an app name.
+// HTML pages mark each filled spot with <!--s:KEY-->...<!--/s-->, where KEY is "count", "live", "newsroom" or an app name.
 // agents.md and llms.txt are plain text for agents, so they are matched by line instead of marked.
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -25,7 +25,8 @@ const live = apps.filter(a => a.status === "live").length;
 const beta = apps.filter(a => a.status === "beta").length;
 export const count = `${live} apps live.` + (beta ? ` ${beta} in beta.` : "");
 
-const values = { count, ...Object.fromEntries(apps.map(a => [a.name, lineFor(a)])) };
+const newsroom = apps.filter(a => a.newsroom && a.status !== "paused").length;
+const values = { count, live: String(live), newsroom: String(newsroom), ...Object.fromEntries(apps.map(a => [a.name, lineFor(a)])) };
 const escapeHtml = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 

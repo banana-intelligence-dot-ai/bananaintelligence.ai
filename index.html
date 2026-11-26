@@ -320,6 +320,23 @@
   /* Sections: 128 px apart on desktop */
   section{ scroll-margin-top: 24px; }
 
+  /* How we build: three real counts, each one checkable on this site */
+  .proof{ padding: 40px 0 96px; border-top: 1px solid var(--ink); }
+  .proof-head{ display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+  .proof h2{ font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+  .proof-head a{ display: inline-block; padding-block: 12px; font-size: 16px; }
+  .proof ul{ list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .proof li{ display: grid; gap: 8px; align-content: start; }
+  .proof b{ font-size: 48px; font-weight: 600; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .proof span{ max-width: 28ch; font-size: 16px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+  @media (max-width: 759px){
+    .proof{ padding-bottom: 64px; }
+    .proof ul{ grid-template-columns: 1fr; gap: 0; }
+    .proof li{ grid-template-columns: 64px 1fr; align-items: baseline; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+    .proof li:first-child{ border-top: 0; }
+    .proof b{ font-size: 32px; }
+  }
+
   /* After the wall: how the apps are made, and the founder's note beside it */
   .after{ display: grid; grid-template-columns: 5fr 6fr; gap: 64px; align-items: start; padding-bottom: 128px; }
   .run{ padding-top: 40px; border-top: 1px solid var(--ink); font-size: 24px; line-height: 1.45; letter-spacing: -0.01em; color: var(--ink-2); }
@@ -460,6 +477,17 @@
     </div>
 
     <div class="wrap">
+      <section class="proof" aria-labelledby="proof-title">
+        <div class="proof-head">
+          <h2 id="proof-title">How we build</h2>
+          <a class="u" href="/how-we-build/">Read how it works</a>
+        </div>
+        <ul>
+          <li><b><!--s:live-->7<!--/s--></b><span>apps live, each with a page of its own</span></li>
+          <li><b><!--s:newsroom-->4<!--/s--></b><span>of them made from one shared newsroom</span></li>
+          <li><b>6</b><span>steps in every daily build, with a check that can fail before anything ships</span></li>
+        </ul>
+      </section>
       <section class="after" id="contact" aria-labelledby="studio">
         <p class="run"><b>One shared newsroom reads the day’s news once and checks every claim against its source.</b> Then Artifact News, DayStart, My Happenings and Louie each make it for one person.</p>
         <div class="note">
